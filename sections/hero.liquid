@@ -523,19 +523,32 @@
       {{ media }}
     </div>
     <div
-      class="
-        hero__content-wrapper
-        layout-panel-flex
-        layout-panel-flex--{{ section.settings.content_direction }}
-        {% if section.settings.vertical_on_mobile %}mobile-column{% endif %}
-        section-content-wrapper
-        {{section.settings.section_width}}
-        {% if request.design_mode %}hero__content-wrapper--design-mode{% endif %}
-      "
-      style="{% render 'layout-panel-style', settings: section.settings %}"
-    >
-      {% content_for 'blocks' %}
+  class="
+    hero__content-wrapper
+    hero__content-inner
+    layout-panel-flex
+    layout-panel-flex--{{ section.settings.content_direction }}
+    {% if section.settings.vertical_on_mobile %}mobile-column{% endif %}
+    section-content-wrapper
+    {{ section.settings.section_width }}
+    {% if request.design_mode %}hero__content-wrapper--design-mode{% endif %}
+  "
+  style="{% render 'layout-panel-style', settings: section.settings %}"
+>
+  
+  {%- for block in section.blocks -%}
+  {%- if block.type == '@theme' -%} 
+    <div class="hero__button-item">
+      {% render block %}
     </div>
+  
+  {%- else -%}
+    {% render block %}
+  {%- endif -%}
+{%- endfor -%}
+
+
+</div>
   </div>
 </div>
 
