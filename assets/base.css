@@ -337,6 +337,14 @@ p:empty {
   .page-width-content {
     --page-margin: 40px;
   }
+  .page-width {
+    padding-inline: 32px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .page-width {
+    padding-inline: 16px;
+  }
 }
 
 .page-width-wide {
@@ -361,7 +369,6 @@ p:empty {
   --page-content-width: var(--normal-content-width);
   --page-width: calc(var(--page-content-width) + (var(--page-margin) * 2));
 }
-
 /* Section width full vs. page
    The reason we use a grid to contain the section is to allow for the section to have a
    full-width background image even if the section content is constrained by the page width. Do not try
@@ -1287,13 +1294,14 @@ button.shopify-payment-button__button--unbranded {
   line-height: var(--font-paragraph--line-height);
   margin-block: 0;
   transition: color var(--animation-speed) var(--animation-easing),
-    box-shadow var(--animation-speed) var(--animation-easing),
-    background-color var(--animation-speed) var(--animation-easing);
+  box-shadow var(--animation-speed) var(--animation-easing),
+  background-color var(--animation-speed) var(--animation-easing);
   cursor: pointer;
   width: fit-content;
   box-shadow: inset 0 0 0 var(--button-border-width) var(--button-border-color);
   padding-block: var(--button-padding-block);
   padding-inline: var(--button-padding-inline);
+  min-width: 164px;
 }
 
 .button {
