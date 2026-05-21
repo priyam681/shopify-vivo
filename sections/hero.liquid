@@ -541,7 +541,7 @@
     {% render block %}
   {% endcapture %}
 
-  {% unless block_html contains '<button'
+  {% unless block_html contains '<a'
     or block_html contains 'button' %}
 
     {{ block_html }}
