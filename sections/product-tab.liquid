@@ -1,0 +1,293 @@
+{{ 'home-page-product.css' | asset_url | stylesheet_tag }}
+
+{% assign has_products = false %}
+{% for block in section.blocks %}
+  {% assign collection = collections[block.settings.collection] %}
+  {% if collection.products.size >= 1 %}
+    {% assign has_products = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+{% if has_products %}
+  {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+{% endif %}
+{% schema %}
+{
+  "name": "Product Tabs",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "tab_heading",
+      "label": "Tab Heading",
+      "default": "TRENDING"
+    },
+    {
+      "type": "color",
+      "id": "tab_background_color",
+      "label": "Tab Background Color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "tab_padding",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Tab Padding",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Product Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tab Title",
+          "default": "MENS"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Product Tabs"
+    }
+  ]
+}
+{% endschema %}
+
+{% style  %} 
+.product-tabs-section {
+    background: {{ section.settings.tab_background_color }};
+    padding-block: {{ section.settings.tab_padding }}px;
+  }
+
+{% endstyle %}
+
+{% assign initial_tab_title = blank %}
+{% assign initial_collection_url = '#' %}
+{% for block in section.blocks %}
+  {% if forloop.first %}
+    {% assign initial_tab_title = block.settings.tab_title %}
+    {% if block.settings.collection %}
+      {% assign initial_collection_url = collections[block.settings.collection].url %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+  <div class="page-width product-tabs-section color-{{ section.settings.color_scheme }}">
+    <div class="tabs-inner-wrapper">
+
+      <div class="tabs-wrapper">
+
+        <div class="tabs-left">
+          <div class="tab_heading">
+            {{ section.settings.tab_heading }}
+          </div>
+
+          <ul class="product-tabs">
+            {% for block in section.blocks %}
+              {% assign collection = collections[block.settings.collection] %}
+              <li class="{% if forloop.first %}active{% endif %}" data-tab="tab-{{ forloop.index }}" data-collection-url="{{ collection.url }}" data-shop-text="SHOP {{ block.settings.tab_title }}">
+                {{ block.settings.tab_title }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <a href="{{ initial_collection_url }}" class="shop-btn button">
+          SHOP {{ initial_tab_title }}
+        </a>
+
+      </div>
+
+      {% for block in section.blocks %}
+        {% assign collection = collections[block.settings.collection] %}
+
+        <div
+          class="product-tabs-content {% if forloop.first %}active{% endif %}"
+          id="tab-tab-{{ forloop.index }}"
+        >
+
+          {% if collection.products.size > 0 %}
+
+            {% unless swiper_loaded %}
+              <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+              {% assign swiper_loaded = true %}
+            {% endunless %}
+
+            <div class="product-slider swiper" data-product-count="{{ collection.products.size }}">
+
+              <div class="swiper-wrapper">
+
+                {% for product in collection.products %}
+
+                  <div class="swiper-slide">
+
+                    <div class="product-card">
+
+                      <a href="{{ product.url }}" class="product-card-link">
+
+                        <img
+                          class="main-image"
+                          src="{{ product.featured_image | image_url: width: 700 }}"
+                          alt="{{ product.title }}"
+                          loading="lazy"
+                          width=""
+                          height=""
+                        >
+
+                      </a>
+
+                      <div class="thumbnail-wrapper">
+
+                        {% for image in product.images limit: 15 %}
+
+                          <div class="thumbnail-image-wrapper {% if forloop.first %}active{% endif %}">
+
+                            <img
+                              class="thumbnail"
+                              src="{{ image | image_url: width: 100 }}"
+                              alt="{{ product.title }}"
+                              loading="lazy"
+                              onclick="
+                                this.closest('.product-card').querySelector('.main-image').src = this.src;
+                                this.closest('.thumbnail-wrapper').querySelectorAll('.thumbnail-image-wrapper').forEach(el => el.classList.remove('active'));
+                                this.parentElement.classList.add('active');
+                              "
+                            >
+
+                          </div>
+
+                        {% endfor %}
+
+                      </div>
+
+                      <h3 class="product-name">
+                        {{ product.title }}
+                      </h3>
+
+                      <div class="product-price">
+                        {{ product.price | money }}
+                      </div>
+
+                      <div class="product-meta">
+                        {% if product.tags.size > 0 %}
+                          {{ product.tags | join: ' / ' }}
+                        {% endif %}
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                {% endfor %}
+
+              </div>
+
+            </div>
+
+          {% else %}
+            <div class="empty-collection-message">
+              <p>No products available in this collection</p>
+            </div>
+          {% endif %}
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+<script defer>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const tabs = document.querySelectorAll('.product-tabs li');
+    const contents = document.querySelectorAll('.product-tabs-content');
+
+    const shopBtn = document.querySelector('.shop-btn');
+
+    function updateShopButton(tab) {
+      if (!shopBtn) return;
+      const collectionUrl = tab.dataset.collectionUrl || '#';
+      const shopText = tab.dataset.shopText || `SHOP ${tab.textContent.trim()}`;
+      shopBtn.href = collectionUrl;
+      shopBtn.textContent = shopText;
+    }
+
+    tabs.forEach((tab, i) => {
+
+      tab.addEventListener('click', () => {
+
+        tabs.forEach((t) => t.classList.remove('active'));
+        contents.forEach((c) => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        contents[i].classList.add('active');
+        updateShopButton(tab);
+
+      });
+
+    });
+
+    if (tabs.length) {
+      const activeTab = document.querySelector('.product-tabs li.active') || tabs[0];
+      updateShopButton(activeTab);
+    }
+
+    document.querySelectorAll('.product-slider').forEach(function (sliderEl) {
+
+      if (typeof Swiper !== 'undefined') {
+
+        new Swiper(sliderEl, {
+
+          slidesPerView: 4,
+          spaceBetween: 28,
+
+          breakpoints: {
+            0: {
+              slidesPerView: 1.3,
+              spaceBetween: 38
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 38
+            },
+            992: {
+              slidesPerView: 3,
+              spaceBetween: 28
+            },
+            1440: {
+              slidesPerView: 4,
+              spaceBetween: 28
+            }
+          }
+
+        });
+
+      }
+
+    });
+
+  });
+</script>

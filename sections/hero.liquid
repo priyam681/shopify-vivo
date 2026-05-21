@@ -535,18 +535,38 @@
   "
   style="{% render 'layout-panel-style', settings: section.settings %}"
 >
-  
-  {%- for block in section.blocks -%}
-  {%- if block.type == '@theme' -%} 
-    <div class="hero__button-item">
-      {% render block %}
-    </div>
-  
-  {%- else -%}
-    {% render block %}
-  {%- endif -%}
-{%- endfor -%}
+ {% for block in section.blocks %}
 
+  {% capture block_html %}
+    {% render block %}
+  {% endcapture %}
+
+  {% unless block_html contains '<a'
+    or block_html contains 'button' %}
+
+    {{ block_html }}
+
+  {% endunless %}
+
+{% endfor %}
+<div class="button-wrapper">
+
+  {% for block in section.blocks %}
+
+    {% capture block_html %}
+      {% render block %}
+    {% endcapture %}
+
+    {% if block_html contains '<a'
+      or block_html contains 'button' %}
+
+      {{ block_html }}
+
+    {% endif %}
+
+  {% endfor %}
+
+</div>
 
 </div>
   </div>
@@ -755,6 +775,13 @@
         right: 0;
         left: auto;
       }
+    }
+  }
+  .hero__container .hero__content-wrapper .button-wrapper {
+    display: flex;
+    gap: 40px;
+     @media screen and (max-width: 750px) {
+      flex-direction: column;
     }
   }
 {% endstylesheet %}
