@@ -134,6 +134,44 @@
         "padding-block-end": 72
       }
     },
+    "product_tab_qdLaWA": {
+      "type": "product-tab",
+      "blocks": {
+        "tab_VmCnny": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "MENS",
+            "collection": "mens"
+          }
+        },
+        "tab_aajUUg": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "WOMENS",
+            "collection": "womens"
+          }
+        },
+        "tab_n3H84J": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Kids",
+            "collection": "kids"
+          }
+        }
+      },
+      "block_order": [
+        "tab_VmCnny",
+        "tab_aajUUg",
+        "tab_n3H84J"
+      ],
+      "name": "Product Tabs",
+      "settings": {
+        "color_scheme": "",
+        "tab_heading": "TRENDING",
+        "tab_background_color": "#f5f5f5",
+        "tab_padding": 40
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -307,6 +345,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "Featured collection",
       "settings": {
         "collection": "all",
@@ -331,6 +370,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "product_tab_qdLaWA",
     "product_list_fa6P9H"
   ]
 }
