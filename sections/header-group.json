@@ -17,11 +17,11 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Free shipping to India on all orders above ₹13600",
             "link": "",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "weight": "",
+            "font_size": "0.875rem",
+            "weight": "500",
             "letter_spacing": "normal",
             "case": "none"
           },
