@@ -45,6 +45,7 @@
         --button-font: {{ settings.button_font_custom }};
       }
     {% endstyle %}
+    {{ 'custom.js' | asset_url | script_tag }}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
