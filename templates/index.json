@@ -104,7 +104,7 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/home-banner_0172a6e8-7886-44d6-af89-6dbc6a57faa4.webp",
+        "image_1": "shopify://shop_images/main-banner.webp",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
