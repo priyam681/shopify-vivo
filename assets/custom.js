@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", function () {
 
         if (window.scrollY > 200) {
-            bannerLayout.classList.add("banner-active-layout");
+            bannerLayout.classList.add("page-width");
         } else {
-            bannerLayout.classList.remove("banner-active-layout");
+            bannerLayout.classList.remove("page-width");
         }
 
     });
