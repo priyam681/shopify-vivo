@@ -81,8 +81,34 @@
             "text_f9CFLH": {
               "type": "text",
               "settings": {
-                "text": "<p>Get exclusive deals and early access to new products.</p>",
+                "text": "<p><strong>Receive exclusive updates on sales, stories & product launches.</strong></p>",
                 "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_6qwEDQ": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>By signing up you agree to our <a href=\"https://www.vivobarefoot.com/rw/terms-and-conditions\"><strong>Terms and Conditions</strong></a>.</p>",
+                "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "rte",
@@ -106,7 +132,8 @@
           },
           "block_order": [
             "text_LWt8Pz",
-            "text_f9CFLH"
+            "text_f9CFLH",
+            "text_6qwEDQ"
           ]
         },
         "email_signup_crihX7": {
