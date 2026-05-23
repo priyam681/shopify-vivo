@@ -27,7 +27,7 @@
             "vertical_alignment_flex_direction_column": "center",
             "gap": 12,
             "width": "custom",
-            "custom_width": 50,
+            "custom_width": 40,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
             "height": "fit",
@@ -51,7 +51,7 @@
             "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 0,
+            "padding-inline-start": 30,
             "padding-inline-end": 0
           },
           "blocks": {
