@@ -292,13 +292,6 @@ p:empty {
     animation: var(--view-transition-new-main-content);
   }
 }
-
-/* Focus */
-*:focus-visible {
-  outline: var(--focus-outline-width) solid currentcolor;
-  outline-offset: var(--focus-outline-offset);
-}
-
 @supports not selector(:focus-visible) {
   *:focus {
     outline: var(--focus-outline-width) solid currentcolor;
@@ -4219,4 +4212,14 @@ product-recommendations:has([data-has-recommendations='false']) {
     opacity: var(--atc-opacity, 1);
     translate: 0px var(--atc-destination, 0px);
   }
+}
+
+
+@media screen and (min-width: 990px) {
+  footer .section--page-width {
+    max-width: 1440px;
+    padding-inline: 35px;
+    margin: auto;
+  }
+
 }

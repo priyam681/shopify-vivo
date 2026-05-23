@@ -4,7 +4,12 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 
-{% render 'group', children: children, settings: block.settings, shopify_attributes: block.shopify_attributes %}
+{% render 'group',
+  children: children,
+  settings: block.settings,
+  shopify_attributes: block.shopify_attributes,
+  class: block.settings.style_class
+%}
 
 {% schema %}
 {
@@ -258,6 +263,11 @@
     {
       "type": "header",
       "content": "t:content.appearance"
+    },
+    {
+      "type": "text",
+      "id": "style_class",
+      "label": "Custom class"
     },
     {
       "type": "checkbox",

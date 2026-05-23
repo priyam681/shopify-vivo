@@ -49,14 +49,16 @@
         {% if block_settings.display_type == 'text' %}
           {{ block_settings.label }}
         {% else %}
-          <svg
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-            focusable="false"
-            aria-hidden="true"
-            class="email-signup__button-icon"
-          >
-            {% render 'icon', icon: 'arrow' %}
+          <svg class="email-signup__button-icon"
+           width="40px" height="40px"
+           viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <polygon 
+                  fill="#000000" 
+                  fill-rule="nonzero"
+                  points="16 13 14.5857864 14.4142136 19.8786797 19.7071068 14.5857864 25 16 26.4142136 22.7071068 19.7071068">
+              </polygon>
+            </g>
           </svg>
         {% endif %}
       </button>
@@ -99,10 +101,10 @@
 
 {% stylesheet %}
   .email-signup-block {
-    --arrow-button-size: 58px;
+    --arrow-button-size: 52px;
     --arrow-button-size-integrated: 42px;
     --arrow-button-size-small: 20px;
-    --arrow-icon-size: 32px;
+    --arrow-icon-size: 50px;
     --arrow-icon-size-small: 24px;
 
     min-width: fit-content;
@@ -127,7 +129,9 @@
     align-items: stretch;
     background-color: transparent;
   }
-
+  .email-signup__input-group .email-signup__input:focus-visible {
+    outline: none;
+  }
   .email-signup__input-group:not(.email-signup__input-group--integrated):not(.email-signup__input-group--underline) {
     gap: var(--gap-xs);
     align-items: center;
@@ -156,6 +160,7 @@
   .email-signup__input {
     flex: 1;
     min-width: 0;
+    height: 52px;
     border-width: var(--border-width);
     border-radius: var(--border-radius);
     border-style: solid;
@@ -219,7 +224,7 @@
   }
 
   .email-signup__input::placeholder {
-    color: rgb(var(--color-input-text-rgb) / var(--opacity-70));
+    color: rgb(var(--color-input-text-rgb));
   }
 
   .email-signup__input-group .email-signup__input--none {
@@ -264,7 +269,6 @@
   .email-signup__button--integrated {
     --button-offset: var(--margin-xs);
     align-self: stretch;
-    margin: var(--button-offset);
     flex-shrink: 0;
 
     @media screen and (max-width: 749px) {
@@ -345,7 +349,7 @@
   }
 
   .email-signup__button.button-unstyled {
-    background-color: transparent;
+    background-color: var(--color-input-background);
     color: var(--color-input-text);
   }
 
