@@ -144,7 +144,7 @@
           "type": "email-signup",
           "settings": {
             "width": "custom",
-            "custom_width": 40,
+            "custom_width": 33,
             "inherit_color_scheme": true,
             "color_scheme": "",
             "heading": "",
@@ -179,7 +179,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
+        "gap": 0,
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
