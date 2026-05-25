@@ -487,9 +487,9 @@
         "footer_copyright_jweRK8": {
           "type": "footer-copyright",
           "settings": {
-            "show_powered_by": true,
+            "show_powered_by": false,
             "rights_reserved_text": "All rights reserved.",
-            "font_size": "0.75rem",
+            "font_size": "0.9375rem",
             "case": "none"
           },
           "blocks": {}
