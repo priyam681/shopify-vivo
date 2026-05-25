@@ -837,7 +837,7 @@
             "image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
             "heading": "WOMENS",
             "button_label": "SHOP WOMEN",
-            "button_link": "shopify://collections",
+            "button_link": "shopify://collections/womens",
             "card_height": 700,
             "mobile_card_height": 500,
             "overlay_opacity": 15,

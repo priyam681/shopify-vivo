@@ -442,7 +442,7 @@
           "border": "#0000000f",
           "shadow": "#000000",
           "primary_button_background": "rgba(0,0,0,0)",
-          "primary_button_text": "#212121",
+          "primary_button_text": "#ffffff",
           "primary_button_border": "#ffffff",
           "primary_button_hover_background": "#ffffff",
           "primary_button_hover_text": "#212121",
