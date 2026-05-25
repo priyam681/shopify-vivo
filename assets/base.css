@@ -322,20 +322,22 @@ p:empty {
   --page-margin: 16px;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 992px) {
   .page-width-wide,
   .page-width-normal,
   .page-width-narrow,
   .page-width-content {
     --page-margin: 40px;
   }
-  .page-width {
+  .page-width,
+  .section--page-width {
     padding-inline: 32px;
   }
 }
-@media screen and (max-width: 750px) {
-  .page-width {
-    padding-inline: 16px;
+@media screen and (max-width: 992px) {
+  .page-width,
+  .section--page-width {
+    padding-inline: 18px;
   }
 }
 
@@ -391,7 +393,6 @@ p:empty {
 
   /* Set up the grid */
   display: grid;
-  grid-template-columns: var(--full-page-grid-with-margins);
   min-height: var(--section-min-height, 'auto');
 }
 
