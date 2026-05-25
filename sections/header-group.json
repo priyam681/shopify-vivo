@@ -90,7 +90,7 @@
           "type": "_announcement",
           "settings": {
             "text": "Free shipping to India on all orders above ₹13600",
-            "link": "",
+            "link": "#",
             "font": "var(--font-subheading--family)",
             "font_size": "0.875rem",
             "weight": "500",
@@ -98,10 +98,40 @@
             "case": "none"
           },
           "blocks": {}
+        },
+        "announcement_MRAQU7": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "Refer a friend and you'll both",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_xGN9VW": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "Delivery delays due to ongoing Middle East situation",
+            "link": "#",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "announcement_BxgCk9"
+        "announcement_BxgCk9",
+        "announcement_MRAQU7",
+        "announcement_xGN9VW"
       ],
       "name": "t:names.announcement_bar",
       "settings": {
