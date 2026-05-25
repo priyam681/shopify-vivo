@@ -1,0 +1,377 @@
+<div
+  class="free-your-feet color-{{ section.settings.color_scheme }} gradient"
+  style="
+    --padding-top: {{ section.settings.padding_top }}px;
+    --padding-bottom: {{ section.settings.padding_bottom }}px;
+
+    --subheading-size: {{ section.settings.subheading_size }}px;
+    --heading-size: {{ section.settings.heading_size }}px;
+    --description-size: {{ section.settings.description_size }}px;
+    --button-size: {{ section.settings.button_size }}px;
+
+    --subheading-spacing: {{ section.settings.subheading_spacing }}px;
+    --heading-spacing: {{ section.settings.heading_spacing }}px;
+
+    --heading-weight: {{ section.settings.heading_weight }};
+    --subheading-weight: {{ section.settings.subheading_weight }};
+    --description-weight: {{ section.settings.description_weight }};
+    --button-weight: {{ section.settings.button_weight }};
+  "
+>
+
+  <div class="{{ section.settings.section_width }}">
+
+    <div class="free-your-feet__wrapper">
+
+      {% if section.settings.subheading != blank %}
+        <div class="free-your-feet__subheading">
+          {{ section.settings.subheading }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="free-your-feet__heading">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <div class="free-your-feet__description rte">
+          {{ section.settings.description }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a
+          href="{{ section.settings.button_link }}"
+          class="free-your-feet__button"
+        >
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+  .free-your-feet{
+    padding-top:var(--padding-top);
+    padding-bottom:var(--padding-bottom);
+    overflow:hidden;
+  }
+
+  .free-your-feet__wrapper{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .free-your-feet__subheading{
+    font-size:var(--subheading-size);
+    letter-spacing:var(--subheading-spacing);
+    font-weight:var(--subheading-weight);
+    text-transform:uppercase;
+    margin-bottom:1rem;
+    line-height:1;
+  }
+
+  .free-your-feet__heading{
+    margin:0;
+    font-size:var(--heading-size);
+    line-height:.85;
+    letter-spacing:var(--heading-spacing);
+    font-weight:var(--heading-weight);
+    text-transform:uppercase;
+  }
+
+  .free-your-feet__description{
+    margin: 1rem auto 0;
+    font-size:var(--description-size);
+    line-height:1.6;
+    font-weight:var(--description-weight);
+    color: {{ section.settings.description_color }};
+  }
+
+  .free-your-feet__button{
+    margin-top:3rem;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:underline;
+    text-underline-offset:.3rem;
+    font-size:var(--button-size);
+    font-weight:var(--button-weight);
+    text-transform:uppercase;
+    color:rgb(var(--color-foreground));
+    transition:opacity .3s ease;
+  }
+
+  .free-your-feet__button:hover{
+    opacity:.7;
+  }
+
+  @media screen and (max-width: 989px){
+
+    .free-your-feet__heading{
+      font-size:calc(var(--heading-size) * .7);
+    }
+  }
+
+  @media screen and (max-width: 749px){
+
+    .free-your-feet{
+      padding-top:calc(var(--padding-top) * .75);
+      padding-bottom:calc(var(--padding-bottom) * .75);
+    }
+
+    .free-your-feet__heading{
+      font-size:calc(var(--heading-size) * .42);
+      line-height:.9;
+    }
+
+    .free-your-feet__subheading{
+      font-size:calc(var(--subheading-size) * .9);
+    }
+
+    .free-your-feet__description{
+      font-size:calc(var(--description-size) * .92);
+      margin-top:2rem;
+    }
+
+    .free-your-feet__button{
+      margin-top:3rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Free your feet",
+  "tag": "section",
+  "settings": [
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "full-width"
+    },
+
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "#VIVOBAREFOOT"
+    },
+
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FREE YOUR FEET"
+    },
+
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>We design footwear for how humans evolved to move — natural, connected, and free.</p>"
+    },
+
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "DISCOVER MORE"
+    },
+
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 10,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading size",
+      "default": 24
+    },
+
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 40,
+      "max": 220,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 150
+    },
+
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 20
+    },
+
+    {
+      "type": "range",
+      "id": "button_size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Button size",
+      "default": 16
+    },
+
+    {
+      "type": "header",
+      "content": "Letter spacing"
+    },
+
+    {
+      "type": "range",
+      "id": "subheading_spacing",
+      "min": -5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading letter spacing",
+      "default": 0
+    },
+
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading letter spacing",
+      "default": -4
+    },
+
+    {
+      "type": "header",
+      "content": "Font weight"
+    },
+
+    {
+      "type": "range",
+      "id": "subheading_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Subheading font weight",
+      "default": 500
+    },
+
+    {
+      "type": "range",
+      "id": "heading_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Heading font weight",
+      "default": 900
+    },
+
+    {
+      "type": "range",
+      "id": "description_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Description font weight",
+      "default": 400
+    },
+   {
+    "type": "color",
+    "id": "description_color",
+    "label": "Description color",
+    "default": "#6b7280"
+    },
+        {
+      "type": "range",
+      "id": "button_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Button font weight",
+      "default": 700
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 120
+    },
+
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 120
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Free your feet"
+    }
+  ]
+}
+{% endschema %}
