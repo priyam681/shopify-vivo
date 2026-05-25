@@ -910,6 +910,118 @@
         "desktop_columns": "3",
         "mobile_columns": "1"
       }
+    },
+    "activity_showcase_WmM996": {
+      "type": "activity-showcase",
+      "blocks": {
+        "activity_hHgMWC": {
+          "type": "activity",
+          "settings": {
+            "title": "hiking",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "right_image": "shopify://shop_images/PrimusTrailFG-SilverBirch-TrailRunning-1-572x572.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "500",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_trJiQ9": {
+          "type": "activity",
+          "settings": {
+            "title": "trail running",
+            "link": "#",
+            "left_image": "shopify://shop_images/spring_2026_hp_banner_department_mens_593x656_2.jpg",
+            "right_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "500",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_jhEhcU": {
+          "type": "activity",
+          "settings": {
+            "title": "training",
+            "link": "#",
+            "left_image": "shopify://shop_images/spring_2026_hp_banner_department_kids_593x656_2.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "500",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_xQaWdx": {
+          "type": "activity",
+          "settings": {
+            "title": "everyday",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_mens_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "500",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_dFYbMt": {
+          "type": "activity",
+          "settings": {
+            "title": "road running",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusTrailFG-SilverBirch-TrailRunning-1-572x572.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "500",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_dyzn8B": {
+          "type": "activity",
+          "settings": {
+            "title": "swimrun",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_kids_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "500",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "activity_hHgMWC",
+        "activity_trJiQ9",
+        "activity_jhEhcU",
+        "activity_xQaWdx",
+        "activity_dFYbMt",
+        "activity_dyzn8B"
+      ],
+      "name": "Activity Showcase",
+      "settings": {
+        "color_scheme": "",
+        "heading": "ACTIVITIES",
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "desktop_image_width": 220,
+        "mobile_image_width": 120
+      }
     }
   },
   "order": [
@@ -918,6 +1030,7 @@
     "product_list_fa6P9H",
     "section_XM3zep",
     "benifits_adaXym",
-    "showcase_GgxdKq"
+    "showcase_GgxdKq",
+    "activity_showcase_WmM996"
   ]
 }
