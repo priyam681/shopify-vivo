@@ -740,12 +740,184 @@
         "padding-block-start": 32,
         "padding-block-end": 32
       }
+    },
+    "benifits_adaXym": {
+      "type": "benifits",
+      "blocks": {
+        "heading_MkCCLx": {
+          "type": "heading",
+          "settings": {
+            "heading": "EMBRACE THE BENEFITS OF BAREFOOT SHOES",
+            "font_size": 52,
+            "line_height": 1.1,
+            "letter_spacing": 1,
+            "font_weight": "700",
+            "color": "#000000",
+            "margin_bottom": 32
+          }
+        },
+        "description_r3nUVy": {
+          "type": "description",
+          "settings": {
+            "description": "<p>Our barefoot shoes free your feet to feel more, move naturally, and reconnect with what it means to be human.</p><p>We design all Vivos with a natural FIT that supports balance and posture, natural FEEL to enable coordination and agility, and natural FLEX for unlocking strength and movement.</p><p>Barefoot footwear helps build strong, stable, sensory feet – biomechanical masterpieces, fit for your future.</p>",
+            "font_size": 18,
+            "line_height": 1.8,
+            "font_weight": "400",
+            "color": "#222222",
+            "max_width": 940,
+            "margin_bottom": 60
+          }
+        },
+        "stat_pR6jT3": {
+          "type": "stat",
+          "settings": {
+            "number": "60%",
+            "caption": "stronger feet in six months*",
+            "number_size": 58,
+            "caption_size": 16,
+            "number_weight": "800",
+            "number_color": "#000000",
+            "caption_color": "#8a8a8a"
+          }
+        },
+        "stat_QgP8y4": {
+          "type": "stat",
+          "settings": {
+            "number": "60%",
+            "caption": "stronger feet in six months*",
+            "number_size": 58,
+            "caption_size": 16,
+            "number_weight": "800",
+            "number_color": "#000000",
+            "caption_color": "#8a8a8a"
+          }
+        },
+        "button_MkAF6B": {
+          "type": "button",
+          "settings": {
+            "button_label": "WHY BAREFOOT IS BETTER",
+            "button_link": "",
+            "margin_top": 20,
+            "margin_bottom": 40
+          }
+        },
+        "footnote_WGfVNm": {
+          "type": "footnote",
+          "settings": {
+            "text": "*Study by Curtis: 'Daily Activity in Minimalist Footwear Increases Foot Strength' (2021)",
+            "font_size": 11,
+            "color": "#666666",
+            "font_weight": "400"
+          }
+        }
+      },
+      "block_order": [
+        "heading_MkCCLx",
+        "description_r3nUVy",
+        "stat_pR6jT3",
+        "stat_QgP8y4",
+        "button_MkAF6B",
+        "footnote_WGfVNm"
+      ],
+      "name": "Barefoot Benefits",
+      "settings": {
+        "color_scheme": "",
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "content_width": 1200,
+        "text_align": "center"
+      }
+    },
+    "showcase_GgxdKq": {
+      "type": "showcase",
+      "blocks": {
+        "collection_card_AANCP6": {
+          "type": "collection_card",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
+            "heading": "WOMENS",
+            "button_label": "SHOP WOMEN",
+            "button_link": "",
+            "card_height": 700,
+            "mobile_card_height": 500,
+            "overlay_opacity": 15,
+            "overlay_color": "#000000",
+            "content_spacing": 20,
+            "content_position_vertical": "center",
+            "content_position_horizontal": "center",
+            "heading_size": 58,
+            "heading_mobile_size": 34,
+            "heading_weight": "800",
+            "heading_line_height": 1,
+            "heading_color": "#ffffff"
+          }
+        },
+        "collection_card_abwBYi": {
+          "type": "collection_card",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_hp_banner_department_kids_593x656_2.jpg",
+            "heading": "WOMENS",
+            "button_label": "SHOP WOMEN",
+            "button_link": "",
+            "card_height": 700,
+            "mobile_card_height": 500,
+            "overlay_opacity": 15,
+            "overlay_color": "#000000",
+            "content_spacing": 20,
+            "content_position_vertical": "center",
+            "content_position_horizontal": "center",
+            "heading_size": 58,
+            "heading_mobile_size": 34,
+            "heading_weight": "800",
+            "heading_line_height": 1,
+            "heading_color": "#ffffff"
+          }
+        },
+        "collection_card_Ez3qhw": {
+          "type": "collection_card",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_hp_banner_department_mens_593x656_2.jpg",
+            "heading": "WOMENS",
+            "button_label": "SHOP WOMEN",
+            "button_link": "",
+            "card_height": 700,
+            "mobile_card_height": 500,
+            "overlay_opacity": 15,
+            "overlay_color": "#000000",
+            "content_spacing": 20,
+            "content_position_vertical": "center",
+            "content_position_horizontal": "center",
+            "heading_size": 58,
+            "heading_mobile_size": 34,
+            "heading_weight": "800",
+            "heading_line_height": 1,
+            "heading_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_AANCP6",
+        "collection_card_abwBYi",
+        "collection_card_Ez3qhw"
+      ],
+      "name": "Collection Showcase",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "desktop_gap": 24,
+        "mobile_gap": 16,
+        "desktop_columns": "3",
+        "mobile_columns": "1"
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
     "product_tab_qdLaWA",
     "product_list_fa6P9H",
-    "section_XM3zep"
+    "section_XM3zep",
+    "benifits_adaXym",
+    "showcase_GgxdKq"
   ]
 }
