@@ -373,8 +373,7 @@ p:empty {
     calc(100% - var(--page-margin) * 2)
   );
   --full-page-grid-margin: minmax(var(--page-margin), 1fr);
-  --full-page-grid-with-margins: var(--full-page-grid-margin) var(--full-page-grid-central-column-width)
-    var(--full-page-grid-margin);
+  --full-page-grid-with-margins: 0 100% 0;
 
   /* Utility variable gives the grid's first column width. Provides an offset width for components like carousels */
   --util-page-margin-offset: max(
@@ -393,6 +392,7 @@ p:empty {
 
   /* Set up the grid */
   display: grid;
+  grid-template-columns: var(--full-page-grid-with-margins);
   min-height: var(--section-min-height, 'auto');
 }
 
