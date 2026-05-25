@@ -1130,10 +1130,10 @@
         "padding-block-end": 40
       }
     },
-    "section_QcBJRN": {
+    "section_bkDwfN": {
       "type": "section",
       "blocks": {
-        "group_YhayEc": {
+        "group_U6kJry": {
           "type": "group",
           "settings": {
             "content_direction": "column",
@@ -1150,7 +1150,7 @@
             "custom_width_mobile": 100,
             "height": "fill",
             "custom_height": 100,
-            "style_class": "",
+            "style_class": "promo-cards-wrapper",
             "inherit_color_scheme": false,
             "color_scheme": "scheme-5",
             "background_media": "image",
@@ -1174,13 +1174,13 @@
             "padding-inline-end": 40
           },
           "blocks": {
-            "text_MH4YVe": {
+            "text_dbbgrt": {
               "type": "text",
               "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>REHAB YOUR FEET IN 12 WEEKS</strong></h2>",
                 "width": "fit-content",
-                "max_width": "narrow",
+                "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
@@ -1200,17 +1200,16 @@
               },
               "blocks": {}
             },
-            "text_c7CxMq": {
+            "text_8bB8Ek": {
               "type": "text",
-              "name": "t:names.text",
               "settings": {
                 "text": "<p>Online programmes for bunions, plantar fasciitis and flat feet</p>",
                 "width": "fit-content",
                 "max_width": "normal",
-                "alignment": "left",
+                "alignment": "center",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
-                "font_size": "1.125rem",
+                "font_size": "1.5rem",
                 "line_height": "tight",
                 "letter_spacing": "tight",
                 "case": "none",
@@ -1226,29 +1225,75 @@
               },
               "blocks": {}
             },
-            "button_f4BmFh": {
-              "type": "button",
-              "name": "t:names.button",
+            "group_4Jyce9": {
+              "type": "group",
+              "name": "t:names.group",
               "settings": {
-                "label": "learn more",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "width": "fit-content",
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
                 "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "style_class": "",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
-              "blocks": {}
+              "blocks": {
+                "button_hwTLWz": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "learn more",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "button_hwTLWz"
+              ]
             }
           },
           "block_order": [
-            "text_MH4YVe",
-            "text_c7CxMq",
-            "button_f4BmFh"
+            "text_dbbgrt",
+            "text_8bB8Ek",
+            "group_4Jyce9"
           ]
         },
-        "group_NpRXeg": {
+        "group_pR8Lki": {
           "type": "group",
           "settings": {
             "content_direction": "column",
@@ -1265,7 +1310,7 @@
             "custom_width_mobile": 100,
             "height": "fill",
             "custom_height": 100,
-            "style_class": "",
+            "style_class": "promo-cards-wrapper",
             "inherit_color_scheme": false,
             "color_scheme": "scheme-5",
             "background_media": "image",
@@ -1289,20 +1334,20 @@
             "padding-inline-end": 40
           },
           "blocks": {
-            "text_G44zMf": {
+            "text_ETPWBz": {
               "type": "text",
               "name": "t:names.heading",
               "settings": {
                 "text": "<h2><strong>FOOT ASSESSMENT TOOL</strong></h2>",
                 "width": "fit-content",
-                "max_width": "narrow",
+                "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
                 "font_size": "3.5rem",
                 "line_height": "tight",
                 "letter_spacing": "tight",
-                "case": "none",
+                "case": "uppercase",
                 "wrap": "pretty",
                 "color": "var(--color-foreground)",
                 "background": false,
@@ -1315,17 +1360,16 @@
               },
               "blocks": {}
             },
-            "text_9wdYzb": {
+            "text_zznGB8": {
               "type": "text",
-              "name": "t:names.text",
               "settings": {
                 "text": "<p>Try VivoHealth’s assessment tool to receive online custom advice for your foot health.</p>",
                 "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
+                "max_width": "narrow",
+                "alignment": "center",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
-                "font_size": "1.125rem",
+                "font_size": "1.5rem",
                 "line_height": "tight",
                 "letter_spacing": "tight",
                 "case": "none",
@@ -1341,32 +1385,78 @@
               },
               "blocks": {}
             },
-            "button_rVRJDr": {
-              "type": "button",
-              "name": "t:names.button",
+            "group_bBNB6D": {
+              "type": "group",
+              "name": "t:names.group",
               "settings": {
-                "label": "start now",
-                "link": "shopify://collections/all",
-                "open_in_new_tab": false,
-                "style_class": "button",
-                "width": "fit-content",
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
                 "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "style_class": "",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
-              "blocks": {}
+              "blocks": {
+                "button_Tm6edW": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "start now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "button_Tm6edW"
+              ]
             }
           },
           "block_order": [
-            "text_G44zMf",
-            "text_9wdYzb",
-            "button_rVRJDr"
+            "text_ETPWBz",
+            "text_zznGB8",
+            "group_bBNB6D"
           ]
         }
       },
       "block_order": [
-        "group_YhayEc",
-        "group_NpRXeg"
+        "group_U6kJry",
+        "group_pR8Lki"
       ],
       "name": "t:names.split_showcase",
       "settings": {
@@ -1394,8 +1484,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 60,
-        "padding-block-end": 60
+        "padding-block-start": 32,
+        "padding-block-end": 32
       }
     }
   },
@@ -1408,6 +1498,6 @@
     "showcase_GgxdKq",
     "activity_showcase_WmM996",
     "hero_aWqLTx",
-    "section_QcBJRN"
+    "section_bkDwfN"
   ]
 }
