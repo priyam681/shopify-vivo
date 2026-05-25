@@ -27,16 +27,26 @@
       "default": "scheme-1"
     },
     {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
       "type": "text",
       "id": "tab_heading",
       "label": "Tab Heading",
       "default": "TRENDING"
-    },
-    {
-      "type": "color",
-      "id": "tab_background_color",
-      "label": "Tab Background Color",
-      "default": "#f5f5f5"
     },
     {
       "type": "range",
@@ -79,7 +89,6 @@
 
 {% style  %} 
 .product-tabs-section {
-    background: {{ section.settings.tab_background_color }};
     padding-block: {{ section.settings.tab_padding }}px;
   }
 
@@ -95,7 +104,7 @@
     {% endif %}
   {% endif %}
 {% endfor %}
-  <div class="page-width product-tabs-section color-{{ section.settings.color_scheme }}">
+  <div class="{{ section.settings.section_width }} product-tabs-section color-{{ section.settings.color_scheme }}">
     <div class="tabs-inner-wrapper">
 
       <div class="tabs-wrapper">
@@ -114,11 +123,6 @@
             {% endfor %}
           </ul>
         </div>
-
-        <a href="{{ initial_collection_url }}" class="shop-btn button">
-          SHOP {{ initial_tab_title }}
-        </a>
-
       </div>
 
       {% for block in section.blocks %}
@@ -216,7 +220,11 @@
         </div>
 
       {% endfor %}
-
+      <div>
+        <a href="{{ initial_collection_url }}" class="shop-btn button">
+          SHOP {{ initial_tab_title }}
+        </a>
+      </div>
     </div>
   </div>
 <script defer>
