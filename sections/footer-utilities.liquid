@@ -21,13 +21,12 @@
     flex-direction: column;
     align-items: center;
     gap: var(--gap);
-    text-wrap: nowrap;
     border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-foreground-muted);
+    color: var(--color-foreground);
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       justify-content: center;
       gap: var(--gap);
       align-items: center;
@@ -36,20 +35,20 @@
   }
 
   .utilities a {
-    color: var(--color-foreground-muted);
+    color: var(--color-foreground);
   }
 
   .utilities > * {
     text-align: center;
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       text-align: left;
       justify-self: start;
     }
   }
 
   /* Dynamic positioning based on number of blocks */
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 992px) {
     /* 1 block: Single column, left aligned */
     .utilities--blocks-1 {
       grid-template-columns: 1fr;
@@ -73,9 +72,8 @@
 
     /* 3 blocks: Three columns (1fr auto 1fr), start/center/end aligned */
     .utilities--blocks-3 {
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
     }
-
     .utilities--blocks-3 > *:nth-child(2) {
       justify-self: center;
       text-align: center;
@@ -174,6 +172,12 @@
     },
     {
       "type": "social-links"
+    },
+    {
+      "type": "payment-icons"
+    },
+    {
+      "type": "footer-bottom-link"
     }
   ],
   "presets": [
@@ -189,9 +193,15 @@
         },
         "social_icons": {
           "type": "social-links"
+        },
+        "payment-icons": {
+          "type": "payment-icons"
+        },
+        "footer-bottom-link": {
+          "type": "footer-bottom-link"
         }
       },
-      "block_order": ["copyright", "policy_list", "social_icons"]
+      "block_order": ["copyright", "policy_list", "social_icons", "payment-icons", "footer-bottom-link"]
     }
   ]
 }
