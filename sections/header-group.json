@@ -106,8 +106,8 @@
             "text": "Refer a friend and you'll both",
             "link": "",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "weight": "",
+            "font_size": "0.875rem",
+            "weight": "500",
             "letter_spacing": "normal",
             "case": "none"
           },
@@ -120,8 +120,8 @@
             "text": "Delivery delays due to ongoing Middle East situation",
             "link": "#",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "weight": "",
+            "font_size": "0.875rem",
+            "weight": "500",
             "letter_spacing": "normal",
             "case": "none"
           },
