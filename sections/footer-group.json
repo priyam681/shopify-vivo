@@ -493,10 +493,36 @@
             "case": "none"
           },
           "blocks": {}
+        },
+        "footer_bottom_link_YdBKaK": {
+          "type": "footer-bottom-link",
+          "name": "Footer Bottom Link",
+          "settings": {
+            "link_list": "footer-bottom-link"
+          },
+          "blocks": {}
+        },
+        "payment_icons_hXijjX": {
+          "type": "payment-icons",
+          "name": "t:names.payment_icons",
+          "settings": {
+            "use_custom_icons": true,
+            "custom_icon": "shopify://shop_images/payment-icons.webp",
+            "custom_icon_link": "",
+            "horizontal_alignment": "flex-start",
+            "gap": 10,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "footer_copyright_jweRK8"
+        "footer_copyright_jweRK8",
+        "footer_bottom_link_YdBKaK",
+        "payment_icons_hXijjX"
       ],
       "name": "t:names.utilities",
       "settings": {
