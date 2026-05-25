@@ -166,9 +166,9 @@
       ],
       "name": "Product Tabs",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
         "tab_heading": "TRENDING",
-        "tab_background_color": "#ffffff",
         "tab_padding": 40
       }
     },
@@ -724,6 +724,7 @@
         "section_width": "page-width",
         "section_height": "large",
         "section_height_custom": 50,
+        "style_class": "",
         "color_scheme": "",
         "background_media": "none",
         "video_position": "cover",
