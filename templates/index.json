@@ -1378,7 +1378,7 @@
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 40,
-        "section_width": "full-width",
+        "section_width": "page-width",
         "section_height": "large",
         "section_height_custom": 50,
         "style_class": "",
@@ -1395,7 +1395,7 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 60,
-        "padding-block-end": 0
+        "padding-block-end": 60
       }
     }
   },
