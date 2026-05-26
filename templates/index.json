@@ -923,7 +923,7 @@
             "right_image": "shopify://shop_images/PrimusTrailFG-SilverBirch-TrailRunning-1-572x572.jpg",
             "font_size": 74,
             "mobile_font_size": 36,
-            "font_weight": "500",
+            "font_weight": "900",
             "line_height": 0.9,
             "text_color": "#cfcfcf",
             "hover_color": "#000000"
@@ -938,7 +938,7 @@
             "right_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
             "font_size": 74,
             "mobile_font_size": 36,
-            "font_weight": "500",
+            "font_weight": "800",
             "line_height": 0.9,
             "text_color": "#cfcfcf",
             "hover_color": "#000000"
@@ -953,7 +953,7 @@
             "right_image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
             "font_size": 74,
             "mobile_font_size": 36,
-            "font_weight": "500",
+            "font_weight": "800",
             "line_height": 0.9,
             "text_color": "#cfcfcf",
             "hover_color": "#000000"
@@ -968,7 +968,7 @@
             "right_image": "shopify://shop_images/spring_2026_hp_banner_department_mens_593x656_2.jpg",
             "font_size": 74,
             "mobile_font_size": 36,
-            "font_weight": "500",
+            "font_weight": "700",
             "line_height": 0.9,
             "text_color": "#cfcfcf",
             "hover_color": "#000000"
@@ -983,7 +983,7 @@
             "right_image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
             "font_size": 74,
             "mobile_font_size": 36,
-            "font_weight": "500",
+            "font_weight": "700",
             "line_height": 0.9,
             "text_color": "#cfcfcf",
             "hover_color": "#000000"
@@ -998,7 +998,7 @@
             "right_image": "shopify://shop_images/spring_2026_hp_banner_department_kids_593x656_2.jpg",
             "font_size": 74,
             "mobile_font_size": 36,
-            "font_weight": "500",
+            "font_weight": "700",
             "line_height": 0.9,
             "text_color": "#cfcfcf",
             "hover_color": "#000000"
