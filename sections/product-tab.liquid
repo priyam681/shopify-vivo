@@ -223,10 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const tabs = document.querySelectorAll('.product-tabs li');
   const contents = document.querySelectorAll('.product-tabs-content');
   const shopBtn = document.querySelector('.shop-btn');
-
-  // =========================================
-  // Resize Observer
-  // =========================================
   const resizeObserver = new ResizeObserver(
     debounce(handleThumbnailResize, 50)
   );
@@ -246,10 +242,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
   }
-
-  // =========================================
-  // Update Shop Button
-  // =========================================
   function updateShopButton(tab) {
 
     if (!shopBtn) return;
@@ -262,10 +254,6 @@ document.addEventListener('DOMContentLoaded', function () {
     shopBtn.href = collectionUrl;
     shopBtn.textContent = shopText;
   }
-
-  // =========================================
-  // Tab Click
-  // =========================================
   tabs.forEach((tab, i) => {
 
     tab.addEventListener('click', () => {
@@ -291,10 +279,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   });
-
-  // =========================================
-  // Initial Active Tab
-  // =========================================
   if (tabs.length) {
 
     const activeTab =
@@ -303,10 +287,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateShopButton(activeTab);
 
   }
-
-  // =========================================
-  // Swiper Init
-  // =========================================
   document.querySelectorAll('.product-slider').forEach(function (sliderEl) {
 
     if (typeof Swiper !== 'undefined') {
@@ -334,33 +314,18 @@ document.addEventListener('DOMContentLoaded', function () {
             spaceBetween: 28
           }
         },
-
         on: {
-
           init: function () {
-
             handleThumbnailResize();
             bindThumbnailClicks();
-
           },
-
           resize: function () {
-
             handleThumbnailResize();
-
           }
-
         }
-
       });
-
     }
-
   });
-
-  // =========================================
-  // Thumbnail Click
-  // =========================================
   function thumbnailClickHandler() {
 
     const productCard = this.closest('.product-card');
@@ -376,35 +341,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const wrapper = this.closest('.thumbnail-wrapper');
 
     if (wrapper) {
-
       wrapper
         .querySelectorAll('.thumbnail-image-wrapper')
         .forEach(el => el.classList.remove('active'));
-
     }
-
     this.parentElement.classList.add('active');
-
   }
-
-  // =========================================
-  // Bind Thumbnail Click
-  // =========================================
   function bindThumbnailClicks() {
 
     document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-
       thumbnail.removeEventListener('click', thumbnailClickHandler);
-
       thumbnail.addEventListener('click', thumbnailClickHandler);
-
     });
-
   }
-
-  // =========================================
-  // Thumbnail Resize Logic
-  // =========================================
   function handleThumbnailResize() {
 
     document.querySelectorAll('.product-card').forEach(card => {
@@ -418,83 +367,48 @@ document.addEventListener('DOMContentLoaded', function () {
       );
 
       if (!thumbnails.length) return;
-
-      // Skip if expanded
       if (wrapper.classList.contains('show-all')) {
-
         thumbnails.forEach((thumb) => {
           thumb.style.display = '';
         });
-
         return;
       }
-
-      // Remove old counter
       const oldCounter =
         wrapper.querySelector('.thumbnail-more-counter');
 
       if (oldCounter) {
         oldCounter.remove();
       }
-
-      // Reset thumbnails
       thumbnails.forEach((thumb) => {
         thumb.style.display = '';
       });
-
       let hiddenCount = 0;
       let currentWidth = 0;
-
       const wrapperWidth = wrapper.offsetWidth;
-      const gap = 8;
-
+      const gap = 9;
       thumbnails.forEach((thumb, index) => {
-
         const thumbWidth = thumb.offsetWidth + gap;
-
         currentWidth += thumbWidth;
-
         if (currentWidth > wrapperWidth) {
-
           hiddenCount++;
-
           thumb.style.display = 'none';
-
         }
-
       });
-
-      // Hide one extra for counter space
       if (hiddenCount > 0) {
-
         const lastVisible =
           thumbnails.length - hiddenCount - 1;
-
         if (thumbnails[lastVisible]) {
-
           thumbnails[lastVisible].style.display = 'none';
-
           hiddenCount++;
-
         }
-
       }
-
-      // Create Counter
       if (hiddenCount > 0) {
-
         const counter = document.createElement('div');
-
         counter.className = 'thumbnail-more-counter thumbnail';
-
         counter.innerHTML = `+${hiddenCount}`;
-
         wrapper.appendChild(counter);
-
         counter.addEventListener('click', function () {
-
           wrapper.classList.add('show-all');
-
           thumbnails.forEach((thumb) => {
             thumb.style.display = '';
           });
@@ -510,25 +424,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
   }
-
-  // =========================================
-  // Observe Product Cards
-  // =========================================
   document.querySelectorAll('.product-card').forEach(card => {
 
     resizeObserver.observe(card);
 
   });
-
-  // =========================================
-  // Initial Load
-  // =========================================
   bindThumbnailClicks();
   handleThumbnailResize();
-
-  // =========================================
-  // Window Resize
-  // =========================================
   window.addEventListener('resize', function () {
 
     handleThumbnailResize();
