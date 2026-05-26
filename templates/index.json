@@ -1488,6 +1488,78 @@
         "padding-block-end": 32
       }
     },
+    "latest_storis_c8BF3M": {
+      "type": "latest-storis",
+      "blocks": {
+        "featured_jPy6qw": {
+          "type": "featured",
+          "settings": {
+            "article": "news/strengthening-from-the-ground-up-the-role-of-feet-in-strength-training"
+          }
+        },
+        "story_QLpCm9": {
+          "type": "story",
+          "settings": {
+            "article": "news/waldo-etherington-adventure-climber-and-wildness-campaigner",
+            "show_excerpt": true
+          }
+        },
+        "story_hTT7MD": {
+          "type": "story",
+          "settings": {
+            "article": "news/from-the-ground-up-vivobarefoot-x-letters-live-for-earth-day",
+            "show_excerpt": true
+          }
+        },
+        "story_7dezD8": {
+          "type": "story",
+          "settings": {
+            "article": "news/how-to-treat-and-cure-foot-cramps-naturally-and-effectively",
+            "show_excerpt": true
+          }
+        },
+        "story_xNYDrk": {
+          "type": "story",
+          "settings": {
+            "article": "news/the-truth-about-recycling-what-really-happens-to-the-shoes-we-can-t-repair",
+            "show_excerpt": true
+          }
+        }
+      },
+      "block_order": [
+        "featured_jPy6qw",
+        "story_QLpCm9",
+        "story_hTT7MD",
+        "story_7dezD8",
+        "story_xNYDrk"
+      ],
+      "name": "Latest stories",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "page-width",
+        "heading": "THE LATEST STORIES",
+        "button_label": "VIEW ALL STORIES",
+        "button_link": "",
+        "show_featured_excerpt": true,
+        "heading_size": 90,
+        "heading_letter_spacing": -4,
+        "heading_font_weight": 500,
+        "featured_title_size": 40,
+        "featured_title_letter_spacing": -2,
+        "featured_title_font_weight": 500,
+        "story_title_size": 28,
+        "story_title_letter_spacing": -1,
+        "story_title_font_weight": 900,
+        "description_size": 16,
+        "description_font_weight": 400,
+        "text_transform": "uppercase",
+        "section_gap": 60,
+        "card_gap": 24,
+        "border_radius": 0,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "free_you_feet_VaHArj": {
       "type": "free-you-feet",
       "name": "Free your feet",
@@ -1513,6 +1585,125 @@
         "padding_top": 120,
         "padding_bottom": 120
       }
+    },
+    "latest_slideshow_EqdkwE": {
+      "type": "latest-slideshow",
+      "blocks": {
+        "image_jmPGeU": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_6_2_119670ab-8b72-43b9-8365-b2f72013f1f2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_9TrQYQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Blog_1_Mobile_Image_1_600x600_42beb3a0-2dec-41db-869f-04b04497cdbd.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_Xz6WY9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_5_2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_Rnrddj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_gPgMbn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_6_2_119670ab-8b72-43b9-8365-b2f72013f1f2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_AkAkxQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/aw26_spring-summer_blog_evergreen_foot-cramps_cover-image_desktop_416-x-246_1.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_bqBRW6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_10_2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_UX4fPF": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_STS_web_HPbanner_secondary_914x1142_3.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_jmPGeU",
+        "image_9TrQYQ",
+        "image_Xz6WY9",
+        "image_Rnrddj",
+        "image_gPgMbn",
+        "image_AkAkxQ",
+        "image_bqBRW6",
+        "image_UX4fPF"
+      ],
+      "name": "Motion gallery",
+      "settings": {
+        "color_scheme": "",
+        "speed": 40,
+        "gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
@@ -1525,6 +1716,8 @@
     "activity_showcase_WmM996",
     "hero_aWqLTx",
     "section_bkDwfN",
-    "free_you_feet_VaHArj"
+    "latest_storis_c8BF3M",
+    "free_you_feet_VaHArj",
+    "latest_slideshow_EqdkwE"
   ]
 }
