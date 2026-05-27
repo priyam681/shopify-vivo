@@ -641,7 +641,7 @@
       ],
       "name": "Barefoot Benefits",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-0c184aab-87e2-457d-b47d-88a8d9472a9b",
         "section_padding_top": 80,
         "section_padding_bottom": 80,
         "content_width": 1200,
@@ -1373,7 +1373,7 @@
         "description_size": 16,
         "description_font_weight": 400,
         "text_transform": "uppercase",
-        "section_gap": 60,
+        "section_gap": 44,
         "card_gap": 24,
         "border_radius": 0,
         "padding_top": 80,
