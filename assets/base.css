@@ -102,6 +102,15 @@ select {
   }
 }
 
+  .hero-banner-layout h2,h1 {
+      text-shadow: 0 0 60px rgba(0, 0, 0, .75);
+   }
+   
+  .hero-banner-layout h3,
+  .button-wrapper a {
+        text-shadow: 0 0 18px rgba(0, 0, 0, .65);
+  } 
+  
 .collection-card__inner,
 .featured-blog-posts-card__inner {
   width: 100%;
