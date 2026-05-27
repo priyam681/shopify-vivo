@@ -114,23 +114,19 @@
       "label": "t:settings.font",
       "options": [
         {
-          "value": "var(--font-body--family)",
+          "value": "var(--body-font)",
           "label": "t:options.body"
         },
         {
-          "value": "var(--font-subheading--family)",
-          "label": "t:options.subheading"
-        },
-        {
-          "value": "var(--font-heading--family)",
+          "value": "var(--heading-font)",
           "label": "t:options.heading"
         },
         {
-          "value": "var(--font-accent--family)",
+          "value": "var(--button-font)",
           "label": "t:options.accent"
         }
       ],
-      "default": "var(--font-body--family)",
+      "default": "var(--heading-font)",
       "visible_if": "{{ block.settings.type_preset == 'custom' }}"
     },
     {
