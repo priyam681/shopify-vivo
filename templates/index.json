@@ -64,6 +64,20 @@
           },
           "blocks": {}
         },
+        "spacer_Fx6rx6": {
+          "type": "spacer",
+          "name": "t:names.spacer",
+          "settings": {
+            "size": "pixel",
+            "percent_size": 100,
+            "pixel_size": 36,
+            "custom_mobile_size": false,
+            "size_mobile": "percent",
+            "percent_size_mobile": 100,
+            "pixel_size_mobile": 120
+          },
+          "blocks": {}
+        },
         "button_H9gpTf": {
           "type": "button",
           "name": "t:names.button",
@@ -98,6 +112,7 @@
       "block_order": [
         "text_YLPk4p",
         "text_frLiXW",
+        "spacer_Fx6rx6",
         "button_H9gpTf",
         "button_y7akwt"
       ],
@@ -119,7 +134,7 @@
         "align_baseline": true,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
+        "gap": 0,
         "section_width": "page-width",
         "section_height": "full-screen",
         "section_height_custom": 50,
