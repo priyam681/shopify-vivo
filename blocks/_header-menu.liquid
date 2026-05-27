@@ -116,7 +116,7 @@
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                <div class="mega-menu section  section--full-width-margin section--{{ section.settings.section_width }}">
                   <div
                     class="mega-menu__grid"
                     data-menu-grid-id="{{ list_id }}"
@@ -588,7 +588,7 @@
     gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
     width: 100%;
 
-    @media screen and (min-width: 990px) {
+    @media screen and (min-width: 992px) {
       grid-template-columns: repeat(var(--menu-columns-desktop), minmax(0, 1fr));
     }
   }
@@ -630,7 +630,7 @@
   .mega-menu__content-list--products {
     grid-template-columns: repeat(var(--menu-content-columns-tablet), minmax(0, 1fr));
 
-    @media screen and (min-width: 990px) {
+    @media screen and (min-width: 992px) {
       grid-template-columns: repeat(var(--menu-content-columns-desktop), minmax(0, 1fr));
     }
   }
@@ -649,8 +649,9 @@
     grid-column: span var(--menu-columns-tablet);
     gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
 
-    @media screen and (min-width: 990px) {
+    @media screen and (min-width: 992px) {
       grid-column: span var(--menu-columns-desktop);
+      grid-template-columns: repeat(4 , 1fr);
     }
   }
 
@@ -684,6 +685,20 @@
   .mega-menu__submenu {
     /* preserves the inherited grid layout when this submenu wrapper is used */
     display: contents;
+  }
+  @media screen and (min-width: 992px) {
+    .menu-list__submenu .mega-menu  {
+      padding: 43px 9.75rem;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid  {
+      gap: 0;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu__list {
+      grid-column: span 3 ;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu__content {
+     grid-column: span 3 / -1;
+    }
   }
 {% endstylesheet %}
 
