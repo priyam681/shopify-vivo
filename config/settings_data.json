@@ -475,10 +475,10 @@
         "settings": {
           "background": "#ffffff",
           "foreground_heading": "#000000",
-          "foreground": "#222121",
-          "primary": "#222121",
+          "foreground": "#000000",
+          "primary": "#000000",
           "primary_hover": "#000000",
-          "border": "#0000000f",
+          "border": "#000000",
           "shadow": "#000000",
           "primary_button_background": "rgba(0,0,0,0)",
           "primary_button_text": "#212121",
