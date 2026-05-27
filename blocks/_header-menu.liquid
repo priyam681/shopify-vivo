@@ -311,14 +311,23 @@
       color: var(--menu-top-level-font-color);
     }
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       font-size: var(--menu-top-level-font-size-desktop);
     }
   }
 
   .menu-list__link-title {
-    padding-inline: calc(var(--gap-xl) / 2);
+    font-weight: 700;
+    padding: 12px 9px;
+    text-transform: uppercase;
   }
+   @media screen and (min-width: 992px) {
+        .menu-list__link:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 2px;
+       }
+    }
   [slot='overflow'] .menu-list__link-title {
     padding-inline: 0;
   }
@@ -345,7 +354,7 @@
   .menu-list:where(:has(.menu-list__list-item:focus-within)),
   .menu-list:where(:has(.menu-list__list-item:not([aria-hidden='true']) .menu-list__link--active)) {
     .menu-list__link {
-      color: rgb(var(--menu-top-level-font-color-rgb) / var(--opacity-subdued-text));
+      color: rgb(var(--menu-top-level-font-color-rgb));
     }
   }
 
@@ -502,9 +511,9 @@
   }
 
   .mega-menu__link {
-    font-family: var(--menu-child-font-family);
+    font-family: var(--body-font);
     font-style: var(--menu-child-font-style);
-    font-weight: var(--menu-child-font-weight);
+    font-weight: 500;
     font-size: var(--menu-child-font-size);
     line-height: var(--menu-child-font-line-height);
     text-transform: var(--menu-child-font-case);
@@ -512,24 +521,27 @@
     white-space: normal;
     text-decoration: none;
     display: inline-flex;
-    padding: var(--padding-2xs) 0;
+    padding: 10px 0;
 
     &:hover {
-      color: var(--menu-child-active-font-color);
+      color: var(--menu-child-font-color);
+      text-decoration: underline;
     }
   }
 
   .mega-menu__link--parent {
-    font-family: var(--menu-parent-font-family);
+    font-family: var(--body-font);
     font-style: var(--menu-parent-font-style);
-    font-weight: var(--menu-parent-font-weight);
+    font-weight: 700;
     font-size: var(--menu-parent-font-size);
     line-height: var(--menu-parent-font-line-height);
     text-transform: var(--menu-parent-font-case);
     color: var(--menu-parent-font-color);
 
     &:hover {
-      color: var(--menu-parent-active-font-color);
+      color: var(--menu-parent-font-color);
+      cursor: unset;
+      text-decoration: none;
     }
   }
 
@@ -696,8 +708,17 @@
     .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu__list {
       grid-column: span 3 ;
     }
-    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu__content {
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu__content,
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu-custom-images {
      grid-column: span 3 / -1;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu-custom-images {
+      display: grid;
+      grid-template-columns: repeat(2 , 1fr);
+      gap: 15px;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu-custom-images a {
+      padding-inline: 21px;
     }
   }
 {% endstylesheet %}
@@ -815,31 +836,35 @@
       "type": "header",
       "content": "t:content.submenu_feature"
     },
-    {
-      "type": "select",
-      "id": "menu_style",
-      "label": "t:settings.media_type",
-      "info": "t:info.media_type_info",
-      "options": [
-        {
-          "value": "text",
-          "label": "t:options.none"
-        },
-        {
-          "value": "collection_images",
-          "label": "t:options.collection_images"
-        },
-        {
-          "value": "featured_products",
-          "label": "t:options.featured_products"
-        },
-        {
-          "value": "featured_collections",
-          "label": "t:options.featured_collections"
-        }
-      ],
-      "default": "collection_images"
-    },
+   {
+    "type": "select",
+    "id": "menu_style",
+    "label": "t:settings.media_type",
+    "info": "t:info.media_type_info",
+    "options": [
+      {
+        "value": "text",
+        "label": "t:options.none"
+      },
+      {
+        "value": "collection_images",
+        "label": "t:options.collection_images"
+      },
+      {
+        "value": "featured_products",
+        "label": "t:options.featured_products"
+      },
+      {
+        "value": "featured_collections",
+        "label": "t:options.featured_collections"
+      },
+      {
+        "value": "vivo_product",
+        "label": "Vivo Product"
+      }
+    ],
+  "default": "vivo_product"
+},
     {
       "type": "select",
       "id": "featured_products_aspect_ratio",
