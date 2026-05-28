@@ -1,0 +1,294 @@
+{% schema %}
+{
+  "name": "Top Header Bar",
+  "tag": "section",
+  "class": "top-header-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "help_label",
+      "label": "Help Label",
+      "default": "HELP"
+    },
+    {
+      "type": "url",
+      "id": "help_main_link",
+      "label": "Help Main Link"
+    },
+    {
+      "type": "text",
+      "id": "blog_label",
+      "label": "Blog Label",
+      "default": "BLOG"
+    },
+    {
+      "type": "url",
+      "id": "blog_link",
+      "label": "Blog Link"
+    },
+    {
+      "type": "text",
+      "id": "revivo_label",
+      "label": "Third Label",
+      "default": "REVIVO.COM"
+    },
+    {
+      "type": "url",
+      "id": "revivo_link",
+      "label": "Third Link"
+    },
+
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f2f2f2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "dropdown_bg",
+      "label": "Dropdown Background",
+      "default": "#efefef"
+    },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Desktop Font Size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "label": "Mobile Font Size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Bar Height",
+      "min": 35,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 52
+    },
+
+    {
+      "type": "range",
+      "id": "dropdown_width",
+      "label": "Dropdown Width",
+      "min": 180,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 270
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "help_item",
+      "name": "Help Menu Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu Text",
+          "default": "Foot Assessment"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Menu Link"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Top Header Bar"
+    }
+  ]
+}
+{% endschema %}
+
+
+<div class="custom-topbar">
+  <div class="page-width custom-topbar-inner">
+
+    <div class="custom-topbar-links">
+
+      <!-- HELP -->
+      <div class="custom-help-wrapper">
+
+        <a href="{{ section.settings.help_main_link }}">
+          {{ section.settings.help_label }}
+        </a>
+
+        <div class="custom-help-dropdown">
+
+          {% for block in section.blocks %}
+            <a
+              href="{{ block.settings.link }}"
+              class="custom-help-item"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.title }}
+            </a>
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      <span>|</span>
+
+      <!-- BLOG -->
+      <a href="{{ section.settings.blog_link }}">
+        {{ section.settings.blog_label }}
+      </a>
+
+      <span>|</span>
+
+      <!-- THIRD LINK -->
+      <a href="{{ section.settings.revivo_link }}">
+        {{ section.settings.revivo_label }}
+      </a>
+
+    </div>
+
+  </div>
+</div>
+
+
+<style>
+
+.custom-topbar{
+  width:100%;
+  background:{{ section.settings.bg_color }};
+}
+
+.custom-topbar-inner{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  min-height:{{ section.settings.bar_height }}px;
+}
+
+.custom-topbar-links{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.custom-topbar-links a,
+.custom-topbar-links span{
+  text-decoration:none;
+  color:{{ section.settings.text_color }};
+  font-size:{{ section.settings.font_size }}px;
+  font-weight:700;
+  letter-spacing:.5px;
+  transition:.3s ease;
+}
+
+.custom-topbar-links a:hover{
+  opacity:.7;
+}
+
+/* DROPDOWN */
+
+.custom-help-wrapper{
+  position:relative;
+}
+
+.custom-help-dropdown{
+  position:absolute;
+  top:100%;
+  right:0;
+  width:{{ section.settings.dropdown_width }}px;
+  background:{{ section.settings.dropdown_bg }};
+  padding:20px 0;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px);
+  transition:.3s ease;
+  z-index:99;
+}
+
+.custom-help-wrapper:hover .custom-help-dropdown{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+.custom-help-item{
+  display:block;
+  width:100%;
+  padding:12px 48px;
+  color:{{ section.settings.text_color }};
+  font-size:15px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.custom-help-item:hover{
+  background:rgba(0,0,0,.05);
+}
+
+/* MOBILE */
+
+@media screen and (max-width:749px){
+
+  .custom-topbar-inner{
+    min-height:42px;
+  }
+
+  .custom-topbar-links{
+    gap:10px;
+  }
+
+  .custom-topbar-links a,
+  .custom-topbar-links span{
+    font-size:{{ section.settings.mobile_font_size }}px;
+  }
+
+  .custom-help-dropdown{
+    right:-20px;
+    width:220px;
+  }
+
+  .custom-help-item{
+    padding:10px 24px;
+    font-size:13px;
+  }
+
+}
+</style>

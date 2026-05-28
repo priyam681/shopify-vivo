@@ -66,7 +66,7 @@
 
   {%- if items_array.size > 0 -%}
     <div
-      class="header__column header__column--{{ column }}"
+      class="header__column header__column--{{ column }} custom-header-order"
       data-testid="header-{{ row }}-{{ column }}"
     >
       {% for key in items_array %}
@@ -92,3 +92,24 @@
     </div>
   {%- endif -%}
 {%- endfor -%}
+
+{% stylesheet %}
+      @media screen and (min-width: 750px) {
+        .custom-header-order .custom-layout-for-search {
+          order:1;
+        }
+        .custom-header-order .dropdown-localization {
+           order: 3; 
+        }
+       .custom-header-order header-actions {
+          order: 2;
+          flex-direction: row-reverse;
+        }
+        .custom-header-order .localization-selector.header-actions__action {
+            min-width: auto;
+        }
+        .custom-header-order .cart-drawer {
+            padding: 0 26px 0 10px;
+        }
+       }
+{% endstylesheet %}
