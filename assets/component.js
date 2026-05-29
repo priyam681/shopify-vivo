@@ -98,9 +98,7 @@ export class Component extends DeclarativeShadowElement {
   }
 
   /**
-   * Called when the element is disconnected from the document's DOM.
-   *
-   * Disconnects the mutation observer.
+   * Disconnected
    */
   disconnectedCallback() {
     this.#mutationObserver.disconnect();
