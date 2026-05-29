@@ -11,6 +11,93 @@
   "type": "header",
   "name": "Header",
   "sections": {
+    "above_header_LXzJ8q": {
+      "type": "above-header",
+      "blocks": {
+        "help_item_TCigTw": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        },
+        "help_item_c4JHLx": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        },
+        "help_item_EeVJhb": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        },
+        "help_item_q39hBc": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        },
+        "help_item_89c3Qm": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        },
+        "help_item_yeEn9d": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        },
+        "help_item_HTcAcg": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        },
+        "help_item_Vftj7k": {
+          "type": "help_item",
+          "settings": {
+            "title": "Foot Assessment",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "help_item_TCigTw",
+        "help_item_c4JHLx",
+        "help_item_EeVJhb",
+        "help_item_q39hBc",
+        "help_item_89c3Qm",
+        "help_item_yeEn9d",
+        "help_item_HTcAcg",
+        "help_item_Vftj7k"
+      ],
+      "name": "Top Header Bar",
+      "settings": {
+        "help_label": "HELP",
+        "help_main_link": "shopify://collections",
+        "blog_label": "BLOG",
+        "blog_link": "shopify://blogs/news",
+        "revivo_label": "REVIVO.COM",
+        "revivo_link": "shopify://products/explore-at-kids-105610",
+        "bg_color": "#f2f2f2",
+        "text_color": "#212121",
+        "dropdown_bg": "#efefef",
+        "font_size": 14,
+        "mobile_font_size": 11,
+        "bar_height": 42,
+        "dropdown_width": 270
+      }
+    },
     "header_section": {
       "type": "header",
       "blocks": {
@@ -56,7 +143,7 @@
         "search_position": "right",
         "search_row": "top",
         "show_country": true,
-        "country_selector_style": false,
+        "country_selector_style": true,
         "show_language": true,
         "localization_font": "heading",
         "localization_font_size": "0.875rem",
@@ -146,6 +233,7 @@
     }
   },
   "order": [
+    "above_header_LXzJ8q",
     "header_section",
     "header_announcements_9jGBFp"
   ]

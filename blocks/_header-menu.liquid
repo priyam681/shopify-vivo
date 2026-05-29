@@ -142,7 +142,7 @@
 
     <header-menu
       ref="headerMenu"
-      class="header-menu"
+      class="header-menu custm-header-menu-wrapper"
       {{ block.shopify_attributes }}
       data-hydration-key="header-menu"
     >
@@ -200,6 +200,17 @@
   .header--compact .header__drawer {
     min-height: var(--minimum-touch-target);
   }
+  
+  .custm-header-menu-wrapper a.menu-list__link {
+    color: #222121;
+    font-size: 21px;
+    z-index: 5;
+    font-weight: 700;
+    letter-spacing: .04em;
+    position: relative;
+    text-transform: uppercase;
+    width: 100%;
+}
 
   .menu-list--mobile {
     &.menu-list {

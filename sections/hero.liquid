@@ -532,7 +532,9 @@
     section-content-wrapper
     {{ section.settings.section_width }}
     {% if request.design_mode %}hero__content-wrapper--design-mode{% endif %}
+    {{ section.settings.style_class }}
   "
+
   style="{% render 'layout-panel-style', settings: section.settings %}"
 >
  {% for block in section.blocks %}
@@ -828,6 +830,11 @@
     {
       "type": "header",
       "content": "t:content.media_1"
+    },
+    {
+     "type": "text",
+      "id": "style_class",
+      "label": "Custom CSS class"
     },
     {
       "type": "select",
