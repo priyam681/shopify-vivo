@@ -31,6 +31,7 @@
       class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}"
       aria-hidden="true"
     >
+
       {{ 'icon-cart.svg' | inline_asset_content }}
     </span>
 
@@ -39,22 +40,9 @@
 {% endcapture %}
 
 {% capture account_icon %}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="15"
-    height="17"
-    viewBox="0 0 15 17"
-    fill="none"
-    slot="signed-out-avatar"
-    class="account-button__icon"
-  >
-    <path
-      stroke="currentColor"
-      stroke-linejoin="round"
-      stroke-width="var(--icon-stroke-width)"
-      d="M10.375 3.813a3.063 3.063 0 1 1-6.125 0 3.063 3.063 0 0 1 6.125 0ZM7.313 9.5c-3.667 0-6.24 2.691-6.563 6.125h13.125C13.552 12.191 10.979 9.5 7.312 9.5Z"
-    />
-  </svg>
+
+<svg xmlns="http://www.w3.org/2000/svg"  slot="signed-out-avatar"
+    class="account-button__icon" width="24" height="24" fill="none" xmlns:v="https://vecta.io/nano"><path fill="#fff" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4" stroke="#000" stroke-width="2"/><mask id="A" fill="#fff"><path fill-rule="evenodd" d="M20.532 21a.48.48 0 0 0 .487-.5c-.22-4.186-3.22-7.5-9.003-7.5s-8.783 3.314-9.003 7.5a.48.48 0 0 0 .487.5h17.032z"/></mask><path d="M21.02 20.5l1.996-.105-1.997.105zM12.015 15c2.506 0 4.19.712 5.249 1.666s1.671 2.304 1.757 3.939l3.994-.21c-.134-2.55-1.13-4.949-3.074-6.7S15.292 11 12.016 11v4zM5.01 20.605c.086-1.635.7-2.987 1.757-3.939S9.51 15 12.016 15v-4c-3.276 0-5.984.945-7.926 2.694s-2.94 4.15-3.074 6.7l3.994.21zM3.5 23h17.032v-4H3.5v4zm-2.484-2.605C.937 21.883 2.146 23 3.5 23v-4a1.52 1.52 0 0 1 1.51 1.605l-3.994-.21zm18.006.21A1.52 1.52 0 0 1 20.532 19v4c1.353 0 2.563-1.117 2.484-2.605l-3.994.21z" fill="#000" mask="url(#A)"/></svg>
 {% endcapture %}
 
 <header-actions
