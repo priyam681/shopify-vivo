@@ -331,7 +331,6 @@ export class OverflowList extends DeclarativeShadowElement {
       placeholder.style.width = `${placeholderWidth}px`;
       placeholder.hidden = false;
     }
-    list.style.setProperty('overflow', 'scroll');
     if (window.innerWidth < 992) {
       list.style.setProperty('flex-wrap', 'nowrap');
     }

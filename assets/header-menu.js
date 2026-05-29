@@ -16,31 +16,32 @@ class HeaderMenu extends Component {
   };
 
   connectedCallback() {
-  super.connectedCallback();
+    super.connectedCallback();
 
-  onDocumentLoaded(this.#preloadImages);
+    onDocumentLoaded(this.#preloadImages);
 
-  window.addEventListener('resize', this.#resizeListener);
+    window.addEventListener('resize', this.#resizeListener);
 
-  this.overflowMenu?.addEventListener('pointerleave', this.#overflowSubmenuListener);
+    this.overflowMenu?.addEventListener('pointerleave', this.#overflowSubmenuListener);
 
-  this.#bindMobileMenuClick();
-if (window.innerWidth < 992) {
-  if (document.readyState === 'complete') {
-    requestAnimationFrame(() => {
-      this.#openFirstSubmenuMobile();
-    });
-  } else {
-    window.addEventListener('load', () => {
-      requestAnimationFrame(() => {
-        this.#openFirstSubmenuMobile();
-      });
-    });
+    this.#bindMobileMenuClick();
+
+    if (window.innerWidth < 992) {
+      if (document.readyState === 'complete') {
+        requestAnimationFrame(() => {
+          this.#openFirstSubmenuMobile(true);
+        });
+      } else {
+        window.addEventListener('load', () => {
+          requestAnimationFrame(() => {
+            this.#openFirstSubmenuMobile(true);
+          });
+        });
+      }
+    }
+
+    document.addEventListener('click', this.#handleOutsideClick);
   }
-}
-
-  document.addEventListener('click', this.#handleOutsideClick);
-}
 
   #getAllMenuItems() {
     return [
@@ -57,7 +58,6 @@ if (window.innerWidth < 992) {
   }
 
   #getFirstListItem() {
-  
     let firstListItem = this.querySelector('.menu-list__list-item');
 
     if (!firstListItem) {
@@ -68,74 +68,82 @@ if (window.innerWidth < 992) {
 
     return firstListItem ?? null;
   }
-#handleOutsideClick = (event) => {
-  if (window.innerWidth >= 992) return;
 
-  if (event.target instanceof HTMLAnchorElement) return;
-  if (event.target.closest('a')) return;
+  #handleOutsideClick = (event) => {
+    if (window.innerWidth >= 992) return;
 
-  if (!this.contains(event.target)) {
-    const hamburger =
-      document.querySelector('[ref="mobile-menu-toggle"]') ||
-      document.querySelector('mobile-menu-toggle');
+    if (event.target instanceof HTMLAnchorElement) return;
+    if (event.target.closest('a')) return;
 
-    if (hamburger?.contains(event.target)) return;
+    if (!this.contains(event.target)) {
+      const hamburger =
+        document.querySelector('[ref="mobile-menu-toggle"]') ||
+        document.querySelector('mobile-menu-toggle');
 
-    this.querySelectorAll('[ref="menuitem"]').forEach((item) => {
+      if (hamburger?.contains(event.target)) return;
+
+      this.querySelectorAll('[ref="menuitem"]').forEach((item) => {
+        item.setAttribute('aria-expanded', 'false');
+      });
+
+      this.querySelectorAll('.menu-list__submenu').forEach((submenu) => {
+        submenu.style.display = 'none';
+      });
+
+      this.headerComponent?.style.setProperty('--submenu-height', '0px');
+      this.style.setProperty('--submenu-opacity', '0');
+      this.#state.activeItem = null;
+
+      // activeItem null hai ab, toh guard allow karega first item open karne ko
+      requestAnimationFrame(() => {
+        this.#openFirstSubmenuMobile();
+      });
+    }
+  };
+
+  #openFirstSubmenuMobile(force = false) {
+    if (window.innerWidth >= 992) return;
+
+    // Sirf tab rok jab user ne manually koi item select kiya ho
+    // force=true hoga page load aur hamburger click pe
+    if (!force && this.#state.activeItem) return;
+
+    const firstListItem = this.querySelector('.menu-list__list-item');
+    if (!firstListItem) return;
+
+    const firstMenuItem =
+      firstListItem.querySelector('[ref="menuitem"]') ||
+      firstListItem.querySelector('.menu-list__link');
+
+    const firstSubmenu = firstListItem.querySelector('.menu-list__submenu');
+
+    if (!firstMenuItem || !firstSubmenu) return;
+
+    this.querySelectorAll('[ref="menuitem"], .menu-list__link').forEach((item) => {
       item.setAttribute('aria-expanded', 'false');
     });
 
     this.querySelectorAll('.menu-list__submenu').forEach((submenu) => {
       submenu.style.display = 'none';
+      submenu.hidden = true;
     });
 
-    this.headerComponent?.style.setProperty('--submenu-height', '0px');
-    this.style.setProperty('--submenu-opacity', '0');
-    this.#state.activeItem = null;
+    firstMenuItem.setAttribute('aria-expanded', 'true');
+    firstMenuItem.ariaExpanded = 'true';
 
-    requestAnimationFrame(() => {
-      this.#openFirstSubmenuMobile();
-    });
+    firstSubmenu.hidden = false;
+    firstSubmenu.style.removeProperty('display');
+    firstSubmenu.style.display = 'block';
+    firstSubmenu.style.visibility = 'visible';
+    firstSubmenu.style.opacity = '1';
+
+    this.#state.activeItem = firstMenuItem;
+
+    const submenuHeight = firstSubmenu.scrollHeight || 0;
+
+    this.headerComponent?.style.setProperty('--submenu-height', `${submenuHeight}px`);
+    this.style.setProperty('--submenu-opacity', '1');
   }
-};
-  #openFirstSubmenuMobile() {
-  if (window.innerWidth >= 992) return;
-
-  const firstListItem = this.querySelector('.menu-list__list-item');
-  if (!firstListItem) return;
-
-  const firstMenuItem =
-    firstListItem.querySelector('[ref="menuitem"]') ||
-    firstListItem.querySelector('.menu-list__link');
-
-  const firstSubmenu = firstListItem.querySelector('.menu-list__submenu');
-
-  if (!firstMenuItem || !firstSubmenu) return;
-  this.querySelectorAll('[ref="menuitem"], .menu-list__link').forEach((item) => {
-    item.setAttribute('aria-expanded', 'false');
-  });
-
-  this.querySelectorAll('.menu-list__submenu').forEach((submenu) => {
-    submenu.style.display = 'none';
-    submenu.hidden = true;
-  });
-
-  firstMenuItem.setAttribute('aria-expanded', 'true');
-  firstMenuItem.ariaExpanded = 'true';
-
-  firstSubmenu.hidden = false;
-  firstSubmenu.style.removeProperty('display');
-  firstSubmenu.style.display = 'block';
-  firstSubmenu.style.visibility = 'visible';
-  firstSubmenu.style.opacity = '1';
-
-  this.#state.activeItem = firstMenuItem;
-
-  const submenuHeight = firstSubmenu.scrollHeight || 0;
-
-  this.headerComponent?.style.setProperty('--submenu-height', `${submenuHeight}px`);
-  this.style.setProperty('--submenu-opacity', '1');
-}
 
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -160,7 +168,7 @@ if (window.innerWidth < 992) {
     setHeaderMenuStyle();
 
     if (window.innerWidth < 992) {
-      this.#openFirstSubmenuMobile();
+      this.#openFirstSubmenuMobile(true);
     }
   }, 100);
 
@@ -243,71 +251,55 @@ if (window.innerWidth < 992) {
     this.#state.activeItem = null;
   };
 
- #bindMobileMenuClick() {
-  const hamburger =
-    document.querySelector('[ref="mobile-menu-toggle"]') ||
-    document.querySelector('mobile-menu-toggle');
+  #bindMobileMenuClick() {
+    const hamburger =
+      document.querySelector('[ref="mobile-menu-toggle"]') ||
+      document.querySelector('mobile-menu-toggle');
 
-  hamburger?.addEventListener('click', () => {
-    requestAnimationFrame(() => {
-      this.#openFirstSubmenuMobile();
+    hamburger?.addEventListener('click', () => {
+      requestAnimationFrame(() => {
+        this.#openFirstSubmenuMobile(true);
+      });
     });
+
+    const menuItems = this.querySelectorAll('.menu-list__list-item');
+
+    menuItems.forEach((listItem) => {
+      const menuLink = listItem.querySelector('[ref="menuitem"]');
+      const submenu = listItem.querySelector('.menu-list__submenu');
+
+      if (!menuLink) return;
+
+     menuLink.addEventListener('click', (event) => {
+     if (window.innerWidth >= 992) return;
+
+  if (!submenu) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  const isOpen = menuLink.getAttribute('aria-expanded') === 'true';
+  if (isOpen) return;
+  this.querySelectorAll('[ref="menuitem"]').forEach((item) => {
+    item.setAttribute('aria-expanded', 'false');
   });
 
-  const menuItems = this.querySelectorAll('.menu-list__list-item');
-
-  menuItems.forEach((listItem) => {
-    const menuLink = listItem.querySelector('[ref="menuitem"]');
-    const submenu = listItem.querySelector('.menu-list__submenu');
-
-    if (!menuLink) return;
-
-    menuLink.addEventListener('click', (event) => {
-      if (window.innerWidth >= 992) return;
-      if (!submenu) {
-         event.preventDefault();
-         event.stopPropagation();
-        return;
-      }
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      const isOpen = menuLink.getAttribute('aria-expanded') === 'true';
-
-      this.querySelectorAll('[ref="menuitem"]').forEach((item) => {
-        item.setAttribute('aria-expanded', 'false');
-      });
-
-      this.querySelectorAll('.menu-list__submenu').forEach((menu) => {
-        menu.style.display = 'none';
-      });
-
-      if (!isOpen) {
-        menuLink.setAttribute('aria-expanded', 'true');
-        submenu.style.display = 'block';
-        this.#state.activeItem = menuLink;
-
-        const submenuHeight = submenu.scrollHeight || 0;
-
-        this.headerComponent?.style.setProperty(
-          '--submenu-height',
-          `${submenuHeight}px`
-        );
-
-        this.style.setProperty('--submenu-opacity', '1');
-      } else {
-        submenu.style.display = 'none';
-
-        this.headerComponent?.style.setProperty('--submenu-height', '0px');
-
-        this.style.setProperty('--submenu-opacity', '0');
-
-        this.#state.activeItem = null;
-      }
-    });
+  this.querySelectorAll('.menu-list__submenu').forEach((menu) => {
+    menu.style.display = 'none';
   });
-}
+  menuLink.setAttribute('aria-expanded', 'true');
+  submenu.style.display = 'block';
+  this.#state.activeItem = menuLink;
+
+  const submenuHeight = submenu.scrollHeight || 0;
+  this.headerComponent?.style.setProperty('--submenu-height', `${submenuHeight}px`);
+  this.style.setProperty('--submenu-opacity', '1');
+     });
+    });
+  }
 
   #preloadImages = () => {
     const images = this.querySelectorAll('img[loading="lazy"]');

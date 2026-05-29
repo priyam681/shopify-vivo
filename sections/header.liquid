@@ -443,9 +443,9 @@
       position: fixed;
       left: 0;
       width: 100%;
-      height: calc(100% - 60px);
+      height: calc(100% - 102px);
       padding: 4px 8px 8px;
-      top: 60px;
+      top: 102px;
       z-index: 13;
       overflow: scroll;
     }
@@ -510,7 +510,7 @@
      margin-top: 20px;
     }
   }
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 992px) {
     #header-component[data-menu-style='menu'] :is(.header-menu, .dropdown-localization) {
       display: flex;
     }
@@ -775,7 +775,7 @@
     align-items: center;
 
     /* on mobile, header__column nodes are ignored to create a new grid-template-area based on all visible content */
-    @media screen and (max-width: 749px) {
+    @media screen and (max-width: 992px) {
       display: contents;
     }
   }
@@ -829,7 +829,7 @@
 
     /* If there is no center column, make the column the menu is in grow eagerly */
     &:where(:not(:has(.header__column--center))) {
-      @media screen and (min-width: 750px) {
+      @media screen and (min-width: 992px) {
         --header-template-columns: var(--header-left) var(--header-right);
 
         grid-template-areas: 'left right';
@@ -848,11 +848,11 @@
       }
     }
 
-    @media screen and (max-width: 749px) {
-      --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr
+    @media screen and (max-width: 992px) {
+      --header-template-columns: auto var(--header-mobile-bookend) 1fr
         var(--header-mobile-bookend) var(--header-mobile-bookend);
 
-      grid-template-areas: 'leftA leftB center rightA rightB';
+      grid-template-areas: 'leftA leftB center rightA rightB rightC rightD';
       grid-column: span 3;
       column-gap: 0;
       align-items: center;
@@ -860,7 +860,7 @@
       padding-inline: 0 var(--padding-3xs);
 
       .header-logo {
-        grid-area: center;
+        grid-area: leftA;
       }
 
       &:not(:has(header-actions)) .search-action {
@@ -872,10 +872,13 @@
       }
 
       .search-action {
-        grid-area: leftB;
+        grid-area: rightA;
       }
 
       header-actions {
+        grid-area: rightC;
+      }
+      .mobile-menu-toggle {
         grid-area: rightB;
       }
     }

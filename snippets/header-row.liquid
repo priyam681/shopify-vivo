@@ -106,7 +106,6 @@
     border: 0;
     font-size: 28px;
     cursor: pointer;
-    margin-left: 12px;
     line-height: 1;
     position: relative;
     z-index: 9999;
@@ -129,13 +128,15 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      height: var(--button-size);
+      width: var(--button-size);
     }
     header-menu.mobile-menu-open {
       display: block !important;
     }
   }
 
-   @media screen and (min-width: 750px) {
+   @media screen and (min-width: 992px) {
         .custom-header-order .custom-layout-for-search {
           order:1;
         }
