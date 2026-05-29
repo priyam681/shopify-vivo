@@ -48,7 +48,8 @@ export class Component extends DeclarativeShadowElement {
   refs = /** @type {RefsType<T>} */ ({});
 
   /**
-   * Optional required refs
+   * An array of required refs. If a ref is not found, an error will be thrown.
+   *
    * @type {string[] | undefined}
    */
   requiredRefs;
@@ -63,7 +64,9 @@ export class Component extends DeclarativeShadowElement {
   }
 
   /**
-   * Connected
+   * Called when the element is connected to the document's DOM.
+   *
+   * Initializes event listeners and refs.
    */
   connectedCallback() {
     super.connectedCallback();
@@ -86,7 +89,7 @@ export class Component extends DeclarativeShadowElement {
   }
 
   /**
-   * Updated
+   * Called when the element is re-rendered by the Section Rendering API.
    */
   updatedCallback() {
     this.#mutationObserver.takeRecords();
@@ -95,7 +98,9 @@ export class Component extends DeclarativeShadowElement {
   }
 
   /**
-   * Disconnected
+   * Called when the element is disconnected from the document's DOM.
+   *
+   * Disconnects the mutation observer.
    */
   disconnectedCallback() {
     this.#mutationObserver.disconnect();
