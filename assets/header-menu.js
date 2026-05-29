@@ -28,12 +28,6 @@ class HeaderMenu extends Component {
 if (window.innerWidth < 992) {
   if (document.readyState === 'complete') {
     requestAnimationFrame(() => {
-      // Debug: dekho kya mil raha hai
-      console.log('shadowRoot:', this.refs.overflowMenu?.shadowRoot);
-      console.log('overflowMenu getter:', this.overflowMenu);
-      console.log('firstListItem this:', this.querySelector('.menu-list__list-item'));
-      console.log('firstListItem shadow:', this.refs.overflowMenu?.shadowRoot?.querySelector('.menu-list__list-item'));
-      
       this.#openFirstSubmenuMobile();
     });
   } else {
@@ -77,7 +71,6 @@ if (window.innerWidth < 992) {
 #handleOutsideClick = (event) => {
   if (window.innerWidth >= 992) return;
 
-  // Koi bhi anchor link click hua toh bilkul kuch mat karo
   if (event.target instanceof HTMLAnchorElement) return;
   if (event.target.closest('a')) return;
 
@@ -111,19 +104,13 @@ if (window.innerWidth < 992) {
   const firstListItem = this.querySelector('.menu-list__list-item');
   if (!firstListItem) return;
 
-  // ref="menuitem" ya .menu-list__link dono try karo
   const firstMenuItem =
     firstListItem.querySelector('[ref="menuitem"]') ||
     firstListItem.querySelector('.menu-list__link');
 
   const firstSubmenu = firstListItem.querySelector('.menu-list__submenu');
 
-  console.log('firstMenuItem:', firstMenuItem);
-  console.log('firstSubmenu:', firstSubmenu);
-
   if (!firstMenuItem || !firstSubmenu) return;
-
-  // Sab close karo
   this.querySelectorAll('[ref="menuitem"], .menu-list__link').forEach((item) => {
     item.setAttribute('aria-expanded', 'false');
   });
@@ -133,7 +120,6 @@ if (window.innerWidth < 992) {
     submenu.hidden = true;
   });
 
-  // Pehla open karo
   firstMenuItem.setAttribute('aria-expanded', 'true');
   firstMenuItem.ariaExpanded = 'true';
 
@@ -278,8 +264,6 @@ if (window.innerWidth < 992) {
 
     menuLink.addEventListener('click', (event) => {
       if (window.innerWidth >= 992) return;
-
-      // Submenu nahi hai toh normal navigation hone do
       if (!submenu) {
          event.preventDefault();
          event.stopPropagation();
