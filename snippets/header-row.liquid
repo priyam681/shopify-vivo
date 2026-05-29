@@ -82,8 +82,16 @@
               {{ localization }}
             {% when 'search' %}
               {{ search }}
+
+              <!-- MOBILE HAMBURGER -->
+              <button class="mobile-menu-toggle" type="button">
+                <span class="hamburger-icon"> {{- 'icon-menu.svg' | inline_asset_content -}}</span>
+                <span class="close-icon"> {{- 'icon-close.svg' | inline_asset_content -}}</span>
+              </button>
+
             {% when 'drawer_search' %}
               {{ drawer_search }}
+
             {% when 'actions' %}
               {{ actions }}
           {% endcase %}
@@ -92,3 +100,89 @@
     </div>
   {%- endif -%}
 {%- endfor -%}
+
+{% stylesheet %}
+  .mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: 0;
+    font-size: 28px;
+    cursor: pointer;
+    margin-left: 12px;
+    line-height: 1;
+    position: relative;
+    z-index: 9999;
+  }
+
+  .mobile-menu-toggle .close-icon {
+    display: none;
+  }
+
+  .mobile-menu-toggle.active .hamburger-icon {
+    display: none;
+  }
+
+  .mobile-menu-toggle.active .close-icon {
+    display: inline-block;
+  }
+
+  @media screen and (max-width: 991px) {
+    .mobile-menu-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    header-menu.mobile-menu-open {
+      display: block !important;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+
+function initMobileMenu() {
+
+  const toggleBtn = document.querySelector('.mobile-menu-toggle');
+
+  const headerMenu = document.querySelector('header-menu');
+
+  if (!toggleBtn || !headerMenu) {
+    console.log('menu not found');
+    return;
+  }
+
+  toggleBtn.onclick = function (e) {
+
+    e.preventDefault();
+
+    if (headerMenu.classList.contains('mobile-menu-open')) {
+
+      headerMenu.classList.remove('mobile-menu-open');
+
+      toggleBtn.classList.remove('active');
+
+    } else {
+
+      headerMenu.classList.add('mobile-menu-open');
+
+      toggleBtn.classList.add('active');
+    }
+  };
+
+  document.addEventListener('click', function (e) {
+
+    if (
+      !headerMenu.contains(e.target) &&
+      !toggleBtn.contains(e.target)
+    ) {
+
+      headerMenu.classList.remove('mobile-menu-open');
+
+      toggleBtn.classList.remove('active');
+    }
+  });
+}
+
+window.onload = initMobileMenu;
+
+</script>

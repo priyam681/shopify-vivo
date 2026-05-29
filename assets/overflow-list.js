@@ -106,7 +106,6 @@ export class OverflowList extends DeclarativeShadowElement {
       placeholder,
     };
 
-    // Add event listener for reflow requests
     this.addEventListener(
       'reflow',
       /** @param {CustomEvent<{lastVisibleElement?: HTMLElement}>} event */ (event) => {
@@ -260,8 +259,6 @@ export class OverflowList extends DeclarativeShadowElement {
     const { defaultSlot, overflowSlot, moreSlot, list, placeholder } = this.#refs;
 
     this.#unobserveChanges();
-
-    // Reset all elements to the default slot so we can check which ones overflow.
     this.#moveItemsToDefaultSlot();
 
     const elements = defaultSlot.assignedElements();
@@ -282,12 +279,8 @@ export class OverflowList extends DeclarativeShadowElement {
     if (listHeight > 0) {
       list.style.setProperty('height', `${listHeight}px`);
     }
-
-    // Enable flex-wrap so overflowing items break to the next line. This makes calculations easier.
     list.style.setProperty('flex-wrap', 'wrap');
     placeholder.hidden = true;
-
-    // Putting the "More" item (and lastVisibleElement, if provided) at the start of the list lets us see which items will fit on the same row.
     moreSlot.style.setProperty('order', '-1');
     moreSlot.hidden = false;
 
@@ -315,9 +308,16 @@ export class OverflowList extends DeclarativeShadowElement {
     }
     lastVisibleElement?.style.removeProperty('order');
 
-    // Move the elements to the correct slot.
-    for (const element of elements) {
-      const targetSlot = overflowingElements.includes(element) ? overflowSlot.name : defaultSlot.name;
+        for (const element of elements) {
+      let targetSlot = defaultSlot.name;
+
+      if (
+        window.innerWidth >= 992 &&
+        overflowingElements.includes(element)
+      ) {
+        targetSlot = overflowSlot.name;
+      }
+
       if (element.slot !== targetSlot) {
         element.slot = targetSlot;
       }
@@ -326,18 +326,15 @@ export class OverflowList extends DeclarativeShadowElement {
     list.style.setProperty('counter-reset', `overflow-count ${overflowingElements.length}`);
     this.style.setProperty('--overflow-count', `${overflowingElements.length}`);
 
-    // Adjust the "More" button visibility.
-    moreSlot.hidden = !hasOverflow;
-
+    moreSlot.hidden = !hasOverflow || window.innerWidth < 992;
     if (hasOverflow) {
-      // Set the width and height of the placeholder so the list can grow if there is space.
       placeholder.style.width = `${placeholderWidth}px`;
       placeholder.hidden = false;
     }
-
-    // Reset the overflow property since children elements may need to display outside the list (e.g. dropdowns, popovers).
-    list.style.setProperty('overflow', 'unset');
-
+    list.style.setProperty('overflow', 'scroll');
+    if (window.innerWidth < 992) {
+      list.style.setProperty('flex-wrap', 'nowrap');
+    }
     hasOverflow && this.#updateMinimumReached(visibleElements);
 
     this.#observeChanges();
@@ -376,7 +373,6 @@ export class OverflowList extends DeclarativeShadowElement {
   #mutationObserver = new MutationObserver(this.#handleChange);
 
   #intersectionObserver = new IntersectionObserver(this.#handleIntersection, {
-    // Extend the root margin to around one more viewport of a typical mobile screen.
     rootMargin: '640px 360px 640px 360px',
   });
 }
