@@ -552,7 +552,7 @@
       "scheme-70749f77-521f-4ddb-8636-f41eed917881": {
         "settings": {
           "background": "#ffffff",
-          "foreground_heading": "#000000",
+          "foreground_heading": "#212121",
           "foreground": "#727373",
           "primary": "#000000cf",
           "primary_hover": "#000000",
