@@ -1,393 +1,351 @@
 import { Component } from '@theme/component';
-import { debounce, onDocumentLoaded, setHeaderMenuStyle } from '@theme/utilities';
+
+import {
+  debounce,
+  onDocumentLoaded,
+  setHeaderMenuStyle,
+} from '@theme/utilities';
+
 import { MegaMenuHoverEvent } from '@theme/events';
 
-/**
- * A custom element that manages a header menu.
- *
- * @typedef {Object} State
- * @property {HTMLElement | null} activeItem - The currently active menu item.
- *
- * @typedef {object} Refs
- * @property {HTMLElement} overflowMenu - The overflow menu.
- * @property {HTMLElement[]} [submenu] - The submenu in each respective menu item.
- *
- * @extends {Component<Refs>}
- */
 class HeaderMenu extends Component {
   requiredRefs = ['overflowMenu'];
 
-  /**
-   * @type {MutationObserver | null}
-   */
-  #submenuMutationObserver = null;
+  #state = {
+    activeItem: null,
+  };
 
   connectedCallback() {
-    super.connectedCallback();
+  super.connectedCallback();
 
-    onDocumentLoaded(this.#preloadImages);
-    window.addEventListener('resize', this.#resizeListener);
-    this.overflowMenu?.addEventListener('pointerleave', this.#overflowSubmenuListener);
+  onDocumentLoaded(this.#preloadImages);
+
+  window.addEventListener('resize', this.#resizeListener);
+
+  this.overflowMenu?.addEventListener('pointerleave', this.#overflowSubmenuListener);
+
+  this.#bindMobileMenuClick();
+if (window.innerWidth < 992) {
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(() => {
+      // Debug: dekho kya mil raha hai
+      console.log('shadowRoot:', this.refs.overflowMenu?.shadowRoot);
+      console.log('overflowMenu getter:', this.overflowMenu);
+      console.log('firstListItem this:', this.querySelector('.menu-list__list-item'));
+      console.log('firstListItem shadow:', this.refs.overflowMenu?.shadowRoot?.querySelector('.menu-list__list-item'));
+      
+      this.#openFirstSubmenuMobile();
+    });
+  } else {
+    window.addEventListener('load', () => {
+      requestAnimationFrame(() => {
+        this.#openFirstSubmenuMobile();
+      });
+    });
   }
+}
+
+  document.addEventListener('click', this.#handleOutsideClick);
+}
+
+  #getAllMenuItems() {
+    return [
+      ...this.querySelectorAll('[ref="menuitem"]'),
+      ...(this.refs.overflowMenu?.shadowRoot?.querySelectorAll('[ref="menuitem"]') ?? []),
+    ];
+  }
+
+  #getAllSubmenus() {
+    return [
+      ...this.querySelectorAll('.menu-list__submenu'),
+      ...(this.refs.overflowMenu?.shadowRoot?.querySelectorAll('.menu-list__submenu') ?? []),
+    ];
+  }
+
+  #getFirstListItem() {
+  
+    let firstListItem = this.querySelector('.menu-list__list-item');
+
+    if (!firstListItem) {
+      firstListItem = this.refs.overflowMenu?.shadowRoot?.querySelector(
+        '.menu-list__list-item'
+      );
+    }
+
+    return firstListItem ?? null;
+  }
+#handleOutsideClick = (event) => {
+  if (window.innerWidth >= 992) return;
+
+  // Koi bhi anchor link click hua toh bilkul kuch mat karo
+  if (event.target instanceof HTMLAnchorElement) return;
+  if (event.target.closest('a')) return;
+
+  if (!this.contains(event.target)) {
+    const hamburger =
+      document.querySelector('[ref="mobile-menu-toggle"]') ||
+      document.querySelector('mobile-menu-toggle');
+
+    if (hamburger?.contains(event.target)) return;
+
+    this.querySelectorAll('[ref="menuitem"]').forEach((item) => {
+      item.setAttribute('aria-expanded', 'false');
+    });
+
+    this.querySelectorAll('.menu-list__submenu').forEach((submenu) => {
+      submenu.style.display = 'none';
+    });
+
+    this.headerComponent?.style.setProperty('--submenu-height', '0px');
+    this.style.setProperty('--submenu-opacity', '0');
+    this.#state.activeItem = null;
+
+    requestAnimationFrame(() => {
+      this.#openFirstSubmenuMobile();
+    });
+  }
+};
+  #openFirstSubmenuMobile() {
+  if (window.innerWidth >= 992) return;
+
+  const firstListItem = this.querySelector('.menu-list__list-item');
+  if (!firstListItem) return;
+
+  // ref="menuitem" ya .menu-list__link dono try karo
+  const firstMenuItem =
+    firstListItem.querySelector('[ref="menuitem"]') ||
+    firstListItem.querySelector('.menu-list__link');
+
+  const firstSubmenu = firstListItem.querySelector('.menu-list__submenu');
+
+  console.log('firstMenuItem:', firstMenuItem);
+  console.log('firstSubmenu:', firstSubmenu);
+
+  if (!firstMenuItem || !firstSubmenu) return;
+
+  // Sab close karo
+  this.querySelectorAll('[ref="menuitem"], .menu-list__link').forEach((item) => {
+    item.setAttribute('aria-expanded', 'false');
+  });
+
+  this.querySelectorAll('.menu-list__submenu').forEach((submenu) => {
+    submenu.style.display = 'none';
+    submenu.hidden = true;
+  });
+
+  // Pehla open karo
+  firstMenuItem.setAttribute('aria-expanded', 'true');
+  firstMenuItem.ariaExpanded = 'true';
+
+  firstSubmenu.hidden = false;
+  firstSubmenu.style.removeProperty('display');
+  firstSubmenu.style.display = 'block';
+  firstSubmenu.style.visibility = 'visible';
+  firstSubmenu.style.opacity = '1';
+
+  this.#state.activeItem = firstMenuItem;
+
+  const submenuHeight = firstSubmenu.scrollHeight || 0;
+
+  this.headerComponent?.style.setProperty('--submenu-height', `${submenuHeight}px`);
+  this.style.setProperty('--submenu-opacity', '1');
+}
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener('resize', this.#resizeListener);
-    document.body.removeEventListener('pointermove', this.#onPointerMove);
-    if (this.#state.activeItem) {
-      this.#stopPointerTracking(this.#state.activeItem);
-    }
-    this.overflowMenu?.removeEventListener('pointerleave', this.#overflowSubmenuListener);
-    this.#cleanupMutationObserver();
+
+    window.removeEventListener(
+      'resize',
+      this.#resizeListener
+    );
+
+    document.removeEventListener(
+      'click',
+      this.#handleOutsideClick
+    );
+
+    this.overflowMenu?.removeEventListener(
+      'pointerleave',
+      this.#overflowSubmenuListener
+    );
   }
 
-  /**
-   * Debounced resize event listener to recalculate menu style
-   */
   #resizeListener = debounce(() => {
     setHeaderMenuStyle();
+
+    if (window.innerWidth < 992) {
+      this.#openFirstSubmenuMobile();
+    }
   }, 100);
 
   #overflowSubmenuListener = () => {
     this.#deactivate();
   };
 
-  /**
-   * @type {State}
-   */
-  #state = {
-    activeItem: null,
-  };
-
-  /**
-   * @type {ReturnType<typeof setTimeout> | undefined}
-   */
-  #pointerIdleTimer;
-
-  /**
-   * Last known pointer position for Safari hit-test reconciliation.
-   * @type {{ x: number, y: number }}
-   */
-  #lastPointer = { x: 0, y: 0 };
-
-  /**
-   * Update the safety box idle state on the active menu item.
-   * @param {PointerEvent} event
-   */
-  #onPointerMove = (event) => {
-    const activeLink = this.#state.activeItem;
-    if (!activeLink) return;
-
-    this.#lastPointer.x = event.clientX;
-    this.#lastPointer.y = event.clientY;
-
-    const moving = Math.abs(event.movementX) >= 1 || event.movementY >= 1;
-    activeLink.dataset.safetyBox = `${moving}`;
-
-    clearTimeout(this.#pointerIdleTimer);
-    if (moving) {
-      this.#pointerIdleTimer = setTimeout(() => {
-        if (this.#state.activeItem) {
-          this.#state.activeItem.dataset.safetyBox = 'false';
-          this.#reconcilePointerTarget();
-        }
-      }, 50);
-    } else {
-      this.#reconcilePointerTarget();
-    }
-  };
-
-  /**
-   * Check if the pointer is over a different menu item and trigger activation if so.
-   * Works around Safari not re-evaluating hit targets after pseudo-element changes.
-   */
-  #reconcilePointerTarget() {
-    const { x, y } = this.#lastPointer;
-    requestAnimationFrame(() => {
-      const target = document.elementFromPoint(x, y);
-      if (!target) return;
-      const listItem = target.closest('.menu-list__list-item');
-      if (listItem && !listItem.contains(this.#state.activeItem)) {
-        listItem.dispatchEvent(new PointerEvent('pointerenter', { bubbles: false }));
-      }
-    });
-  }
-
-  /**
-   * Begin pointer tracking for the safety box on the newly active item.
-   * @param {HTMLElement} item
-   * @param {HTMLElement | null} previousItem
-   */
-  #startPointerTracking(item, previousItem) {
-    if (previousItem) {
-      this.#stopPointerTracking(previousItem);
-    } else {
-      document.body.addEventListener('pointermove', this.#onPointerMove);
-    }
-
-    const rect = item.getBoundingClientRect();
-    const isOverlap = this.headerComponent?.hasAttribute('data-submenu-overlap-bottom-row');
-    const boundary = isOverlap ? this.headerComponent?.querySelector('.header__row--top') : this.headerComponent;
-    item.style.setProperty('--box-height', `${(boundary?.getBoundingClientRect().bottom ?? 0) - rect.top}px`);
-  }
-
-  /**
-   * Stop pointer tracking and remove all safety box properties from an item.
-   * @param {HTMLElement} item
-   */
-  #stopPointerTracking(item) {
-    clearTimeout(this.#pointerIdleTimer);
-    this.#pointerIdleTimer = undefined;
-    item.style.removeProperty('--box-height');
-    delete item.dataset.safetyBox;
-  }
-
-  /**
-   * Get the overflow menu
-   */
   get overflowMenu() {
-    return /** @type {HTMLElement | null} */ (this.refs.overflowMenu?.shadowRoot?.querySelector('[part="overflow"]'));
-  }
-
-  /**
-   * Whether the overflow list is hovered
-   * @returns {boolean}
-   */
-  get overflowListHovered() {
-    return this.refs.overflowMenu?.shadowRoot?.querySelector('[part="overflow-list"]')?.matches(':hover') ?? false;
+    return this.refs.overflowMenu?.shadowRoot?.querySelector(
+      '[part="overflow"]'
+    );
   }
 
   get headerComponent() {
-    return /** @type {HTMLElement | null} */ (this.closest('header-component'));
+    return this.closest('header-component');
   }
 
-  /**
-   * Activate the selected menu item immediately
-   * @param {PointerEvent | FocusEvent} event
-   */
   activate = (event) => {
-    this.dispatchEvent(new MegaMenuHoverEvent());
+    if (window.innerWidth < 992) return;
 
-    if (!(event.target instanceof Element) || !this.headerComponent) return;
+    this.dispatchEvent(
+      new MegaMenuHoverEvent()
+    );
 
-    let item = findMenuItem(event.target);
+    if (!(event.target instanceof Element)) return;
 
-    if (!item || item == this.#state.activeItem) return;
+    const item = findMenuItem(event.target);
 
-    const isDefaultSlot = event.target.slot === '';
+    if (!item) return;
 
-    this.dataset.overflowExpanded = (!isDefaultSlot).toString();
+    const submenu = findSubmenu(item);
 
-    const previouslyActiveItem = this.#state.activeItem;
+    this.querySelectorAll('.menu-list__submenu').forEach((menu) => {
+      menu.style.display = 'none';
+    });
 
-    if (previouslyActiveItem) {
-      previouslyActiveItem.ariaExpanded = 'false';
+    this.querySelectorAll('[ref="menuitem"]').forEach((menuItem) => {
+      menuItem.setAttribute('aria-expanded', 'false');
+    });
+
+    item.setAttribute('aria-expanded', 'true');
+
+    if (submenu) {
+      submenu.style.display = 'block';
+
+      const finalHeight = submenu.scrollHeight || 0;
+
+      this.headerComponent?.style.setProperty(
+        '--submenu-height',
+        `${finalHeight}px`
+      );
+
+      this.style.setProperty('--submenu-opacity', '1');
     }
 
     this.#state.activeItem = item;
-    this.ariaExpanded = 'true';
-    item.ariaExpanded = 'true';
-
-    let submenu = findSubmenu(item);
-    const hasSubmenu = Boolean(submenu);
-
-    if (!hasSubmenu && !isDefaultSlot) {
-      submenu = this.overflowMenu;
-    }
-
-    if (submenu) {
-      // Mark submenu as active for content-visibility optimization
-      submenu.dataset.active = '';
-
-      // Cleanup any existing mutation observer from previous menu activations
-      this.#cleanupMutationObserver();
-
-      // Monitor DOM mutations to catch deferred content injection (from section hydration)
-      this.#submenuMutationObserver = new MutationObserver(() => {
-        requestAnimationFrame(() => {
-          // Double requestAnimationFrame to ensure the height is properly calculated and not defaulting to the contain-intrinsic-size
-          requestAnimationFrame(() => {
-            if (submenu.offsetHeight > 0) {
-              this.headerComponent?.style.setProperty('--submenu-height', `${submenu.offsetHeight}px`);
-              this.#cleanupMutationObserver();
-            }
-          });
-        });
-      });
-      this.#submenuMutationObserver.observe(submenu, { childList: true, subtree: true });
-
-      // Auto-disconnect after 500ms to prevent memory leaks
-      setTimeout(() => {
-        this.#cleanupMutationObserver();
-      }, 500);
-    }
-
-    let finalHeight = submenu?.offsetHeight || 0;
-
-    // For overflow menu, the height needs to be either content of the submenu or the total height of the menu list links
-    if (!isDefaultSlot) {
-      const overflowListHeight = this.#getOverflowListLinksHeight();
-      if (hasSubmenu) {
-        /* Note: When the submenu is inside the overflow menu, its offsetHeight is not valid due to the lack of padding
-         * we could add the padding variables to the submenu.offsetHeight, but measuring the overflowMenu.offsetHeight is just easier */
-        const overflowHeight = this.overflowMenu?.offsetHeight || 0;
-        finalHeight = Math.max(overflowHeight, overflowListHeight);
-      } else {
-        finalHeight = overflowListHeight;
-      }
-    }
-
-    if (!submenu) {
-      // If there is no content to open, don't try to open it
-      finalHeight = 0;
-    }
-
-    this.headerComponent.style.setProperty('--submenu-height', `${finalHeight}px`);
-    this.#setFullOpenHeaderHeight(finalHeight);
-    this.style.setProperty('--submenu-opacity', '1');
-    this.#startPointerTracking(item, previouslyActiveItem);
   };
 
-  /**
-   * Deactivate the active item after a delay
-   * @param {PointerEvent | FocusEvent} event
-   */
   deactivate(event) {
+    if (window.innerWidth < 992) return;
+
     if (!(event.target instanceof Element)) return;
-
-    const menu = findSubmenu(this.#state.activeItem);
-    const isMovingWithinMenu = event.relatedTarget instanceof Node && menu?.contains(document.activeElement);
-    const isMovingToSubmenu =
-      event.relatedTarget instanceof Node && event.type === 'blur' && menu?.contains(event.relatedTarget);
-    const isMovingToOverflowMenu =
-      event.relatedTarget instanceof Node && event.relatedTarget.parentElement?.matches('[slot="overflow"]');
-
-    if (isMovingWithinMenu || isMovingToOverflowMenu || isMovingToSubmenu) {
-      if (this.#state.activeItem) {
-        this.#stopPointerTracking(this.#state.activeItem);
-      }
-      return;
-    }
 
     this.#deactivate();
   }
 
-  /**
-   * Deactivate the active item immediately
-   * @param {HTMLElement | null} [item]
-   */
-  #deactivate = (item = this.#state.activeItem) => {
-    if (!item || item != this.#state.activeItem) return;
+  #deactivate = () => {
+    this.querySelectorAll('.menu-list__submenu').forEach((submenu) => {
+      submenu.style.display = 'none';
+    });
 
-    // Don't deactivate if the overflow menu or overflow list is still being hovered
-    if (this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;
+    this.querySelectorAll('[ref="menuitem"]').forEach((item) => {
+      item.setAttribute('aria-expanded', 'false');
+    });
 
     this.headerComponent?.style.setProperty('--submenu-height', '0px');
-    this.#setFullOpenHeaderHeight(0);
+
     this.style.setProperty('--submenu-opacity', '0');
-    this.dataset.overflowExpanded = 'false';
-
-    const submenu = findSubmenu(item);
-
-    document.body.removeEventListener('pointermove', this.#onPointerMove);
-    this.#stopPointerTracking(item);
 
     this.#state.activeItem = null;
-    this.ariaExpanded = 'false';
-    item.ariaExpanded = 'false';
-
-    // Remove active state from submenu after animation completes
-    if (submenu) {
-      delete submenu.dataset.active;
-    }
   };
 
-  #getOverflowListLinksHeight() {
-    const slottedMenuLinks = this.overflowMenu?.querySelector('slot')?.assignedElements();
-    if (!slottedMenuLinks) return this.overflowMenu?.offsetHeight || 0;
+ #bindMobileMenuClick() {
+  const hamburger =
+    document.querySelector('[ref="mobile-menu-toggle"]') ||
+    document.querySelector('mobile-menu-toggle');
 
-    /**
-     * @param {(submenu: HTMLElement) => void} cb
-     */
-    const mapSubmenus = (cb) => {
-      slottedMenuLinks.forEach((link) => {
-        const submenu = /** @type {HTMLElement | null} */ (link.querySelector('[ref="submenu[]"]'));
-        if (submenu) {
-          cb(submenu);
-        }
+  hamburger?.addEventListener('click', () => {
+    requestAnimationFrame(() => {
+      this.#openFirstSubmenuMobile();
+    });
+  });
+
+  const menuItems = this.querySelectorAll('.menu-list__list-item');
+
+  menuItems.forEach((listItem) => {
+    const menuLink = listItem.querySelector('[ref="menuitem"]');
+    const submenu = listItem.querySelector('.menu-list__submenu');
+
+    if (!menuLink) return;
+
+    menuLink.addEventListener('click', (event) => {
+      if (window.innerWidth >= 992) return;
+
+      // Submenu nahi hai toh normal navigation hone do
+      if (!submenu) {
+         event.preventDefault();
+         event.stopPropagation();
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const isOpen = menuLink.getAttribute('aria-expanded') === 'true';
+
+      this.querySelectorAll('[ref="menuitem"]').forEach((item) => {
+        item.setAttribute('aria-expanded', 'false');
       });
-    };
 
-    mapSubmenus((submenu) => {
-      submenu.style.setProperty('display', 'none');
+      this.querySelectorAll('.menu-list__submenu').forEach((menu) => {
+        menu.style.display = 'none';
+      });
+
+      if (!isOpen) {
+        menuLink.setAttribute('aria-expanded', 'true');
+        submenu.style.display = 'block';
+        this.#state.activeItem = menuLink;
+
+        const submenuHeight = submenu.scrollHeight || 0;
+
+        this.headerComponent?.style.setProperty(
+          '--submenu-height',
+          `${submenuHeight}px`
+        );
+
+        this.style.setProperty('--submenu-opacity', '1');
+      } else {
+        submenu.style.display = 'none';
+
+        this.headerComponent?.style.setProperty('--submenu-height', '0px');
+
+        this.style.setProperty('--submenu-opacity', '0');
+
+        this.#state.activeItem = null;
+      }
     });
-    const height = this.overflowMenu?.offsetHeight || 0;
-    mapSubmenus((submenu) => {
-      submenu.style.removeProperty('display');
-    });
-    return height;
-  }
+  });
+}
 
-  /**
-   * Calculate and set the full open header height. If the submenu is not open, the full open header height is 0.
-   * @param {number} submenuHeight
-   */
-  #setFullOpenHeaderHeight(submenuHeight) {
-    if (!this.headerComponent) return;
-
-    const isOverlapSituation = this.headerComponent.hasAttribute('data-submenu-overlap-bottom-row');
-
-    const headerVisibleHeight =
-      isOverlapSituation && this.headerComponent.offsetHeight > 0
-        ? /** @type {HTMLElement | null} */ (this.headerComponent.querySelector('.header__row--top'))?.offsetHeight ?? 0
-        : this.headerComponent.offsetHeight;
-
-    const nothingToOpen = submenuHeight === 0;
-    const fullOpenHeaderHeight = nothingToOpen ? 0 : submenuHeight + (headerVisibleHeight ?? 0);
-
-    this.headerComponent?.style.setProperty('--full-open-header-height', `${fullOpenHeaderHeight}px`);
-  }
-
-  /**
-   * Preload images that are set to load lazily.
-   */
   #preloadImages = () => {
     const images = this.querySelectorAll('img[loading="lazy"]');
-    images?.forEach((image) => image.removeAttribute('loading'));
-  };
 
-  #cleanupMutationObserver() {
-    this.#submenuMutationObserver?.disconnect();
-    this.#submenuMutationObserver = null;
-  }
+    images.forEach((image) => {
+      image.removeAttribute('loading');
+    });
+  };
 }
 
 if (!customElements.get('header-menu')) {
   customElements.define('header-menu', HeaderMenu);
 }
 
-/**
- * Find the closest menu item.
- * @param {Element | null | undefined} element
- * @returns {HTMLElement | null}
- */
 function findMenuItem(element) {
   if (!(element instanceof Element)) return null;
-
-  if (element?.matches('[slot="more"')) {
-    // Select the first overflowing menu item when hovering over the "More" item
-    return findMenuItem(element.parentElement?.querySelector('[slot="overflow"]'));
-  }
 
   return element?.querySelector('[ref="menuitem"]');
 }
 
-/**
- * Find the closest submenu.
- * @param {Element | null | undefined} element
- * @returns {HTMLElement | null}
- */
 function findSubmenu(element) {
-  const submenu = element?.parentElement?.querySelector('[ref="submenu[]"]');
+  const submenu = element?.parentElement?.querySelector('.menu-list__submenu');
+
   return submenu instanceof HTMLElement ? submenu : null;
 }

@@ -168,7 +168,7 @@
                           {% for image in product.images limit: 15 %}
 
                             <div class="thumbnail-image-wrapper {% if forloop.first %}active{% endif %}">
-                              <img class="thumbnail" src="{{ image | image_url: width: 100 }}" alt="{{ product.title }}" loading="lazy">
+                              <img class="thumbnail" src="{{ image | image_url: width: 500 }}" alt="{{ product.title }}" loading="lazy">
                             </div>
 
                           {% endfor %}

@@ -12,20 +12,6 @@
 
 {% case variant %}
   {% when 'mobile' %}
-    <div
-      class="header__drawer"
-      ref="headerDrawerContainer"
-      data-hydration-key="header-drawer-mobile"
-      {{ block.shopify_attributes }}
-    >
-      {% render 'header-drawer',
-        linklist: block_settings.menu,
-        data_header_drawer_type: 'mobile-drawer',
-        block: block,
-        section: section
-      %}
-    </div>
-
   {% when 'navigation_bar' %}
     {% if block_settings.navigation_bar == true %}
       <div
@@ -328,11 +314,20 @@
   }
 
   .menu-list__link-title {
-    font-weight: 700;
-    padding: 12px 9px;
     text-transform: uppercase;
   }
+  @media screen and (max-width: 992px) {
+    .menu-list__link .menu-list__link-title {
+         font-size: 18px;
+         font-family: var(--heading-font);
+         line-height: 1;
+    }
+  }
    @media screen and (min-width: 992px) {
+    .menu-list__link-title {
+      font-weight: 700;
+      padding: 12px 9px;
+    }
         .menu-list__link:hover {
             text-decoration: underline;
             text-decoration-thickness: 3px;
@@ -537,6 +532,12 @@
     &:hover {
       color: var(--menu-child-font-color);
       text-decoration: underline;
+    }
+    @media screen and (max-width: 989px) {
+      font-size: 16px;
+      line-height: 18px;
+      padding: 8px 0;
+      font-weight: 400;
     }
   }
 
