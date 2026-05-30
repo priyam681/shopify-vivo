@@ -881,9 +881,20 @@
       .mobile-menu-toggle {
         grid-area: rightB;
       }
+       .custom-header-order .account-button {
+          display: none;
+      }
+        header-actions {
+        grid-area: rightB;
+      }
     }
   }
 
+ @media screen and (max-width: 749px) {
+   .header__columns {
+        grid-template-columns: auto !important;
+      }
+   }
   /* not ideal but we need to duplicate these styles for when touch comes into play
     We could avoid the duplication using js to set the data-menu-style attribute on small screens instead of using @media queries */
   #header-component[data-menu-style='drawer'] .header__columns {
