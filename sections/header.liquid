@@ -884,24 +884,15 @@
        .custom-header-order .account-button {
           display: none;
       }
-        header-actions {
-        grid-area: rightB;
-      }
     }
   }
-
- @media screen and (max-width: 749px) {
-   .header__columns {
-        grid-template-columns: auto !important;
-      }
-   }
   /* not ideal but we need to duplicate these styles for when touch comes into play
     We could avoid the duplication using js to set the data-menu-style attribute on small screens instead of using @media queries */
   #header-component[data-menu-style='drawer'] .header__columns {
-    --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr
-      var(--header-mobile-bookend) var(--header-mobile-bookend);
+    --header-template-columns: auto var(--header-mobile-bookend) 1fr
+        var(--header-mobile-bookend) var(--header-mobile-bookend);
 
-    grid-template-areas: 'leftA leftB center rightA rightB';
+    grid-template-areas: 'leftA leftB center rightA rightB rightC rightD';
     grid-column: span 3;
     column-gap: 0;
     align-items: center;
@@ -909,7 +900,7 @@
     padding-inline: 0 var(--padding-3xs);
 
     .header-logo {
-      grid-area: center;
+      grid-area: leftA;
     }
 
     &:not(:has(header-actions)) .search-action {
@@ -921,11 +912,11 @@
     }
 
     .search-action {
-      grid-area: leftB;
+      grid-area: rightA;
     }
 
     header-actions {
-      grid-area: rightB;
+      grid-area: rightC;
     }
   }
 

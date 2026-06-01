@@ -84,9 +84,6 @@
         {{ 'content.filters' | t }}
       </button>
     {% endif %}
-
-      
-
       {% if block_settings.enable_sorting %}
         {% render 'sorting',
           results: results,
@@ -277,87 +274,6 @@
       </facets-form-component>
     </div>
   </div>
-
-  <div
-    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
-    style="
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
-      {{ facets_margin_style }}
-    "
-  >
-    {% if block_settings.enable_filtering %}
-      <div class="facets-toggle__wrapper">
-        <button
-          class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
-          on:click="#filters-drawer/showDialog"
-          type="button"
-          aria-haspopup="dialog"
-        >
-          <span class="svg-wrapper">
-            {{ 'icon-filter.svg' | inline_asset_content }}
-          </span>
-
-          {{ 'actions.show_filters' | t }}
-
-          {% if total_active_values > 0 %}
-            <div
-              id="filter-count-bubble-toggle"
-              class="filter-count-bubble"
-              aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
-            >
-              <span class="filter-count-bubble__background"></span>
-
-              <span
-                ref="cartBubbleText"
-                class="filter-count-bubble__text"
-                aria-hidden="true"
-              >
-                {{ total_active_values }}
-              </span>
-            </div>
-          {% endif %}
-        </button>
-      </div>
-    {% endif %}
-
-    {% liquid
-      assign child_count = 0
-      if block_settings.enable_filtering == false and block_settings.enable_sorting
-        assign child_count = child_count | plus: 1
-      endif
-      if block_settings.enable_grid_density
-        assign child_count = child_count | plus: 1
-      endif
-    %}
-
-    <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
-        <facets-form-component
-          section-id="{{ section.id }}"
-          id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-        >
-          <form
-            action="{{ results_url }}"
-            id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-            ref="facetsForm"
-          >
-            {% render 'sorting',
-              results: results,
-              sort_by: sort_by,
-              filter_style: block_settings.filter_style,
-              suffix: 'mobile',
-              sort_position: 'mobile',
-              should_use_select_on_mobile: should_use_select_on_mobile,
-              section_id: section.id
-            %}
-          </form>
-        </facets-form-component>
-      {% endif %}
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'mobile' %}
-      {% endif %}
-    </div>
-  </div>
 {% else %}
   <div></div>
 {% endif %}
@@ -530,17 +446,35 @@
       margin-right: 10px;
       width: 24px;
     }
-    .facets-block-wrapper--vertical {
-      display: none;
-       @media screen and (min-width: 992px) {
-         float: left; 
-         width: 22%;
-       }
-    }
-
+    @media screen and (min-width: 992px) {
+      .facets-block-wrapper--vertical {
+        display: none;
+        width: 22%;
+        float: left;
+      }
     .facets-block-wrapper--vertical.filter-active {
       display: block;
     }
+  }
+  @media screen and (max-width: 992px) {
+    .collection-content-wrapper .facets-block-wrapper  {
+      background: var(--color-background);
+      box-sizing: border-box;
+      display: block;
+      height: 100%;
+      left: 0;
+      overflow-y: scroll;
+      padding: 100px 20px 140px;
+      position: fixed;
+      top: 2000px;
+      transition: .5s top;
+      width: 100%;
+      z-index: 9999;
+    }
+    .collection-content-wrapper .facets-block-wrapper.filter-active  {
+      top: 0;
+    }
+  }
   .facets-block-wrapper {
     @media screen and (min-width: 750px) {
       margin: var(--facets-margin);
@@ -565,7 +499,7 @@
     padding-block: var(--facets-inner-padding-block);
     padding-inline: var(--facets-inner-padding-inline);
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       display: none;
     }
   }
@@ -577,7 +511,7 @@
   .facets-toggle__button {
     box-shadow: none;
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       display: none;
     }
   }
@@ -651,7 +585,7 @@
     justify-content: space-between;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 992px) {
     dialog-component.facets-block-wrapper {
       position: absolute;
       width: 0;
@@ -677,30 +611,25 @@
     --facets-low-opacity: 10%;
     --facets-hover-opacity: 75%;
 
-    top: auto;
-    bottom: 0;
-    height: var(--drawer-height);
     max-height: var(--drawer-height);
-    width: var(--drawer-width);
-    max-width: var(--drawer-max-width);
+    width: 100%;
+    max-width: 100%;
     box-shadow: none;
     padding-block: 0;
 
     &:not(.facets--drawer) {
-      @media screen and (min-width: 750px) {
         padding-inline: var(--padding-inline-start) var(--padding-inline-end);
         width: 100%;
         max-width: 100%;
-      }
+      
     }
   }
 
   .facets--horizontal {
-    display: none;
-
+    display: flex;
+    justify-content: space-between;
     @media screen and (min-width: 992px) {
       padding-block: var(--padding-block-start) var(--padding-block-end);
-      display: flex;
       align-items: center;
       justify-content: end;
       position: relative;
@@ -743,6 +672,7 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    top: 0;
   }
 
   .facets-drawer__form-wrapper {
@@ -1351,20 +1281,34 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const filterBtn = document.querySelector('.filter-trigger');
+  const sidebar = document.querySelector('.product-grid-container .facets-block-wrapper--vertical');
+  const grid = document.querySelector('.product-grid-container .main-collection-grid');
+
+  if (sidebar && grid) {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('collection-content-wrapper');
+    sidebar.parentNode.insertBefore(wrapper, sidebar);
+    wrapper.appendChild(grid);
+    wrapper.appendChild(sidebar);
+  }
 
   filterBtn?.addEventListener('click', function () {
-    document
-      .querySelectorAll('.product-grid-container .facets-block-wrapper--vertical, .product-grid-container .main-collection-grid')
-      .forEach(el => el.classList.toggle('filter-active'));
+  const isDesktop = window.innerWidth >= 992;
 
-    const isActive = document
-      .querySelector('.product-grid-container .main-collection-grid')
-      ?.classList.contains('filter-active');
+  if (isDesktop) {
+    sidebar?.classList.toggle('filter-active');
+    grid?.classList.toggle('filter-active');
 
-    this.textContent = isActive
-      ? 'Hide Filters'
-      : '{{ "actions.show_filters" | t }}';
-  });
+    const isActive = sidebar?.classList.contains('filter-active');
+    this.textContent = isActive ? 'Hide Filters' : 'Show Filters';
+  } else {
+    const drawer = document.getElementById('filters-drawer');
+    const dialog = drawer?.querySelector('dialog');
+    if (dialog) {
+      dialog.showModal();
+    }
+  }
+});
 });
 </script>
 {% schema %}
