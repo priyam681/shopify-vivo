@@ -80,21 +80,12 @@
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
       {% if block_settings.enable_filtering %}
-        <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
-      {% endif %}
+      <button class="filter-trigger" type="button">
+        {{ 'content.filters' | t }}
+      </button>
+    {% endif %}
 
-      <div
-        class="products-count-wrapper"
-        data-testid="products-count"
-      >
-        <span role="status">
-          {% if products_count > 25000 %}
-            {{- 'content.item_count_cutoff' | t: count: 25000 -}}
-          {% else %}
-            {{- 'content.item_count' | t: count: products_count -}}
-          {% endif %}
-        </span>
-      </div>
+      
 
       {% if block_settings.enable_sorting %}
         {% render 'sorting',
@@ -113,7 +104,6 @@
       {% endif %}
     </div>
   {% endif %}
-
   <div
     class="
       {% if should_show_pane == false %}
@@ -137,6 +127,18 @@
     "
     {{ block.shopify_attributes }}
   >
+  <div
+        class="products-count-wrapper h3"
+        data-testid="products-count"
+      >
+        <span role="status">
+          {% if products_count > 25000 %}
+            {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+          {% else %}
+            {{- 'content.item_count' | t: count: products_count -}}
+          {% endif %}
+        </span>
+      </div>
     <div
       class="facets facets--{{ block_settings.filter_style }} spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
@@ -507,6 +509,38 @@
 {% endif %}
 
 {% stylesheet %}
+    .filter-trigger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      text-transform: uppercase;
+      color: var(--color-foreground);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: var(--heading-font);
+    }
+    .filter-trigger:before {
+      background-image: url('../assets/filter-icon.svg');
+      background-size: cover;
+      content: '';
+      display: block;
+      height: 24px;
+      margin-right: 10px;
+      width: 24px;
+    }
+    .facets-block-wrapper--vertical {
+      display: none;
+       @media screen and (min-width: 992px) {
+         float: left; 
+         width: 22%;
+       }
+    }
+
+    .facets-block-wrapper--vertical.filter-active {
+      display: block;
+    }
   .facets-block-wrapper {
     @media screen and (min-width: 750px) {
       margin: var(--facets-margin);
@@ -664,10 +698,11 @@
   .facets--horizontal {
     display: none;
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       padding-block: var(--padding-block-start) var(--padding-block-end);
       display: flex;
       align-items: center;
+      justify-content: end;
       position: relative;
       z-index: var(--facets-upper-z-index);
       border: none;
@@ -1136,6 +1171,7 @@
   .facets__label {
     color: var(--color-foreground);
     cursor: pointer;
+    font-family: var(--heading-font);
     white-space: nowrap;
 
     @media screen and (min-width: 750px) {
@@ -1148,13 +1184,16 @@
     display: none;
   }
 
-  .facets--horizontal .products-count-wrapper {
-    @media screen and (min-width: 750px) {
+  .facets-block-wrapper .products-count-wrapper {
+    text-transform: uppercase;
+    @media screen and (min-width: 992px) {
       display: flex;
       margin-left: auto;
       flex-shrink: 0;
       align-items: center;
       height: var(--minimum-touch-target);
+      margin-bottom: 30px;
+      margin-top: 20px;
     }
   }
 
@@ -1309,7 +1348,25 @@
     position: absolute;
   }
 {% endstylesheet %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const filterBtn = document.querySelector('.filter-trigger');
 
+  filterBtn?.addEventListener('click', function () {
+    document
+      .querySelectorAll('.product-grid-container .facets-block-wrapper--vertical, .product-grid-container .main-collection-grid')
+      .forEach(el => el.classList.toggle('filter-active'));
+
+    const isActive = document
+      .querySelector('.product-grid-container .main-collection-grid')
+      ?.classList.contains('filter-active');
+
+    this.textContent = isActive
+      ? 'Hide Filters'
+      : '{{ "actions.show_filters" | t }}';
+  });
+});
+</script>
 {% schema %}
 {
   "name": "t:names.filters",
