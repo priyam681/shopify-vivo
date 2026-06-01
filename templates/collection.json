@@ -12,17 +12,16 @@
     "section": {
       "type": "section",
       "blocks": {
-        "text_tqQTNE": {
-          "type": "text",
-          "name": "Title",
+        "collection_title_ctgD9W": {
+          "type": "collection-title",
+          "name": "t:names.collection_title",
           "settings": {
-            "text": "<h1>{{ closest.collection.title }}</h1>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
@@ -66,7 +65,7 @@
         }
       },
       "block_order": [
-        "text_tqQTNE",
+        "collection_title_ctgD9W",
         "text_twGGkJ"
       ],
       "name": "Collection heading",
