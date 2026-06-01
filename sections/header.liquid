@@ -884,15 +884,41 @@
        .custom-header-order .account-button {
           display: none;
       }
-        header-actions {
-        grid-area: rightB;
+    
+        .custom-header-order .account-button {
+          display: none;
       }
+
+      .mobile-menu-toggle .hamburger-icon svg {
+              height: 23px;
+              width: 23px;
+       }
+
+      .header-actions__cart-icon  .svg-wrapper,
+      .header-actions__cart-icon  .svg-wrapper svg {
+          height: 23px;
+           width: 23px;
+        }
+        .mobile-search-trigger .svg-wrapper svg,
+         .mobile-search-trigger .svg-wrapper   {
+          width: 32px;
+          height: 32px;
+        }
+
     }
   }
+
+@media screen and (min-width: 1600px) { 
+  .menu-list__link {
+    font-size: 21px !important;
+  }
+}
+
 
  @media screen and (max-width: 749px) {
    .header__columns {
         grid-template-columns: auto !important;
+        grid-template-areas: "leftA leftB center rightA rightB rightC rightD" !important;
       }
    }
   /* not ideal but we need to duplicate these styles for when touch comes into play
@@ -910,22 +936,6 @@
 
     .header-logo {
       grid-area: center;
-    }
-
-    &:not(:has(header-actions)) .search-action {
-      grid-area: leftB;
-    }
-
-    &:not(:has(shopify-account)) .search-action {
-      grid-area: rightA;
-    }
-
-    .search-action {
-      grid-area: leftB;
-    }
-
-    header-actions {
-      grid-area: rightB;
     }
   }
 
