@@ -146,7 +146,7 @@
       results: collection,
       results_size: collection.products_count
     %}
-
+   
     {% if section.settings.enable_infinite_scroll %}
       {% assign products_per_page = 24 %}
     {% else %}
@@ -250,7 +250,7 @@
       "type": "checkbox",
       "id": "enable_infinite_scroll",
       "label": "t:settings.auto_load_products",
-      "default": true
+      "default": false
     },
     {
       "type": "header",

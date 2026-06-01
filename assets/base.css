@@ -1234,15 +1234,6 @@ results-list[initialized] {
 }
 
 /* stylelint-disable value-keyword-case */
-.dialog-drawer {
-  --dialog-drawer-opening-animation: move-and-fade;
-  --dialog-drawer-closing-animation: move-and-fade;
-}
-
-.dialog-drawer--right {
-  --dialog-drawer-opening-animation: move-and-fade;
-  --dialog-drawer-closing-animation: move-and-fade;
-}
 /* stylelint-enable value-keyword-case */
 
 .dialog-drawer[open] {
@@ -1250,7 +1241,7 @@ results-list[initialized] {
   --end-x: var(--custom-transform-to, 0px);
   --start-opacity: 1;
 
-  animation: var(--dialog-drawer-opening-animation) var(--animation-speed) var(--animation-easing) forwards;
+  animation: var(--animation-speed) var(--animation-easing) forwards;
 }
 
 .dialog-drawer[open].dialog-closing {
@@ -1259,7 +1250,7 @@ results-list[initialized] {
   --start-opacity: 1;
   --end-opacity: 1;
 
-  animation: var(--dialog-drawer-closing-animation) var(--animation-speed) var(--animation-easing);
+  animation: var(--animation-speed) var(--animation-easing);
 }
 
 .dialog-drawer--right[open] {
@@ -1273,7 +1264,7 @@ results-list[initialized] {
   --start-opacity: 1;
   --end-opacity: 1;
 
-  animation: var(--dialog-drawer-closing-animation) var(--animation-speed) var(--animation-easing);
+  animation: var(--animation-speed) var(--animation-easing);
 }
 
 /* Buttons */
@@ -2437,13 +2428,11 @@ form.payment-terms {
 .drawer {
   background-color: var(--color-background);
   position: fixed;
-  top: 0;
   left: 0;
-  bottom: 0;
-  width: var(--sidebar-width);
+  width: 100%;
   z-index: var(--layer-raised);
-  transform: translateX(-120%);
-  transition: transform var(--animation-speed) var(--animation-easing);
+  top: 2000px;
+  transition: .5s top;
 }
 
 .drawer[data-open='true'] {
