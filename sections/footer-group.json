@@ -555,7 +555,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<p>Designed & Developed by Ashish, Anupam and Tanu</p>",
+            "text": "<p>Designed & Developed by Anupam, Ashish and Tanu</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
