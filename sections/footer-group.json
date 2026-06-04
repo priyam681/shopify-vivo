@@ -530,8 +530,8 @@
         "gap": 24,
         "divider_thickness": 1,
         "color_scheme": "scheme-08746e9d-7796-40d6-9315-0219e290d19d",
-        "padding-block-start": 20,
-        "padding-block-end": 48
+        "padding-block-start": 30,
+        "padding-block-end": 30
       }
     },
     "divider_hgDFFb": {
