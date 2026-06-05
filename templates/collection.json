@@ -115,6 +115,8 @@
             "enable_grid_density": false,
             "inherit_color_scheme": true,
             "color_scheme": "",
+            "tabs_menu": "category-tabs",
+            "enable_category_tabs": true,
             "padding-block-start": 8,
             "padding-block-end": 8,
             "padding-inline-start": 0,
