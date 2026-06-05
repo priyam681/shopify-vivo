@@ -1,0 +1,73 @@
+<div class="shoe-category-tabs">
+  {% for link in linklists[menu_handle].links %}
+    <a
+      href="{{ link.url }}"
+      class="tab-link {% if request.path == link.url %}active{% endif %}"
+    >
+      {{ link.title }}
+    </a>
+  {% endfor %}
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const tabs = document.querySelectorAll('.shoe-category-tabs .tab-link');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      tabs.forEach(item => item.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+});
+</script>
+
+{% stylesheet %}
+.shoe-category-tabs {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 20px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.shoe-category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.shoe-category-tabs .tab-link {
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: #565958;
+  font-weight: 400;
+  line-height: 16px;
+  font-size: 14px;
+  border: 1px solid transparent;
+}
+
+.shoe-category-tabs .tab-link:hover {
+  border-color: #000;
+  color: #212121;
+}
+
+.shoe-category-tabs .tab-link.active {
+  border-color: #000;
+  color: #212121;
+}
+
+@media (max-width: 768px) {
+  .shoe-category-tabs {
+    gap: 20px;
+  }
+
+  .shoe-category-tabs .tab-link.active {
+    padding: 10px 18px;
+  }
+}
+{% endstylesheet %}

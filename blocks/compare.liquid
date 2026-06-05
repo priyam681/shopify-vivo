@@ -1,0 +1,123 @@
+{% assign show_compare_button = false %}
+
+{% if block.settings.show_icon and block.settings.icon %}
+  {% assign show_compare_button = true %}
+{% endif %}
+
+{% if block.settings.show_text and block.settings.button_text != blank %}
+  {% assign show_compare_button = true %}
+{% endif %}
+
+{% if request.page_type == 'collection' and show_compare_button %}
+
+  <button
+    type="button"
+    class="compare-btn"
+    data-product-handle="{{ closest.product.handle }}"
+  >
+
+      <span class="compare-btn-new">
+
+        <span class="compare-icon compare-icon-up">
+            {{ block.settings.svg_icon_up }}
+        </span>
+
+        <span class="compare-icon compare-icon-down">
+            {{ block.settings.svg_icon_down }}
+        </span>
+
+        </span>
+    {% if block.settings.show_text and block.settings.button_text != blank %}
+      <span>
+        {{ block.settings.button_text }}
+      </span>
+    {% endif %}
+
+  </button>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Compare",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_text",
+      "label": "Show Text",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Compare"
+    },
+    {
+    "type": "textarea",
+    "id": "svg_icon_up",
+    "label": "Top SVG Icon",
+    "visible_if": "{{ block.settings.show_icon }}"
+    },
+    {
+    "type": "textarea",
+    "id": "svg_icon_down",
+    "label": "Bottom SVG Icon",
+    "visible_if": "{{ block.settings.show_icon }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Compare",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet%}
+   .compare-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .compare-btn-new {
+        position: relative;
+        width: 20px;
+        height: 21px;
+        display: inline-block;
+        overflow: hidden;
+    }
+
+    .compare-icon {
+        position: absolute;
+        left: 0;
+        transition: transform .3s ease;
+    }
+
+    .compare-icon-up {
+        top: 0;
+        left: 0;
+    }
+
+    .compare-icon-down {
+        bottom: 0;
+        left: 2px; /* gap between icons */
+    }
+
+    .compare-btn:hover .compare-icon-up {
+        transform: translateY(-4px);
+    }
+
+    .compare-btn:hover .compare-icon-down {
+        transform: translateY(4px);
+    }
+{% endstylesheet %}

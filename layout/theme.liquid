@@ -123,12 +123,16 @@
       data-template="{{ template }}"
     >
       {{ content_for_layout }}
+
     </main>
 
     <footer>
       {% sections 'footer-group' %}
     </footer>
 
+    {% if template.name == 'collection' %}
+      {% render 'compare-drawer' %}
+  {% endif %}
     {% render 'search-modal' %}
 
     {% if settings.quick_add or settings.mobile_quick_add %}

@@ -977,6 +977,15 @@ body:has(.header[transparent]) #header-group > *:not(.header-section) {
   list-style: none;
 }
 
+body .collection-title-wrapper .collection-title {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.collection-title-wrapper .category-item-count {
+    margin-top: -25px;
+}
+
 @media screen and (min-width: 750px) {
   .product-grid {
     grid-template-columns: var(--product-grid-columns-desktop);
