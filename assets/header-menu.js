@@ -93,8 +93,6 @@ class HeaderMenu extends Component {
       this.headerComponent?.style.setProperty('--submenu-height', '0px');
       this.style.setProperty('--submenu-opacity', '0');
       this.#state.activeItem = null;
-
-      // activeItem null hai ab, toh guard allow karega first item open karne ko
       requestAnimationFrame(() => {
         this.#openFirstSubmenuMobile();
       });
