@@ -244,6 +244,10 @@
     assign max_featured_collections_tablet = 1
     assign max_menu_columns_tablet = max_menu_columns_tablet | minus: max_collection_columns_tablet
   endif
+
+  if menu_content_type == 'vivo_product'
+
+   endif
 %}
 
 {% style %}
@@ -342,4 +346,27 @@
         {% endfor %}
       </ul>
     </span>
+
+  {% when 'vivo_product' %}
+
+  {% if parent_link.type == 'collection_link' %}
+  {% assign col = parent_link.object %}
+
+    <div class="mega-menu-custom-images">
+
+      {% if col.metafields.custom.mega_menu_image_1 != blank %}
+        <a href="{{ col.metafields.custom.mega_menu_image_1_url  }}">
+          <img src="{{ col.metafields.custom.mega_menu_image_1 | image_url: width: 480 }}">
+        </a>
+      {% endif %}
+
+      {% if col.metafields.custom.mega_menu_image_2 != blank %}
+        <a href="{{ col.metafields.custom.mega_menu_image_1_url  }}">
+          <img src="{{ col.metafields.custom.mega_menu_image_2 | image_url: width: 480 }}">
+        </a>
+      {% endif %}
+
+    </div>
+ {% endif %}
+
 {% endcase %}

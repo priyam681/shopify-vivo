@@ -71,7 +71,6 @@
     assign should_use_select_on_mobile = false
   endif
 -%}
-
 {% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
   {% if block_settings.filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
@@ -85,23 +84,12 @@
         %}
       {% endif %}
       <div class="add-filter-layout-new">
+    
       {% if block_settings.enable_filtering %}
-        <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
-      {% endif %}
-
-      <div
-        class="products-count-wrapper"
-        data-testid="products-count"
-      >
-        <span role="status">
-          {% if products_count > 25000 %}
-            {{- 'content.item_count_cutoff' | t: count: 25000 -}}
-          {% else %}
-            {{- 'content.item_count' | t: count: products_count -}}
-          {% endif %}
-        </span>
-      </div>
-
+      <button class="filter-trigger" type="button">
+        {{ 'content.filters' | t }}
+      </button>
+    {% endif %}
       {% if block_settings.enable_sorting %}
         {% render 'sorting',
           results: results,
@@ -121,7 +109,6 @@
       
     </div>
   {% endif %}
-
   <div
     class="
       {% if should_show_pane == false %}
@@ -145,6 +132,18 @@
     "
     {{ block.shopify_attributes }}
   >
+  <div
+        class="products-count-wrapper h3"
+        data-testid="products-count"
+      >
+        <span role="status">
+          {% if products_count > 25000 %}
+            {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+          {% else %}
+            {{- 'content.item_count' | t: count: products_count -}}
+          {% endif %}
+        </span>
+      </div>
     <div
       class="facets facets--{{ block_settings.filter_style }} spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
@@ -281,87 +280,6 @@
           {% endif %}
         </form>
       </facets-form-component>
-    </div>
-  </div>
-
-  <div
-    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
-    style="
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
-      {{ facets_margin_style }}
-    "
-  >
-    {% if block_settings.enable_filtering %}
-      <div class="facets-toggle__wrapper">
-        <button
-          class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
-          on:click="#filters-drawer/showDialog"
-          type="button"
-          aria-haspopup="dialog"
-        >
-          <span class="svg-wrapper">
-            {{ 'icon-filter.svg' | inline_asset_content }}
-          </span>
-
-          {{ 'actions.show_filters' | t }}
-
-          {% if total_active_values > 0 %}
-            <div
-              id="filter-count-bubble-toggle"
-              class="filter-count-bubble"
-              aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
-            >
-              <span class="filter-count-bubble__background"></span>
-
-              <span
-                ref="cartBubbleText"
-                class="filter-count-bubble__text"
-                aria-hidden="true"
-              >
-                {{ total_active_values }}
-              </span>
-            </div>
-          {% endif %}
-        </button>
-      </div>
-    {% endif %}
-
-    {% liquid
-      assign child_count = 0
-      if block_settings.enable_filtering == false and block_settings.enable_sorting
-        assign child_count = child_count | plus: 1
-      endif
-      if block_settings.enable_grid_density
-        assign child_count = child_count | plus: 1
-      endif
-    %}
-
-    <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
-        <facets-form-component
-          section-id="{{ section.id }}"
-          id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-        >
-          <form
-            action="{{ results_url }}"
-            id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-            ref="facetsForm"
-          >
-            {% render 'sorting',
-              results: results,
-              sort_by: sort_by,
-              filter_style: block_settings.filter_style,
-              suffix: 'mobile',
-              sort_position: 'mobile',
-              should_use_select_on_mobile: should_use_select_on_mobile,
-              section_id: section.id
-            %}
-          </form>
-        </facets-form-component>
-      {% endif %}
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'mobile' %}
-      {% endif %}
     </div>
   </div>
 {% else %}
@@ -515,6 +433,56 @@
 {% endif %}
 
 {% stylesheet %}
+    .filter-trigger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      text-transform: uppercase;
+      color: var(--color-foreground);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: var(--heading-font);
+    }
+    .filter-trigger:before {
+      background-image: url('../assets/filter-icon.svg');
+      background-size: cover;
+      content: '';
+      display: block;
+      height: 24px;
+      margin-right: 10px;
+      width: 24px;
+    }
+    @media screen and (min-width: 992px) {
+      .facets-block-wrapper--vertical {
+        display: none;
+        width: 22%;
+        float: left;
+      }
+    .facets-block-wrapper--vertical.filter-active {
+      display: block;
+    }
+  }
+  @media screen and (max-width: 992px) {
+    .collection-content-wrapper .facets-block-wrapper  {
+      background: var(--color-background);
+      box-sizing: border-box;
+      display: block;
+      height: 100%;
+      left: 0;
+      overflow-y: scroll;
+      padding: 100px 20px 140px;
+      position: fixed;
+      top: 2000px;
+      transition: .5s top;
+      width: 100%;
+      z-index: 9999;
+    }
+    .collection-content-wrapper .facets-block-wrapper.filter-active  {
+      top: 0;
+    }
+  }
   .facets-block-wrapper {
     @media screen and (min-width: 750px) {
       margin: var(--facets-margin);
@@ -539,7 +507,7 @@
     padding-block: var(--facets-inner-padding-block);
     padding-inline: var(--facets-inner-padding-inline);
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       display: none;
     }
   }
@@ -551,7 +519,7 @@
   .facets-toggle__button {
     box-shadow: none;
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       display: none;
     }
   }
@@ -625,7 +593,7 @@
     justify-content: space-between;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 992px) {
     dialog-component.facets-block-wrapper {
       position: absolute;
       width: 0;
@@ -651,31 +619,27 @@
     --facets-low-opacity: 10%;
     --facets-hover-opacity: 75%;
 
-    top: auto;
-    bottom: 0;
-    height: var(--drawer-height);
     max-height: var(--drawer-height);
-    width: var(--drawer-width);
-    max-width: var(--drawer-max-width);
+    width: 100%;
+    max-width: 100%;
     box-shadow: none;
     padding-block: 0;
 
     &:not(.facets--drawer) {
-      @media screen and (min-width: 750px) {
         padding-inline: var(--padding-inline-start) var(--padding-inline-end);
         width: 100%;
         max-width: 100%;
-      }
+      
     }
   }
 
   .facets--horizontal {
-    display: none;
-
-    @media screen and (min-width: 750px) {
+    display: flex;
+    justify-content: space-between;
+    @media screen and (min-width: 992px) {
       padding-block: var(--padding-block-start) var(--padding-block-end);
-      display: flex;
       align-items: center;
+      justify-content: end;
       position: relative;
       z-index: var(--facets-upper-z-index);
       border: none;
@@ -716,6 +680,7 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    top: 0;
   }
 
   .facets-drawer__form-wrapper {
@@ -824,7 +789,7 @@
       --variant-picker-swatch-height: 26px;
     }
 
-    font-size: var(--font-h5--size);
+    font-size: 18px;
     display: flex;
     justify-content: space-between;
 
@@ -832,12 +797,6 @@
       --icon-opacity: 1;
     }
   }
-
-  .facets__filters-wrapper:hover .facets__summary,
-  .facets__filters-wrapper:has(.facets__panel[open]) .facets__summary {
-    opacity: var(--facets-hover-opacity);
-  }
-
   .facets__filters-wrapper .facets__summary:hover,
   .facets__filters-wrapper .facets__panel[open] .facets__summary {
     opacity: 1;
@@ -921,18 +880,6 @@
       margin-inline: calc(var(--padding-sm) * -1);
     }
   }
-
-  .facets__inputs-wrapper:not(:has(.facets__inputs-list)),
-  .facets__inputs-wrapper .facets__inputs-list {
-    display: flex;
-    gap: var(--facets-mobile-gap);
-    flex-direction: column;
-
-    @media screen and (min-width: 750px) {
-      gap: var(--gap-sm);
-    }
-  }
-
   @media screen and (min-width: 750px) {
     .facets--vertical .facets__inputs-wrapper .facets__inputs-list--swatches {
       gap: var(--gap-sm);
@@ -1144,6 +1091,7 @@
   .facets__label {
     color: var(--color-foreground);
     cursor: pointer;
+    font-family: var(--heading-font);
     white-space: nowrap;
 
     @media screen and (min-width: 750px) {
@@ -1156,13 +1104,16 @@
     display: none;
   }
 
-  .facets--horizontal .products-count-wrapper {
-    @media screen and (min-width: 750px) {
+  .facets-block-wrapper .products-count-wrapper {
+    text-transform: uppercase;
+    @media screen and (min-width: 992px) {
       display: flex;
       margin-left: auto;
       flex-shrink: 0;
       align-items: center;
       height: var(--minimum-touch-target);
+      margin-bottom: 30px;
+      margin-top: 20px;
     }
   }
 
@@ -1348,7 +1299,88 @@
     position: absolute;
   }
 {% endstylesheet %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
+  const filterBtn = document.querySelector('.filter-trigger');
+
+  function setupFilters() {
+    const sidebar = document.querySelector('.facets-block-wrapper--vertical');
+    const grid = document.querySelector('.main-collection-grid');
+
+    if (!sidebar) return;
+
+    // Restore open state after AJAX/page reload
+    if (
+      sessionStorage.getItem('filterOpen') === 'true' &&
+      window.innerWidth >= 992
+    ) {
+      sidebar.classList.add('filter-active');
+      grid?.classList.add('filter-active');
+
+      if (filterBtn) {
+        filterBtn.textContent = 'Hide Filters';
+      }
+    }
+
+    // Save state when filter selected
+    document.querySelectorAll(
+      '.facets__form input, .facets__form a, .facets__form label'
+    ).forEach((el) => {
+
+      if (!el.dataset.filterBound) {
+        el.dataset.filterBound = 'true';
+
+        el.addEventListener('click', function () {
+          sessionStorage.setItem('filterOpen', 'true');
+        });
+      }
+    });
+  }
+
+  // Filter button click
+  if (filterBtn && !filterBtn.dataset.initialized) {
+
+    filterBtn.dataset.initialized = 'true';
+
+    filterBtn.addEventListener('click', function () {
+
+      const sidebar = document.querySelector('.facets-block-wrapper--vertical');
+      const grid = document.querySelector('.main-collection-grid');
+
+      if (!sidebar) return;
+
+      if (window.innerWidth < 992) {
+        const dialog = document.querySelector('#filters-drawer dialog');
+
+        if (dialog && !dialog.open) {
+          dialog.showModal();
+        }
+        return;
+      }
+
+      sidebar.classList.toggle('filter-active');
+      grid?.classList.toggle('filter-active');
+
+      const isOpen = sidebar.classList.contains('filter-active');
+
+      sessionStorage.setItem('filterOpen', isOpen);
+
+      filterBtn.textContent = isOpen
+        ? 'Hide Filters'
+        : 'Filters';
+    });
+  }
+
+  setupFilters();
+
+  // Shopify AJAX refresh
+  document.addEventListener('shopify:section:load', function () {
+    setupFilters();
+  });
+
+});
+</script>
 {% schema %}
 {
   "name": "t:names.filters",

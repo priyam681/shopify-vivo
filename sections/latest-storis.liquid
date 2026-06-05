@@ -1,0 +1,704 @@
+{% liquid
+  assign featured_article = blank
+
+  for block in section.blocks
+    if block.type == 'featured'
+      assign featured_article = articles[block.settings.article]
+    endif
+  endfor
+%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+
+    --padding-top: {{ section.settings.padding_top }}px;
+    --padding-bottom: {{ section.settings.padding_bottom }}px;
+
+    --section-gap: {{ section.settings.section_gap }}px;
+    --card-gap: {{ section.settings.card_gap }}px;
+
+    --heading-size: {{ section.settings.heading_size }}px;
+    --featured-title-size: {{ section.settings.featured_title_size }}px;
+    --story-title-size: {{ section.settings.story_title_size }}px;
+    --description-size: {{ section.settings.description_size }}px;
+
+    --heading-letter-spacing: {{ section.settings.heading_letter_spacing }}px;
+    --featured-title-letter-spacing: {{ section.settings.featured_title_letter_spacing }}px;
+    --story-title-letter-spacing: {{ section.settings.story_title_letter_spacing }}px;
+
+    --heading-font-weight: {{ section.settings.heading_font_weight }};
+    --featured-title-font-weight: {{ section.settings.featured_title_font_weight }};
+    --story-title-font-weight: {{ section.settings.story_title_font_weight }};
+    --description-font-weight: {{ section.settings.description_font_weight }};
+
+    --border-radius: {{ section.settings.border_radius }}px;
+
+    --text-transform: {{ section.settings.text_transform }};
+  }
+
+  .latest-stories{
+    padding-top:var(--padding-top);
+    padding-bottom:var(--padding-bottom);
+  }
+
+  .latest-stories__layout{
+    display:flex;
+    gap:var(--section-gap);
+    align-items:flex-start;
+    justify-content:space-between;
+  }
+
+  .latest-stories__header{
+    margin-bottom:4rem;
+  }
+
+  .latest-stories__heading{
+    margin:0 0 2rem;
+    font-size:var(--heading-size);
+    line-height:.9;
+    letter-spacing:var(--heading-letter-spacing);
+    text-transform:var(--text-transform);
+    font-weight:var(--heading-font-weight);
+  }
+
+  .latest-stories__featured-card,
+  .latest-story__card{
+    display:block;
+    color:inherit;
+    text-decoration:none;
+  }
+
+  .latest-stories__featured-media,
+  .latest-story__media{
+    overflow:hidden;
+    border-radius:var(--border-radius);
+  }
+
+  .latest-stories__featured-image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    aspect-ratio:1/1;
+    display:block;
+    transition:transform .5s ease;
+  }
+
+  .latest-story__image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .5s ease;
+  }
+
+  .latest-stories__featured-card:hover .latest-stories__featured-image,
+  .latest-story__card:hover .latest-story__image{
+    transform:scale(1.05);
+  }
+
+  .latest-stories__featured-content{
+    margin-top:2.4rem;
+  }
+
+  .latest-stories__featured-title{
+    margin:0 0 1.6rem;
+    font-size:var(--featured-title-size);
+    line-height:1;
+    letter-spacing:var(--featured-title-letter-spacing);
+    text-transform:var(--text-transform);
+    font-weight:var(--featured-title-font-weight);
+  }
+
+  .latest-stories__featured-text{
+    font-size:var(--description-size);
+    line-height:1.6;
+    font-weight:var(--description-font-weight);
+  }
+
+  .latest-story__card{
+    display:grid;
+    grid-template-columns:22rem 1fr;
+    gap:var(--card-gap);
+    align-items:start;
+  }
+
+  .latest-story__title{
+    margin:0 0 1rem;
+    font-size:var(--story-title-size);
+    line-height:1;
+    letter-spacing:var(--story-title-letter-spacing);
+    text-transform:var(--text-transform);
+    font-weight:var(--story-title-font-weight);
+  }
+
+  .latest-story__excerpt{
+    font-size:var(--description-size);
+    line-height:1.6;
+    font-weight:var(--description-font-weight);
+  }
+
+  @media screen and (max-width: 989px){
+
+    .latest-stories__layout{
+      flex-direction:column;
+    }
+
+    .latest-stories__featured,
+    .latest-stories__sidebar{
+      width:100%;
+      flex:0 0 100%;
+    }
+
+    .latest-stories__featured{
+      position:relative;
+      top:0;
+    }
+
+    .latest-stories__heading{
+      font-size:calc(var(--heading-size) * .7);
+      letter-spacing: normal !important;
+    }
+  }
+
+  @media screen and (max-width: 749px){
+
+    .latest-stories{
+      padding-top:calc(var(--padding-top) * .75);
+      padding-bottom:calc(var(--padding-bottom) * .75);
+    }
+
+    .latest-stories__header{
+      margin-bottom:3rem;
+    }
+
+    .latest-stories__heading{
+      font-size:calc(var(--heading-size) * .45);
+    }
+
+    .latest-story__card{
+      grid-template-columns:1fr;
+    }
+
+    .latest-stories__featured-title{
+      font-size:calc(var(--featured-title-size) * .8);
+    }
+
+    .latest-story__title{
+      font-size:calc(var(--story-title-size) * .85);
+      letter-spacing: normal !important;    }
+
+    .latest-stories .button{
+      width:100%;
+    }
+  }
+
+  @media screen and (min-width: 989px){
+
+    .latest-stories__featured{
+      width:40%;
+      position:sticky;
+      top:30px;
+    }
+
+    .latest-stories__featured-card{
+      width:77%;
+    }
+
+    .latest-stories__sidebar{
+      width:45%;
+      display:flex;
+      flex-direction:column;
+      gap:3rem;
+    }
+  }
+</style>
+
+<div class="latest-stories {{ section.settings.section_width }} color-{{ section.settings.color_scheme }} gradient">
+
+  <div class="latest">
+
+    <div class="latest-stories__layout">
+
+      {% if featured_article != blank %}
+
+        <div class="latest-stories__featured">
+
+          <div class="latest-stories__header">
+
+            {% if section.settings.heading != blank %}
+              <h2 class="latest-stories__heading h0">
+                {{ section.settings.heading }}
+              </h2>
+            {% endif %}
+
+            {% if section.settings.button_label != blank %}
+              <a
+                href="{{ section.settings.button_link }}"
+                class="button button--secondary"
+              >
+                {{ section.settings.button_label }}
+              </a>
+            {% endif %}
+
+          </div>
+
+          <a
+            href="{{ featured_article.url }}"
+            class="latest-stories__featured-card full-unstyled-link"
+          >
+
+            <div class="latest-stories__featured-media">
+
+              {% if featured_article.image != blank %}
+
+                {{
+                  featured_article.image
+                  | image_url: width: 1600
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '400,600,800,1000,1200,1400,1600',
+                    sizes: '(min-width: 990px) 50vw, 100vw',
+                    class: 'latest-stories__featured-image'
+                }}
+
+              {% else %}
+
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+
+              {% endif %}
+
+            </div>
+
+            <div class="latest-stories__featured-content">
+
+              <h3 class="latest-stories__featured-title">
+                {{ featured_article.title }}
+              </h3>
+
+              {% if section.settings.show_featured_excerpt %}
+
+                <div class="latest-stories__featured-text rte">
+
+                  {% if featured_article.excerpt != blank %}
+                    {{ featured_article.excerpt }}
+                  {% else %}
+                    {{ featured_article.content | strip_html | truncatewords: 35 }}
+                  {% endif %}
+
+                </div>
+
+              {% endif %}
+
+            </div>
+
+          </a>
+
+        </div>
+
+      {% endif %}
+
+      <div class="latest-stories__sidebar">
+
+        {% for block in section.blocks %}
+
+          {% if block.type == 'story' %}
+
+            {% assign article = articles[block.settings.article] %}
+
+            {% if article != blank %}
+
+              <article
+                class="latest-story"
+                {{ block.shopify_attributes }}
+              >
+
+                <a
+                  href="{{ article.url }}"
+                  class="latest-story__card full-unstyled-link"
+                >
+
+                  <div class="latest-story__media">
+
+                    {% if article.image != blank %}
+
+                      {{
+                        article.image
+                        | image_url: width: 800
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '200,300,400,500,600,700,800',
+                          sizes: '(min-width: 990px) 18vw, 100vw',
+                          class: 'latest-story__image'
+                      }}
+
+                    {% else %}
+
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+
+                    {% endif %}
+
+                  </div>
+
+                  <div class="latest-story__content">
+
+                    <h3 class="latest-story__title">
+                      {{ article.title }}
+                    </h3>
+
+                    {% if block.settings.show_excerpt %}
+
+                      <div class="latest-story__excerpt rte">
+
+                        {% if article.excerpt != blank %}
+                          {{ article.excerpt | strip_html | truncatewords: 18 }}
+                        {% else %}
+                          {{ article.content | strip_html | truncatewords: 18 }}
+                        {% endif %}
+
+                      </div>
+
+                    {% endif %}
+
+                  </div>
+
+                </a>
+
+              </article>
+
+            {% endif %}
+
+          {% endif %}
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% schema %}
+{
+  "name": "Latest stories",
+  "tag": "section",
+  "settings": [
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE LATEST STORIES"
+    },
+
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "VIEW ALL STORIES"
+    },
+
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_featured_excerpt",
+      "label": "Show featured excerpt",
+      "default": true
+    },
+
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 30,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 90
+    },
+
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading letter spacing",
+      "default": -4
+    },
+
+    {
+      "type": "range",
+      "id": "heading_font_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Heading font weight",
+      "default": 500
+    },
+
+    {
+      "type": "range",
+      "id": "featured_title_size",
+      "min": 20,
+      "max": 160,
+      "step": 2,
+      "unit": "px",
+      "label": "Featured title size",
+      "default": 40
+    },
+
+    {
+      "type": "range",
+      "id": "featured_title_letter_spacing",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Featured title letter spacing",
+      "default": -2
+    },
+
+    {
+      "type": "range",
+      "id": "featured_title_font_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Featured title font weight",
+      "default": 500
+    },
+
+    {
+      "type": "range",
+      "id": "story_title_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Story title size",
+      "default": 28
+    },
+
+    {
+      "type": "range",
+      "id": "story_title_letter_spacing",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Story title letter spacing",
+      "default": -1
+    },
+
+    {
+      "type": "range",
+      "id": "story_title_font_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Story title font weight",
+      "default": 900
+    },
+
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 16
+    },
+
+    {
+      "type": "range",
+      "id": "description_font_weight",
+      "min": 100,
+      "max": 900,
+      "step": 100,
+      "label": "Description font weight",
+      "default": 400
+    },
+
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "default": "uppercase",
+      "options": [
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        },
+        {
+          "value": "none",
+          "label": "Normal"
+        }
+      ]
+    },
+
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+
+    {
+      "type": "range",
+      "id": "section_gap",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section gap",
+      "default": 60
+    },
+
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 10,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Card gap",
+      "default": 24
+    },
+
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image radius",
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 80
+    },
+
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+
+  "blocks": [
+
+    {
+      "type": "featured",
+      "name": "Featured article",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Select article"
+        }
+      ]
+    },
+
+    {
+      "type": "story",
+      "name": "Story article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Select article"
+        },
+
+        {
+          "type": "checkbox",
+          "id": "show_excerpt",
+          "label": "Show excerpt",
+          "default": true
+        }
+      ]
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Latest stories",
+      "blocks": [
+        {
+          "type": "featured"
+        },
+        {
+          "type": "story"
+        },
+        {
+          "type": "story"
+        },
+        {
+          "type": "story"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -452,7 +452,7 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class="hero hero-banner-layout color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
@@ -532,7 +532,9 @@
     section-content-wrapper
     {{ section.settings.section_width }}
     {% if request.design_mode %}hero__content-wrapper--design-mode{% endif %}
+    {{ section.settings.style_class }}
   "
+
   style="{% render 'layout-panel-style', settings: section.settings %}"
 >
  {% for block in section.blocks %}
@@ -587,6 +589,10 @@
     min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
   }
 
+  .hero-banner-layout {
+    transition: 0.3s ease;
+  }
+ 
   .hero[data-shopify-visual-preview] {
     --hero-min-height: 600px;
 
@@ -824,6 +830,11 @@
     {
       "type": "header",
       "content": "t:content.media_1"
+    },
+    {
+     "type": "text",
+      "id": "style_class",
+      "label": "Custom CSS class"
     },
     {
       "type": "select",

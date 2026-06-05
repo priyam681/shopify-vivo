@@ -1386,6 +1386,83 @@
     ]
   },
   {
+  "name": "Vivo Typography",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_font_custom",
+      "label": "Heading Font",
+      "options": [
+        {
+          "value": "knockout50-welter",
+          "label": "knockout50-welter"
+        },
+        {
+          "value": "knockout51-middle",
+          "label": "knockout51-middle"
+        },
+        {
+          "value": "knockout31-juniormiddle",
+          "label": "knockout31-juniormiddle"
+        },
+        {
+          "value": "knockout30-juniorwelter",
+          "label": "knockout30-juniorwelter"
+        }
+      ],
+      "default": "knockout50-welter"
+    },
+    {
+      "type": "select",
+      "id": "body_font_custom",
+      "label": "Body Font",
+      "options": [
+        {
+          "value": "knockout50-welter",
+          "label": "knockout50-welter"
+        },
+        {
+          "value": "knockout51-middle",
+          "label": "knockout51-middle"
+        },
+        {
+          "value": "knockout31-juniormiddle",
+          "label": "knockout31-juniormiddle"
+        },
+        {
+          "value": "knockout30-juniorwelter",
+          "label": "knockout30-juniorwelter"
+        }
+      ],
+      "default": "knockout31-juniormiddle"
+    },
+    {
+      "type": "select",
+      "id": "button_font_custom",
+      "label": "Button Font",
+      "options": [
+        {
+          "value": "knockout50-welter",
+          "label": "knockout50-welter"
+        },
+        {
+          "value": "knockout51-middle",
+          "label": "knockout51-middle"
+        },
+        {
+          "value": "knockout31-juniormiddle",
+          "label": "knockout31-juniormiddle"
+        },
+        {
+          "value": "knockout30-juniorwelter",
+          "label": "knockout30-juniorwelter"
+        }
+      ],
+      "default": "knockout50-welter"
+    },
+  ]
+},
+  {
     "name": "t:names.page_layout",
     "settings": [
       {

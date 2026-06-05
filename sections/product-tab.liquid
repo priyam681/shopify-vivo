@@ -27,16 +27,26 @@
       "default": "scheme-1"
     },
     {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
       "type": "text",
       "id": "tab_heading",
       "label": "Tab Heading",
       "default": "TRENDING"
-    },
-    {
-      "type": "color",
-      "id": "tab_background_color",
-      "label": "Tab Background Color",
-      "default": "#f5f5f5"
     },
     {
       "type": "range",
@@ -79,7 +89,6 @@
 
 {% style  %} 
 .product-tabs-section {
-    background: {{ section.settings.tab_background_color }};
     padding-block: {{ section.settings.tab_padding }}px;
   }
 
@@ -95,7 +104,7 @@
     {% endif %}
   {% endif %}
 {% endfor %}
-  <div class="page-width product-tabs-section color-{{ section.settings.color_scheme }}">
+  <div class="{{ section.settings.section_width }} product-tabs-section color-{{ section.settings.color_scheme }}">
     <div class="tabs-inner-wrapper">
 
       <div class="tabs-wrapper">
@@ -114,11 +123,6 @@
             {% endfor %}
           </ul>
         </div>
-
-        <a href="{{ initial_collection_url }}" class="shop-btn button">
-          SHOP {{ initial_tab_title }}
-        </a>
-
       </div>
 
       {% for block in section.blocks %}
@@ -161,28 +165,16 @@
 
                       <div class="thumbnail-wrapper">
 
-                        {% for image in product.images limit: 15 %}
+                          {% for image in product.images limit: 15 %}
 
-                          <div class="thumbnail-image-wrapper {% if forloop.first %}active{% endif %}">
+                            <div class="thumbnail-image-wrapper {% if forloop.first %}active{% endif %}">
+                              <img class="thumbnail" src="{{ image | image_url: width: 500 }}" alt="{{ product.title }}" loading="lazy">
+                            </div>
 
-                            <img
-                              class="thumbnail"
-                              src="{{ image | image_url: width: 100 }}"
-                              alt="{{ product.title }}"
-                              loading="lazy"
-                              onclick="
-                                this.closest('.product-card').querySelector('.main-image').src = this.src;
-                                this.closest('.thumbnail-wrapper').querySelectorAll('.thumbnail-image-wrapper').forEach(el => el.classList.remove('active'));
-                                this.parentElement.classList.add('active');
-                              "
-                            >
+                          {% endfor %}
 
-                          </div>
-
-                        {% endfor %}
-
-                      </div>
-
+                         </div>
+                    <div class="inner-wraper-detail">
                       <h3 class="product-name">
                         {{ product.title }}
                       </h3>
@@ -190,7 +182,7 @@
                       <div class="product-price">
                         {{ product.price | money }}
                       </div>
-
+                    </div>
                       <div class="product-meta">
                         {% if product.tags.size > 0 %}
                           {{ product.tags | join: ' / ' }}
@@ -216,72 +208,214 @@
         </div>
 
       {% endfor %}
-
+      <div>
+        <a href="{{ initial_collection_url }}" class="shop-btn button">
+          SHOP {{ initial_tab_title }}
+        </a>
+      </div>
     </div>
   </div>
+  
+
 <script defer>
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
 
-    const tabs = document.querySelectorAll('.product-tabs li');
-    const contents = document.querySelectorAll('.product-tabs-content');
+  const tabs = document.querySelectorAll('.product-tabs li');
+  const contents = document.querySelectorAll('.product-tabs-content');
+  const shopBtn = document.querySelector('.shop-btn');
+  const resizeObserver = new ResizeObserver(
+    debounce(handleThumbnailResize, 50)
+  );
 
-    const shopBtn = document.querySelector('.shop-btn');
+  function debounce(fn, delay) {
 
-    function updateShopButton(tab) {
-      if (!shopBtn) return;
-      const collectionUrl = tab.dataset.collectionUrl || '#';
-      const shopText = tab.dataset.shopText || `SHOP ${tab.textContent.trim()}`;
-      shopBtn.href = collectionUrl;
-      shopBtn.textContent = shopText;
-    }
+    let timeout;
 
-    tabs.forEach((tab, i) => {
+    return function (...args) {
 
-      tab.addEventListener('click', () => {
+      clearTimeout(timeout);
 
-        tabs.forEach((t) => t.classList.remove('active'));
-        contents.forEach((c) => c.classList.remove('active'));
+      timeout = setTimeout(() => {
+        fn.apply(this, args);
+      }, delay);
 
-        tab.classList.add('active');
+    };
+
+  }
+  function updateShopButton(tab) {
+
+    if (!shopBtn) return;
+
+    const collectionUrl = tab.dataset.collectionUrl || '#';
+
+    const shopText =
+      tab.dataset.shopText || `SHOP ${tab.textContent.trim()}`;
+
+    shopBtn.href = collectionUrl;
+    shopBtn.textContent = shopText;
+  }
+  tabs.forEach((tab, i) => {
+
+    tab.addEventListener('click', () => {
+
+      tabs.forEach((t) => t.classList.remove('active'));
+      contents.forEach((c) => c.classList.remove('active'));
+
+      tab.classList.add('active');
+
+      if (contents[i]) {
         contents[i].classList.add('active');
-        updateShopButton(tab);
+      }
 
-      });
+      updateShopButton(tab);
+
+      setTimeout(() => {
+
+        handleThumbnailResize();
+        bindThumbnailClicks();
+
+      }, 200);
 
     });
 
-    if (tabs.length) {
-      const activeTab = document.querySelector('.product-tabs li.active') || tabs[0];
-      updateShopButton(activeTab);
+  });
+  if (tabs.length) {
+
+    const activeTab =
+      document.querySelector('.product-tabs li.active') || tabs[0];
+
+    updateShopButton(activeTab);
+
+  }
+  document.querySelectorAll('.product-slider').forEach(function (sliderEl) {
+
+    if (typeof Swiper !== 'undefined') {
+
+      new Swiper(sliderEl, {
+
+        slidesPerView: 4,
+        spaceBetween: 28,
+
+        breakpoints: {
+          0: {
+            slidesPerView: 1.3,
+            spaceBetween: 20
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 24
+          },
+          992: {
+            slidesPerView: 3,
+            spaceBetween: 28
+          },
+          1440: {
+            slidesPerView: 4,
+            spaceBetween: 28
+          }
+        },
+        on: {
+          init: function () {
+            handleThumbnailResize();
+            bindThumbnailClicks();
+          },
+          resize: function () {
+            handleThumbnailResize();
+          }
+        }
+      });
+    }
+  });
+  function thumbnailClickHandler() {
+
+    const productCard = this.closest('.product-card');
+
+    if (!productCard) return;
+
+    const mainImage = productCard.querySelector('.main-image');
+
+    if (mainImage) {
+      mainImage.src = this.src;
     }
 
-    document.querySelectorAll('.product-slider').forEach(function (sliderEl) {
+    const wrapper = this.closest('.thumbnail-wrapper');
 
-      if (typeof Swiper !== 'undefined') {
+    if (wrapper) {
+      wrapper
+        .querySelectorAll('.thumbnail-image-wrapper')
+        .forEach(el => el.classList.remove('active'));
+    }
+    this.parentElement.classList.add('active');
+  }
+  function bindThumbnailClicks() {
 
-        new Swiper(sliderEl, {
+    document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+      thumbnail.removeEventListener('click', thumbnailClickHandler);
+      thumbnail.addEventListener('click', thumbnailClickHandler);
+    });
+  }
+  function handleThumbnailResize() {
 
-          slidesPerView: 4,
-          spaceBetween: 28,
+    document.querySelectorAll('.product-card').forEach(card => {
 
-          breakpoints: {
-            0: {
-              slidesPerView: 1.3,
-              spaceBetween: 38
-            },
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 38
-            },
-            992: {
-              slidesPerView: 3,
-              spaceBetween: 28
-            },
-            1440: {
-              slidesPerView: 4,
-              spaceBetween: 28
-            }
-          }
+      const wrapper = card.querySelector('.thumbnail-wrapper');
+
+      if (!wrapper) return;
+
+      const thumbnails = Array.from(
+        wrapper.querySelectorAll('.thumbnail-image-wrapper')
+      );
+
+      if (!thumbnails.length) return;
+      if (wrapper.classList.contains('show-all')) {
+        thumbnails.forEach((thumb) => {
+          thumb.style.display = '';
+        });
+        return;
+      }
+      const oldCounter =
+        wrapper.querySelector('.thumbnail-more-counter');
+
+      if (oldCounter) {
+        oldCounter.remove();
+      }
+      thumbnails.forEach((thumb) => {
+        thumb.style.display = '';
+      });
+      let hiddenCount = 0;
+      let currentWidth = 0;
+      const wrapperWidth = wrapper.offsetWidth;
+      const gap = 9;
+      thumbnails.forEach((thumb, index) => {
+        const thumbWidth = thumb.offsetWidth + gap;
+        currentWidth += thumbWidth;
+        if (currentWidth > wrapperWidth) {
+          hiddenCount++;
+          thumb.style.display = 'none';
+        }
+      });
+      if (hiddenCount > 0) {
+        const lastVisible =
+          thumbnails.length - hiddenCount - 1;
+        if (thumbnails[lastVisible]) {
+          thumbnails[lastVisible].style.display = 'none';
+          hiddenCount++;
+        }
+      }
+      if (hiddenCount > 0) {
+        const counter = document.createElement('div');
+        counter.className = 'thumbnail-more-counter thumbnail';
+        counter.innerHTML = `+${hiddenCount}`;
+        wrapper.appendChild(counter);
+        counter.addEventListener('click', function () {
+          wrapper.classList.add('show-all');
+          thumbnails.forEach((thumb) => {
+            thumb.style.display = '';
+          });
+
+          counter.remove();
+
+          bindThumbnailClicks();
 
         });
 
@@ -289,5 +423,19 @@
 
     });
 
+  }
+  document.querySelectorAll('.product-card').forEach(card => {
+
+    resizeObserver.observe(card);
+
   });
+  bindThumbnailClicks();
+  handleThumbnailResize();
+  window.addEventListener('resize', function () {
+
+    handleThumbnailResize();
+
+  });
+
+});
 </script>

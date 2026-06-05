@@ -12,20 +12,6 @@
 
 {% case variant %}
   {% when 'mobile' %}
-    <div
-      class="header__drawer"
-      ref="headerDrawerContainer"
-      data-hydration-key="header-drawer-mobile"
-      {{ block.shopify_attributes }}
-    >
-      {% render 'header-drawer',
-        linklist: block_settings.menu,
-        data_header_drawer_type: 'mobile-drawer',
-        block: block,
-        section: section
-      %}
-    </div>
-
   {% when 'navigation_bar' %}
     {% if block_settings.navigation_bar == true %}
       <div
@@ -116,7 +102,7 @@
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                <div class="mega-menu section  section--full-width-margin section--{{ section.settings.section_width }}">
                   <div
                     class="mega-menu__grid"
                     data-menu-grid-id="{{ list_id }}"
@@ -156,7 +142,7 @@
 
     <header-menu
       ref="headerMenu"
-      class="header-menu"
+      class="header-menu custm-header-menu-wrapper"
       {{ block.shopify_attributes }}
       data-hydration-key="header-menu"
     >
@@ -214,6 +200,13 @@
   .header--compact .header__drawer {
     min-height: var(--minimum-touch-target);
   }
+  
+  .custm-header-menu-wrapper a.menu-list__link {
+    z-index: 5;
+    letter-spacing: .04em;
+    position: relative;
+    width: 100%;
+}
 
   .menu-list--mobile {
     &.menu-list {
@@ -277,7 +270,7 @@
   }
 
   .menu-list__link {
-    font-family: var(--menu-top-level-font-family);
+    font-family: var(--body-font);
     font-style: var(--menu-top-level-font-style);
     font-weight: var(--menu-top-level-font-weight);
     font-size: var(--menu-top-level-font-size);
@@ -311,14 +304,32 @@
       color: var(--menu-top-level-font-color);
     }
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 992px) {
       font-size: var(--menu-top-level-font-size-desktop);
     }
   }
 
   .menu-list__link-title {
-    padding-inline: calc(var(--gap-xl) / 2);
+    text-transform: uppercase;
   }
+  @media screen and (max-width: 992px) {
+    .menu-list__link .menu-list__link-title {
+         font-size: 18px;
+         font-family: var(--heading-font);
+         line-height: 1;
+    }
+  }
+   @media screen and (min-width: 992px) {
+    .menu-list__link-title {
+      font-weight: 700;
+      padding: 12px 9px;
+    }
+        .menu-list__link:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 2px;
+       }
+    }
   [slot='overflow'] .menu-list__link-title {
     padding-inline: 0;
   }
@@ -345,7 +356,7 @@
   .menu-list:where(:has(.menu-list__list-item:focus-within)),
   .menu-list:where(:has(.menu-list__list-item:not([aria-hidden='true']) .menu-list__link--active)) {
     .menu-list__link {
-      color: rgb(var(--menu-top-level-font-color-rgb) / var(--opacity-subdued-text));
+      color: rgb(var(--menu-top-level-font-color-rgb));
     }
   }
 
@@ -399,8 +410,8 @@
     z-index: var(--layer-header-menu);
     padding-inline: var(--padding-inline);
     /* Clip path starts at header height so it doesn't mess with the pointer events in the header */
-    clip-path: rect(var(--header-height) 100% var(--full-open-header-height) 0); /* stylelint-disable-line */
     transition: clip-path var(--submenu-animation-speed) var(--ease-out-cubic); /* stylelint-disable-line */
+    
   }
 
   [data-submenu-overlap-bottom-row] {
@@ -502,9 +513,9 @@
   }
 
   .mega-menu__link {
-    font-family: var(--menu-child-font-family);
+    font-family: var(--body-font);
     font-style: var(--menu-child-font-style);
-    font-weight: var(--menu-child-font-weight);
+    font-weight: 500;
     font-size: var(--menu-child-font-size);
     line-height: var(--menu-child-font-line-height);
     text-transform: var(--menu-child-font-case);
@@ -512,24 +523,33 @@
     white-space: normal;
     text-decoration: none;
     display: inline-flex;
-    padding: var(--padding-2xs) 0;
+    padding: 10px 0;
 
     &:hover {
-      color: var(--menu-child-active-font-color);
+      color: var(--menu-child-font-color);
+      text-decoration: underline;
+    }
+    @media screen and (max-width: 989px) {
+      font-size: 16px;
+      line-height: 18px;
+      padding: 8px 0;
+      font-weight: 400;
     }
   }
 
   .mega-menu__link--parent {
-    font-family: var(--menu-parent-font-family);
+    font-family: var(--body-font);
     font-style: var(--menu-parent-font-style);
-    font-weight: var(--menu-parent-font-weight);
+    font-weight: 700;
     font-size: var(--menu-parent-font-size);
     line-height: var(--menu-parent-font-line-height);
     text-transform: var(--menu-parent-font-case);
     color: var(--menu-parent-font-color);
 
     &:hover {
-      color: var(--menu-parent-active-font-color);
+      color: var(--menu-parent-font-color);
+      cursor: unset;
+      text-decoration: none;
     }
   }
 
@@ -588,7 +608,7 @@
     gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
     width: 100%;
 
-    @media screen and (min-width: 990px) {
+    @media screen and (min-width: 992px) {
       grid-template-columns: repeat(var(--menu-columns-desktop), minmax(0, 1fr));
     }
   }
@@ -630,7 +650,7 @@
   .mega-menu__content-list--products {
     grid-template-columns: repeat(var(--menu-content-columns-tablet), minmax(0, 1fr));
 
-    @media screen and (min-width: 990px) {
+    @media screen and (min-width: 992px) {
       grid-template-columns: repeat(var(--menu-content-columns-desktop), minmax(0, 1fr));
     }
   }
@@ -649,8 +669,9 @@
     grid-column: span var(--menu-columns-tablet);
     gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
 
-    @media screen and (min-width: 990px) {
+    @media screen and (min-width: 992px) {
       grid-column: span var(--menu-columns-desktop);
+      grid-template-columns: repeat(4 , 1fr);
     }
   }
 
@@ -684,6 +705,29 @@
   .mega-menu__submenu {
     /* preserves the inherited grid layout when this submenu wrapper is used */
     display: contents;
+  }
+  @media screen and (min-width: 992px) {
+    .menu-list__submenu .mega-menu  {
+      padding: 43px 9.75rem;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid  {
+      gap: 0;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu__list {
+      grid-column: span 3 ;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu__content,
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu-custom-images {
+     grid-column: span 3 / -1;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu-custom-images {
+      display: grid;
+      grid-template-columns: repeat(2 , 1fr);
+      gap: 15px;
+    }
+    .menu-list__submenu .mega-menu .mega-menu__grid .mega-menu-custom-images a {
+      padding-inline: 21px;
+    }
   }
 {% endstylesheet %}
 
@@ -800,31 +844,35 @@
       "type": "header",
       "content": "t:content.submenu_feature"
     },
-    {
-      "type": "select",
-      "id": "menu_style",
-      "label": "t:settings.media_type",
-      "info": "t:info.media_type_info",
-      "options": [
-        {
-          "value": "text",
-          "label": "t:options.none"
-        },
-        {
-          "value": "collection_images",
-          "label": "t:options.collection_images"
-        },
-        {
-          "value": "featured_products",
-          "label": "t:options.featured_products"
-        },
-        {
-          "value": "featured_collections",
-          "label": "t:options.featured_collections"
-        }
-      ],
-      "default": "collection_images"
-    },
+   {
+    "type": "select",
+    "id": "menu_style",
+    "label": "t:settings.media_type",
+    "info": "t:info.media_type_info",
+    "options": [
+      {
+        "value": "text",
+        "label": "t:options.none"
+      },
+      {
+        "value": "collection_images",
+        "label": "t:options.collection_images"
+      },
+      {
+        "value": "featured_products",
+        "label": "t:options.featured_products"
+      },
+      {
+        "value": "featured_collections",
+        "label": "t:options.featured_collections"
+      },
+      {
+        "value": "vivo_product",
+        "label": "Vivo Product"
+      }
+    ],
+  "default": "vivo_product"
+},
     {
       "type": "select",
       "id": "featured_products_aspect_ratio",

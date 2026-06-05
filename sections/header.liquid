@@ -363,7 +363,6 @@
         assign style = style | append: '--border-bottom-width-mobile: [width]px; ' | replace: '[width]', section.settings.border_width
       endif
     %}
-
     {% capture content %}
       {% render 'header-row',
         row: row,
@@ -432,14 +431,93 @@
       transition: color var(--header-content-transition-timing), border-color var(--header-content-transition-timing);
     }
   }
+  
+@media screen and (max-width: 992px) {
+    header.header-section .header {
+      contain: none;
+    }
+    header.header-section .header .header-menu {
+        display: none;
+        background-color: var(--color-background);
+        border-top: 1px solid var(--color-border);
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 102px);
+        padding: 4px 8px 8px;
+        top: 102px;
+        z-index: 13;
+        overflow: scroll;
+    }
 
-  #header-component :is(.header-menu, .dropdown-localization) {
-    display: none;
-  }
+    header.header-section .header .header-menu .menu-list {
+      position: relative;
+      margin: 16px;
+    }
+    header.header-section .header .header-menu .menu-list overflow-list.overflow-menu {
+      width: 100%;
+    }
+    header.header-section .header .header-menu .menu-list overflow-list.overflow-menu:after {
+      content: '';
+      height: 2px;
+      background-color: var(--color-border);
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0px;
+    }
+    header.header-section .header .header-menu .menu-list overflow-list.overflow-menu:before {
+      background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fff 100%);
+      content: '';
+      height: 100%;
+      pointer-events: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 110px;
+      z-index: 2;
+    }
+    header.header-section .header .header-menu .menu-list overflow-list.overflow-menu .menu-list__list-item .menu-list__link {
+      padding-bottom: 16px;
+    }
+    header.header-section .header .header-menu .menu-list overflow-list.overflow-menu .menu-list__list-item .menu-list__link[aria-expanded="true"] {
+      border-bottom: 2px solid var(--color-foreground);
+    }
+    header.header-section .header .header-menu .menu-list .menu-list__list-item .menu-list__submenu {
+      clip-path: none;
+      top: 100%;
+    }
+    header.header-section .header .header-menu .menu-list .menu-list__list-item .menu-list__submenu .menu-list__submenu-inner {
+      transform: none;
+      max-height: unset;
+      margin-bottom: 30px; 
+    } 
+    header.header-section .header .header-menu .menu-list .menu-list__list-item .menu-list__submenu .menu-list__submenu-inner .mega-menu {
+       padding-inline: 0;
+    }
+    header.header-section .header .header-menu .menu-list .overflow-menu::part(list) {
+      gap: 28px;
+      margin: 0;
+    }
+    header.header-section .header .header-menu .menu-list .menu-list__list-item .menu-list__submenu .menu-list__submenu-inner .mega-menu__grid {
+      display: unset;
+      padding-block: 16px;
+    } 
+    header.header-section .header .header-menu .menu-list .menu-list__list-item .menu-list__submenu .menu-list__submenu-inner .mega-menu .mega-menu__list {
+      grid-template-columns: repeat(2 , 1fr);
+    } 
+    header.header-section .header .header-menu .menu-list .menu-list__list-item .menu-list__submenu .menu-list__submenu-inner .mega-menu .mega-menu-custom-images a {
+     display: flex;  
+     margin-top: 20px;
+    }
+}
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 992px) {
     #header-component[data-menu-style='menu'] :is(.header-menu, .dropdown-localization) {
       display: flex;
+    }
+    header.header-section .header .header-menu .menu-list__submenu  {
+      background-color: var(--color-background);
     }
   }
 
@@ -548,12 +626,12 @@
     --full-open-header-height: 0px;
   }
 
-  #header-group:has(#header-component[sticky]) {
+  /* #header-group:has(#header-component[sticky]) {
     display: contents;
-  }
+  } */
 
-  .header-section:has(> #header-component[sticky='always']),
-  .header-section:has(> #header-component[sticky='scroll-up'][data-sticky-state='active']) {
+  .header-group:has(.header-section > #header-component[sticky='always']),
+  .header-group:has(.header-section > #header-component[sticky='scroll-up'][data-sticky-state='active']) {
     position: sticky;
 
     /* Use -1 instead of 0 so intersection observer can track sticky state */
@@ -561,12 +639,12 @@
     z-index: var(--layer-sticky);
   }
 
-  .header[data-sticky-state] {
+  .header-group:has(.header[data-sticky-state]) {
     transition: opacity var(--animation-speed) var(--animation-easing);
     opacity: 1;
   }
 
-  .header[data-sticky-state='active'] {
+  .header-group:has(.header[data-sticky-state='active']) {
     view-transition-name: sticky-header;
   }
 
@@ -576,7 +654,7 @@
     }
   }
 
-  .header[data-sticky-state='idle'] {
+  .header-group:has(.header[data-sticky-state='idle']) {
     opacity: 0;
   }
 
@@ -702,7 +780,7 @@
     align-items: center;
 
     /* on mobile, header__column nodes are ignored to create a new grid-template-area based on all visible content */
-    @media screen and (max-width: 749px) {
+    @media screen and (max-width: 992px) {
       display: contents;
     }
   }
@@ -756,7 +834,7 @@
 
     /* If there is no center column, make the column the menu is in grow eagerly */
     &:where(:not(:has(.header__column--center))) {
-      @media screen and (min-width: 750px) {
+      @media screen and (min-width: 992px) {
         --header-template-columns: var(--header-left) var(--header-right);
 
         grid-template-areas: 'left right';
@@ -775,11 +853,11 @@
       }
     }
 
-    @media screen and (max-width: 749px) {
-      --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr
+    @media screen and (max-width: 992px) {
+      --header-template-columns: auto var(--header-mobile-bookend) 1fr
         var(--header-mobile-bookend) var(--header-mobile-bookend);
 
-      grid-template-areas: 'leftA leftB center rightA rightB';
+      grid-template-areas: 'leftA leftB center rightA rightB rightC rightD';
       grid-column: span 3;
       column-gap: 0;
       align-items: center;
@@ -787,7 +865,7 @@
       padding-inline: 0 var(--padding-3xs);
 
       .header-logo {
-        grid-area: center;
+        grid-area: leftA;
       }
 
       &:not(:has(header-actions)) .search-action {
@@ -799,22 +877,27 @@
       }
 
       .search-action {
-        grid-area: leftB;
+        grid-area: rightA;
       }
 
       header-actions {
+        grid-area: rightC;
+      }
+      .mobile-menu-toggle {
         grid-area: rightB;
+      }
+       .custom-header-order .account-button {
+          display: none;
       }
     }
   }
-
   /* not ideal but we need to duplicate these styles for when touch comes into play
     We could avoid the duplication using js to set the data-menu-style attribute on small screens instead of using @media queries */
   #header-component[data-menu-style='drawer'] .header__columns {
-    --header-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr
-      var(--header-mobile-bookend) var(--header-mobile-bookend);
+    --header-template-columns: auto var(--header-mobile-bookend) 1fr
+        var(--header-mobile-bookend) var(--header-mobile-bookend);
 
-    grid-template-areas: 'leftA leftB center rightA rightB';
+    grid-template-areas: 'leftA leftB center rightA rightB rightC rightD';
     grid-column: span 3;
     column-gap: 0;
     align-items: center;
@@ -822,7 +905,7 @@
     padding-inline: 0 var(--padding-3xs);
 
     .header-logo {
-      grid-area: center;
+      grid-area: leftA;
     }
 
     &:not(:has(header-actions)) .search-action {
@@ -834,11 +917,11 @@
     }
 
     .search-action {
-      grid-area: leftB;
+      grid-area: rightA;
     }
 
     header-actions {
-      grid-area: rightB;
+      grid-area: rightC;
     }
   }
 
@@ -900,12 +983,6 @@
   .header.header--compact {
     --header-padding: var(--padding-2xs);
   }
-
-  .header__columns {
-    --padding-block-start: var(--header-padding);
-    --padding-block-end: var(--header-padding);
-  }
-
   .header:not(.header--compact) .header__row--bottom {
     --header-padding: var(--padding-xs);
   }
@@ -1113,6 +1190,7 @@
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
   }
+
 {% endstylesheet %}
 
 {% unless request.design_mode %}

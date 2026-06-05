@@ -1,13 +1,33 @@
-
-
 {% if closest.collection == blank %}
   {% assign text = 'placeholders.collection_title' | t %}
-  {% assign collection_title = '<p>' | append: text | append: '</p>' %}
+  {% assign collection_title = '<h1>' | append: text | append: '</h1>' %}
   {% render 'text', fallback_text: collection_title, block: block %}
 {% elsif closest.collection != blank %}
-  {% assign collection_title = '<p>' | append: closest.collection.title | append: '</p>' %}
+  {% if products_count > 25000 %}
+    {% assign item_count = '25000+' %}
+  {% else %}
+    {% assign item_count = products_count %}
+  {% endif %}
+  {% assign collection_title = '<div class="collection-title-wrapper"><h1 class="collection-title">' 
+    | append: closest.collection.title
+    | append: '</h1><div class="category-item-count"><span class="item-count">('
+    | append: item_count
+    | append: ')</span></div></div>' %}
   {% render 'text', fallback_text: collection_title, block: block %}
 {% endif %}
+
+{% stylesheet %}
+  .collection-title-wrapper {
+    display: flex;
+  }
+  .category-item-count .item-count {
+    font-size: calc(21px + 3 * ((100vw - 375px) / 1545));
+    font-weight: 400;
+    letter-spacing: -.5px;
+    line-height: 108.333%;
+    margin-left: 6px;
+}
+{% endstylesheet %} 
 
 {% schema %}
 {

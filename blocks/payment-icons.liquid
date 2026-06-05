@@ -1,8 +1,6 @@
 
 {% assign block_settings = block.settings %}
 
-{%- assign block_settings = block.settings -%}
-
 <div
   class="
     payment-icons
@@ -20,11 +18,28 @@
     class="payment-icons__list"
     role="list"
   >
-    {%- for type in shop.enabled_payment_types -%}
+    {% if block_settings.use_custom_icons and block_settings.custom_icon != blank %}
       <li class="payment-icons__item">
-        {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+        {% if block_settings.custom_icon_link != blank %}
+          <a
+            href="{{ block_settings.custom_icon_link }}"
+            class="payment-icons__link"
+          >
+        {% endif %}
+
+        {{ block_settings.custom_icon | image_url: width: 356 | image_tag: class: 'payment-icons__image', loading: 'lazy' }}
+
+        {% if block_settings.custom_icon_link != blank %}
+          </a>
+        {% endif %}
       </li>
-    {%- endfor -%}
+    {% else %}
+      {%- for type in shop.enabled_payment_types -%}
+        <li class="payment-icons__item">
+          {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+        </li>
+      {%- endfor -%}
+    {% endif %}
   </ul>
 </div>
 
@@ -47,13 +62,46 @@
     display: flex;
     align-items: center;
   }
+
+  .payment-icons__link {
+    display: flex;
+    align-items: center;
+  }
+
+  .payment-icons__image {
+    display: block;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+  }
+   @media screen and (min-width: 992px) {
+    .payment-icons__image {
+      max-height: 35px;
+    }
+   }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:names.payment_icons",
-  "tag": null,
+  "tag": "div",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "use_custom_icons",
+      "label": "Use custom payment icon",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon",
+      "label": "Custom payment icon"
+    },
+    {
+      "type": "url",
+      "id": "custom_icon_link",
+      "label": "Link for custom payment icon"
+    },
     {
       "type": "select",
       "id": "horizontal_alignment",

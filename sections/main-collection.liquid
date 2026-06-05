@@ -1,10 +1,64 @@
+{% if section.settings.enable_infinite_scroll %}
+  <script
+    src="{{ 'results-list.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+{% endif %}
 
+{% stylesheet %}
+  .load-more-container {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
 
-<script
-  src="{{ 'results-list.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
+  .load-more-btn {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+
+  .load-more-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: load-more-spin 0.7s linear infinite;
+    vertical-align: middle;
+  }
+
+  .load-more-btn.is-loading .load-more-spinner {
+    display: inline-block;
+  }
+
+  .load-more-btn.is-loading .load-more-text {
+    opacity: 0.6;
+  }
+
+  .load-more-end-msg {
+    display: none;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: currentColor;
+    opacity: 0.6;
+    font-size: 0.95em;
+  }
+
+  .load-more-end-msg.is-visible {
+    display: block;
+  }
+
+  @keyframes load-more-spin {
+    to { transform: rotate(360deg); }
+  }
+{% endstylesheet %}
 
 {% javascript %}
   const url = new URL(window.location.href);
@@ -20,9 +74,59 @@
       { once: true }
     );
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.load-more-btn[data-next-url]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const nextUrl = btn.getAttribute('data-next-url');
+        const sectionId = btn.getAttribute('data-section-id');
+        const batchSize = parseInt(btn.getAttribute('data-batch-size'), 10) || 10;
+        if (!nextUrl) return;
+
+        btn.classList.add('is-loading');
+        btn.disabled = true;
+
+        try {
+          const response = await fetch(nextUrl);
+          const text = await response.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(text, 'text/html');
+
+          const allNewItems = Array.from(doc.querySelectorAll('.product-grid__item'));
+          const productGrid = document.querySelector(`[section-id="${sectionId}"] .product-grid__list, [section-id="${sectionId}"] .product-grid`);
+
+          if (productGrid && allNewItems.length > 0) {
+            const itemsToAdd = allNewItems.slice(0, batchSize);
+            itemsToAdd.forEach((item) => {
+              productGrid.appendChild(item.cloneNode(true));
+            });
+          }
+
+          const newBtn = doc.querySelector(`.load-more-btn[data-section-id="${sectionId}"]`);
+          const endMsg = document.querySelector(`.load-more-end-msg[data-section-id="${sectionId}"]`);
+
+          if (newBtn) {
+              btn.setAttribute('data-next-url', newBtn.getAttribute('data-next-url'));
+              btn.classList.remove('is-loading');
+              btn.disabled = false;
+            } else {
+              btn.style.display = 'none';
+              const endMsg = btn.closest('.load-more-container').querySelector('.load-more-end-msg');
+              if (endMsg) {
+                endMsg.classList.add('is-visible');
+              }
+            }
+
+        } catch (error) {
+          console.error('Load more failed:', error);
+          btn.classList.remove('is-loading');
+          btn.disabled = false;
+        }
+      });
+    });
+  });
 {% endjavascript %}
 
-{% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <results-list
   class="section product-grid-container color-{{ section.settings.color_scheme }}"
@@ -33,19 +137,20 @@
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
   <div
-    class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+    class="collection-wrapper page-width gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
   >
+
     {% content_for 'block',
       type: 'filters',
       id: 'filters',
       results: collection,
       results_size: collection.products_count
     %}
-
-    {% assign products_per_page = 24 %}
-
-    {% if section.settings.enable_infinite_scroll == false %}
-      {% assign products_per_page = section.settings.products_per_page %}
+   
+    {% if section.settings.enable_infinite_scroll %}
+      {% assign products_per_page = 24 %}
+    {% else %}
+      {% assign products_per_page = section.settings.load_more_threshold %}
     {% endif %}
 
     {% paginate collection.products by products_per_page %}
@@ -65,12 +170,13 @@
         {% endfor %}
       {% endcapture %}
 
+      {% assign infinite = section.settings.enable_infinite_scroll %}
       {% render 'product-grid',
         section: section,
         children: children,
         products: collection.products,
         paginate: paginate,
-        enable_infinite_scroll: section.settings.enable_infinite_scroll
+        enable_infinite_scroll: infinite
       %}
     {% endpaginate %}
   </div>
@@ -144,16 +250,20 @@
       "type": "checkbox",
       "id": "enable_infinite_scroll",
       "label": "t:settings.auto_load_products",
-      "default": true
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Load More"
     },
     {
       "type": "range",
-      "id": "products_per_page",
-      "label": "t:settings.products_per_page",
-      "min": 8,
-      "max": 36,
-      "step": 4,
-      "default": 24,
+      "id": "load_more_threshold",
+      "label": "Number of products to show initially",
+      "min": 4,
+      "max": 48,
+      "step": 2,
+      "default": 10,
       "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
     },
     {

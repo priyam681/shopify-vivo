@@ -1,0 +1,57 @@
+{% assign block_settings = block.settings %}
+{% assign footer_menu = linklists[block_settings.link_list] %}
+
+<div class="footer-bottom-link-item">
+  {% if footer_menu != blank %}
+    <div class="footer-bottom-link-list">
+      {% for link in footer_menu.links %}
+        <a
+          href="{{ link.url }}"
+          class="footer-bottom-link"
+        >
+          {{ link.title }}
+        </a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+.footer-bottom-link-item .footer-bottom-link-list {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.footer-bottom-link-item .footer-bottom-link-list .footer-bottom-link {
+  color: rgb(var(--color-foreground));
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@media screen and (max-width: 992px) {
+  .footer-bottom-link-item .footer-bottom-link-list .footer-bottom-link {
+    font-size: 13px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer Bottom Link",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "link_list",
+      "label": "Footer links"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer Bottom Link",
+      "category": "t:categories.footer"
+    }
+  ]
+}
+{% endschema %}

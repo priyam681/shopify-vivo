@@ -7,7 +7,7 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} {{ section.settings.style_class }}"
   data-testid="ui-test-section"
 
   {% if request.visual_preview_mode %}
@@ -39,7 +39,7 @@
   </div>
 
   <div
-    class="border-style custom-section-content"
+    class="border-style custom-section-content "
     style="{% render 'border-override', settings: section.settings %}"
   >
     {% if section.settings.toggle_overlay %}

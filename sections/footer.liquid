@@ -8,7 +8,7 @@
     assign total_blocks = section.blocks.size
 
     # Grid layout calculations
-    assign grid_columns = total_blocks | at_most: 4
+    assign grid_columns = total_blocks | at_least: 6
 
     # Calculate last row counts using modulo arithmetic
     # last_row_count = (total_blocks - 1) % N + 1
@@ -60,9 +60,9 @@
     font-weight: var(--font-heading--weight);
   }
 
-  @media screen and (min-width: 750px) and (max-width: 989px) {
+  @media screen and (min-width: 750px) and (max-width: 992px) {
     .footer-content {
-      grid-template-columns: repeat(min(var(--grid-columns), 3), 1fr);
+      grid-template-columns: repeat(min(var(--grid-columns), 2), 1fr);
       grid-auto-flow: row;
     }
 
@@ -75,7 +75,7 @@
     }
   }
 
-  @media screen and (min-width: 990px) {
+  @media screen and (min-width: 992px) {
     .footer-content {
       grid-template-columns: repeat(var(--grid-columns), 1fr);
     }
@@ -84,11 +84,21 @@
     .footer-content[style*='--grid-columns: 1'] {
       justify-items: center;
     }
-
-    .footer-content--isolated-grid-item-desktop > :last-child {
-      grid-column: 1 / -1;
-    }
   }
+  .footer-content .footer-social-links-wrapper {
+      grid-column: span 2 / span 2;
+    }
+   .footer-content .footer-social-links-wrapper img {
+    width: 120px;
+    height: 120px;
+   }
+   @media screen and (max-width: 992px) {
+    .footer-content .footer-social-links .group-block-content {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+   }
 {% endstylesheet %}
 
 {% schema %}

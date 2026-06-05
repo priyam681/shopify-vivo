@@ -16,14 +16,14 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<p>Browse our latest products</p>",
+            "text": "<h1><strong>THE HOLIDAY EDIT</strong></h1>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
+            "type_preset": "custom",
+            "font": "var(--heading-font)",
+            "font_size": "8.5rem",
+            "line_height": "tight",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
@@ -46,12 +46,12 @@
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
+            "type_preset": "custom",
+            "font": "var(--heading-font)",
+            "font_size": "1.5rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "uppercase",
             "wrap": "pretty",
             "color": "var(--color-foreground)",
             "background": false,
@@ -61,6 +61,20 @@
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "spacer_Fx6rx6": {
+          "type": "spacer",
+          "name": "t:names.spacer",
+          "settings": {
+            "size": "pixel",
+            "percent_size": 100,
+            "pixel_size": 36,
+            "custom_mobile_size": false,
+            "size_mobile": "percent",
+            "percent_size_mobile": 100,
+            "pixel_size_mobile": 120
           },
           "blocks": {}
         },
@@ -98,13 +112,14 @@
       "block_order": [
         "text_YLPk4p",
         "text_frLiXW",
+        "spacer_Fx6rx6",
         "button_H9gpTf",
         "button_y7akwt"
       ],
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/home-banner_0172a6e8-7886-44d6-af89-6dbc6a57faa4.webp",
+        "image_1": "shopify://shop_images/main-banner.webp",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -119,13 +134,13 @@
         "align_baseline": true,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
+        "gap": 0,
         "section_width": "page-width",
         "section_height": "full-screen",
         "section_height_custom": 50,
         "color_scheme": "scheme-6",
         "toggle_overlay": true,
-        "overlay_color": "#12121266",
+        "overlay_color": "rgba(0,0,0,0)",
         "overlay_style": "solid",
         "gradient_direction": "to bottom",
         "blurred_reflection": false,
@@ -166,62 +181,69 @@
       ],
       "name": "Product Tabs",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
         "tab_heading": "TRENDING",
-        "tab_background_color": "#f5f5f5",
         "tab_padding": 40
       }
     },
-    "product_list_fa6P9H": {
-      "type": "product-list",
+    "section_XM3zep": {
+      "type": "section",
       "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
+        "group_mNwy4e": {
+          "type": "group",
           "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 32,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
-            "height": "fit",
+            "height": "fill",
             "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
+            "style_class": "promo-cards-wrapper",
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-5",
+            "background_media": "image",
             "video_position": "cover",
+            "background_image": "shopify://shop_images/spring_2026_STS_web_HPbanner_secondary_914x1142_3_ad969025-8693-4831-95ce-2d58c043896f.webp",
             "background_image_position": "cover",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "hero-apparel-2",
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
           },
           "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
+            "text_BRFDmA": {
+              "type": "text",
+              "name": "t:names.heading",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "text": "<h2><strong>SHAUN THE SHEEP X VIVO</strong></h2>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
+                "type_preset": "custom",
+                "font": "var(--heading-font)",
+                "font_size": "3.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
                 "case": "none",
                 "wrap": "pretty",
                 "color": "var(--color-foreground)",
@@ -235,53 +257,159 @@
               },
               "blocks": {}
             },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
+            "text_pyenDW": {
+              "type": "text",
               "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
+                "text": "<p>A limited-edition collaboration celebrating how kids' feet were meant to be – natural and free.</p>",
                 "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 4,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
+            },
+            "group_DFWRDc": {
+              "type": "group",
+              "name": "t:names.group",
               "settings": {
-                "image_ratio": "adapt",
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "style_class": "",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "button_w6jzQd": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Shop now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "button_w6jzQd"
+              ]
+            }
+          },
+          "block_order": [
+            "text_BRFDmA",
+            "text_pyenDW",
+            "group_DFWRDc"
+          ]
+        },
+        "group_KY3VaV": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 32,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fill",
+            "custom_height": 100,
+            "style_class": "promo-cards-wrapper",
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-5",
+            "background_media": "image",
+            "video_position": "cover",
+            "background_image": "shopify://shop_images/spring_2026_spring-campaign_gobi-II-sneaker_mens_web_hp-banner-3_week-47_914x1142_desktop_rw.webp",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "hero-apparel-1",
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
+          },
+          "blocks": {
+            "text_ET4fhr": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2><strong>GOBI SNEAKER LEATHER</strong></h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--heading-font)",
+                "font_size": "3.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -289,88 +417,1126 @@
               },
               "blocks": {}
             },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
+            "text_JrNpER": {
+              "type": "text",
               "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
+                "text": "<h3>The classic leather sneaker made barefooters</h3>",
+                "width": "fit-content",
+                "max_width": "narrow",
+                "alignment": "center",
+                "type_preset": "custom",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
+                "font_size": "1.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
                 "case": "none",
                 "wrap": "pretty",
                 "color": "var(--color-foreground)",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-foreground)",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "group_U8z4VA": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "style_class": "",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "button_UeLDq7": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Shop now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                },
+                "button_RzNpMy": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Shop now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "button_UeLDq7",
+                "button_RzNpMy"
+              ]
             }
           },
           "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
+            "text_ET4fhr",
+            "text_JrNpER",
+            "group_U8z4VA"
           ]
         }
       },
-      "disabled": true,
-      "name": "Featured collection",
+      "block_order": [
+        "group_mNwy4e",
+        "group_KY3VaV"
+      ],
+      "name": "t:names.split_showcase",
       "settings": {
-        "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
+        "content_direction": "row",
+        "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 40,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "style_class": "",
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 32,
+        "padding-block-end": 32
+      }
+    },
+    "benifits_adaXym": {
+      "type": "benifits",
+      "blocks": {
+        "heading_MkCCLx": {
+          "type": "heading",
+          "settings": {
+            "heading": "EMBRACE THE BENEFITS OF BAREFOOT SHOES",
+            "font_size": 52,
+            "line_height": 1.1,
+            "letter_spacing": 1,
+            "font_weight": "700",
+            "color": "#000000",
+            "margin_bottom": 32
+          }
+        },
+        "description_r3nUVy": {
+          "type": "description",
+          "settings": {
+            "description": "<p>Our barefoot shoes free your feet to feel more, move naturally, and reconnect with what it means to be human.</p><p>We design all Vivos with a natural FIT that supports balance and posture, natural FEEL to enable coordination and agility, and natural FLEX for unlocking strength and movement.</p><p>Barefoot footwear helps build strong, stable, sensory feet – biomechanical masterpieces, fit for your future.</p>",
+            "font_size": 18,
+            "line_height": 1.8,
+            "font_weight": "400",
+            "color": "#222222",
+            "max_width": 940,
+            "margin_bottom": 60
+          }
+        },
+        "stat_pR6jT3": {
+          "type": "stat",
+          "settings": {
+            "number": "60%",
+            "caption": "stronger feet in six months*",
+            "number_size": 58,
+            "caption_size": 16,
+            "number_weight": "800",
+            "number_color": "#000000",
+            "caption_color": "#8a8a8a"
+          }
+        },
+        "stat_QgP8y4": {
+          "type": "stat",
+          "settings": {
+            "number": "60%",
+            "caption": "stronger feet in six months*",
+            "number_size": 58,
+            "caption_size": 16,
+            "number_weight": "800",
+            "number_color": "#000000",
+            "caption_color": "#8a8a8a"
+          }
+        },
+        "button_MkAF6B": {
+          "type": "button",
+          "settings": {
+            "button_label": "WHY BAREFOOT IS BETTER",
+            "button_link": "",
+            "margin_top": 20,
+            "margin_bottom": 40
+          }
+        },
+        "footnote_WGfVNm": {
+          "type": "footnote",
+          "settings": {
+            "text": "*Study by Curtis: 'Daily Activity in Minimalist Footwear Increases Foot Strength' (2021)",
+            "font_size": 11,
+            "color": "#666666",
+            "font_weight": "400"
+          }
+        }
+      },
+      "block_order": [
+        "heading_MkCCLx",
+        "description_r3nUVy",
+        "stat_pR6jT3",
+        "stat_QgP8y4",
+        "button_MkAF6B",
+        "footnote_WGfVNm"
+      ],
+      "name": "Barefoot Benefits",
+      "settings": {
+        "color_scheme": "scheme-0c184aab-87e2-457d-b47d-88a8d9472a9b",
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "content_width": 1200,
+        "text_align": "center"
+      }
+    },
+    "showcase_GgxdKq": {
+      "type": "showcase",
+      "blocks": {
+        "collection_card_AANCP6": {
+          "type": "collection_card",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
+            "heading": "WOMENS",
+            "button_label": "SHOP WOMEN",
+            "button_link": "shopify://collections/womens",
+            "card_height": 700,
+            "mobile_card_height": 500,
+            "overlay_opacity": 15,
+            "overlay_color": "#000000",
+            "content_spacing": 20,
+            "content_position_vertical": "center",
+            "content_position_horizontal": "center",
+            "heading_size": 58,
+            "heading_mobile_size": 34,
+            "heading_weight": "800",
+            "heading_line_height": 1,
+            "heading_color": "#ffffff"
+          }
+        },
+        "collection_card_abwBYi": {
+          "type": "collection_card",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_hp_banner_department_kids_593x656_2.jpg",
+            "heading": "MENS",
+            "button_label": "SHOP MEN",
+            "button_link": "shopify://collections",
+            "card_height": 700,
+            "mobile_card_height": 500,
+            "overlay_opacity": 15,
+            "overlay_color": "#000000",
+            "content_spacing": 20,
+            "content_position_vertical": "center",
+            "content_position_horizontal": "center",
+            "heading_size": 58,
+            "heading_mobile_size": 34,
+            "heading_weight": "800",
+            "heading_line_height": 1,
+            "heading_color": "#ffffff"
+          }
+        },
+        "collection_card_Ez3qhw": {
+          "type": "collection_card",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_hp_banner_department_mens_593x656_2.jpg",
+            "heading": "kids",
+            "button_label": "SHOP KIDS",
+            "button_link": "shopify://collections/all",
+            "card_height": 700,
+            "mobile_card_height": 500,
+            "overlay_opacity": 15,
+            "overlay_color": "#000000",
+            "content_spacing": 20,
+            "content_position_vertical": "center",
+            "content_position_horizontal": "center",
+            "heading_size": 58,
+            "heading_mobile_size": 34,
+            "heading_weight": "800",
+            "heading_line_height": 1,
+            "heading_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_AANCP6",
+        "collection_card_abwBYi",
+        "collection_card_Ez3qhw"
+      ],
+      "name": "Collection Showcase",
+      "settings": {
+        "color_scheme": "scheme-1804c779-845c-459f-81bb-8a6992d8a554",
+        "section_padding_top": 40,
+        "section_padding_bottom": 40,
+        "desktop_gap": 24,
+        "mobile_gap": 16,
+        "desktop_columns": "3",
+        "mobile_columns": "1"
+      }
+    },
+    "activity_showcase_WmM996": {
+      "type": "activity-showcase",
+      "blocks": {
+        "activity_hHgMWC": {
+          "type": "activity",
+          "settings": {
+            "title": "hiking",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "right_image": "shopify://shop_images/PrimusTrailFG-SilverBirch-TrailRunning-1-572x572.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "900",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_trJiQ9": {
+          "type": "activity",
+          "settings": {
+            "title": "trail running",
+            "link": "#",
+            "left_image": "shopify://shop_images/spring_2026_hp_banner_department_mens_593x656_2.jpg",
+            "right_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "800",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_jhEhcU": {
+          "type": "activity",
+          "settings": {
+            "title": "training",
+            "link": "#",
+            "left_image": "shopify://shop_images/spring_2026_hp_banner_department_kids_593x656_2.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "800",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_xQaWdx": {
+          "type": "activity",
+          "settings": {
+            "title": "everyday",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_mens_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "700",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_dFYbMt": {
+          "type": "activity",
+          "settings": {
+            "title": "road running",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusTrailFG-SilverBirch-TrailRunning-1-572x572.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_womens_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "700",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        },
+        "activity_dyzn8B": {
+          "type": "activity",
+          "settings": {
+            "title": "swimrun",
+            "link": "#",
+            "left_image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "right_image": "shopify://shop_images/spring_2026_hp_banner_department_kids_593x656_2.jpg",
+            "font_size": 74,
+            "mobile_font_size": 36,
+            "font_weight": "700",
+            "line_height": 0.9,
+            "text_color": "#cfcfcf",
+            "hover_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "activity_hHgMWC",
+        "activity_trJiQ9",
+        "activity_jhEhcU",
+        "activity_xQaWdx",
+        "activity_dFYbMt",
+        "activity_dyzn8B"
+      ],
+      "name": "Activity Showcase",
+      "settings": {
+        "color_scheme": "",
+        "heading": "ACTIVITIES",
+        "section_padding_top": 80,
+        "section_padding_bottom": 80,
+        "desktop_image_width": 220,
+        "mobile_image_width": 120
+      }
+    },
+    "hero_aWqLTx": {
+      "type": "hero",
+      "blocks": {
+        "text_Prjgye": {
+          "type": "text",
+          "settings": {
+            "text": "<h2><strong>FIND ROOTS AND RECONNECT</strong></h2>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "4.5rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground-heading)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_gT9dYt": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>This 7-day series will harness the power of yoga to root the mind, body and breath in the here and now.</h3>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "button_GGFjyr": {
+          "type": "button",
+          "name": "t:names.button",
+          "settings": {
+            "label": "DISCOVER NOW",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_Prjgye",
+        "text_gT9dYt",
+        "button_GGFjyr"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/VHealth_7_Day_Yoga_HPBanner1_desktop_1920x1080_21.webp",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "section_bkDwfN": {
+      "type": "section",
+      "blocks": {
+        "group_U6kJry": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 32,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fill",
+            "custom_height": 100,
+            "style_class": "promo-cards-wrapper",
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-5",
+            "background_media": "image",
+            "video_position": "cover",
+            "background_image": "shopify://shop_images/spring_2026_hp_secondary-hero-banner-rehab-your-feet_dt_914x1142_d3dca1a2-7989-4b21-8530-071044e4c742.jpg",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "hero-apparel-2",
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
+          },
+          "blocks": {
+            "text_dbbgrt": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2><strong>REHAB YOUR FEET IN 12 WEEKS</strong></h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "3.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_8bB8Ek": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Online programmes for bunions, plantar fasciitis and flat feet</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "group_4Jyce9": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "style_class": "",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "button_hwTLWz": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "learn more",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "button_hwTLWz"
+              ]
+            }
+          },
+          "block_order": [
+            "text_dbbgrt",
+            "text_8bB8Ek",
+            "group_4Jyce9"
+          ]
+        },
+        "group_pR8Lki": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 32,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fill",
+            "custom_height": 100,
+            "style_class": "promo-cards-wrapper",
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-5",
+            "background_media": "image",
+            "video_position": "cover",
+            "background_image": "shopify://shop_images/spring_2026_hp_secondary-hero-banner-foot-assesment_dt_914x1142_e1fc5351-c785-4fbf-921f-54e09b84e484.jpg",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "hero-apparel-1",
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
+          },
+          "blocks": {
+            "text_ETPWBz": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h2><strong>FOOT ASSESSMENT TOOL</strong></h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "3.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "uppercase",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "text_zznGB8": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Try VivoHealth’s assessment tool to receive online custom advice for your foot health.</p>",
+                "width": "fit-content",
+                "max_width": "narrow",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.5rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "group_bBNB6D": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 20,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "style_class": "",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "button_Tm6edW": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "start now",
+                    "link": "shopify://collections/all",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "button_Tm6edW"
+              ]
+            }
+          },
+          "block_order": [
+            "text_ETPWBz",
+            "text_zznGB8",
+            "group_bBNB6D"
+          ]
+        }
+      },
+      "block_order": [
+        "group_U6kJry",
+        "group_pR8Lki"
+      ],
+      "name": "t:names.split_showcase",
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 40,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "style_class": "",
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 32,
+        "padding-block-end": 32
+      }
+    },
+    "latest_storis_c8BF3M": {
+      "type": "latest-storis",
+      "blocks": {
+        "featured_jPy6qw": {
+          "type": "featured",
+          "settings": {
+            "article": "news/strengthening-from-the-ground-up-the-role-of-feet-in-strength-training"
+          }
+        },
+        "story_QLpCm9": {
+          "type": "story",
+          "settings": {
+            "article": "news/waldo-etherington-adventure-climber-and-wildness-campaigner",
+            "show_excerpt": true
+          }
+        },
+        "story_hTT7MD": {
+          "type": "story",
+          "settings": {
+            "article": "news/from-the-ground-up-vivobarefoot-x-letters-live-for-earth-day",
+            "show_excerpt": true
+          }
+        },
+        "story_7dezD8": {
+          "type": "story",
+          "settings": {
+            "article": "news/how-to-treat-and-cure-foot-cramps-naturally-and-effectively",
+            "show_excerpt": true
+          }
+        },
+        "story_xNYDrk": {
+          "type": "story",
+          "settings": {
+            "article": "news/the-truth-about-recycling-what-really-happens-to-the-shoes-we-can-t-repair",
+            "show_excerpt": true
+          }
+        }
+      },
+      "block_order": [
+        "featured_jPy6qw",
+        "story_QLpCm9",
+        "story_hTT7MD",
+        "story_7dezD8",
+        "story_xNYDrk"
+      ],
+      "name": "Latest stories",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "page-width",
+        "heading": "THE LATEST STORIES",
+        "button_label": "VIEW ALL STORIES",
+        "button_link": "",
+        "show_featured_excerpt": true,
+        "heading_size": 90,
+        "heading_letter_spacing": -4,
+        "heading_font_weight": 500,
+        "featured_title_size": 40,
+        "featured_title_letter_spacing": -2,
+        "featured_title_font_weight": 500,
+        "story_title_size": 28,
+        "story_title_letter_spacing": -1,
+        "story_title_font_weight": 900,
+        "description_size": 16,
+        "description_font_weight": 400,
+        "text_transform": "uppercase",
+        "section_gap": 44,
+        "card_gap": 24,
+        "border_radius": 0,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "free_you_feet_VaHArj": {
+      "type": "free-you-feet",
+      "name": "Free your feet",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "subheading": "#VIVOBAREFOOT",
+        "heading": "FREE YOUR FEET",
+        "description": "<p>We design footwear for how humans evolved to move — natural, connected, and free.</p>",
+        "button_label": "DISCOVER MORE",
+        "button_link": "",
+        "subheading_size": 24,
+        "heading_size": 150,
+        "description_size": 20,
+        "button_size": 16,
+        "subheading_spacing": 0,
+        "heading_spacing": -4,
+        "subheading_weight": 500,
+        "heading_weight": 900,
+        "description_weight": 400,
+        "description_color": "#6b7280",
+        "button_weight": 700,
+        "padding_top": 120,
+        "padding_bottom": 120
+      }
+    },
+    "latest_slideshow_EqdkwE": {
+      "type": "latest-slideshow",
+      "blocks": {
+        "image_jmPGeU": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_6_2_119670ab-8b72-43b9-8365-b2f72013f1f2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_9TrQYQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Blog_1_Mobile_Image_1_600x600_42beb3a0-2dec-41db-869f-04b04497cdbd.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_Xz6WY9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_5_2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_Rnrddj": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PrimusLiteKnit-BrightWhite-Training-1-572x572.jpg",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_gPgMbn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_6_2_119670ab-8b72-43b9-8365-b2f72013f1f2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_AkAkxQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/aw26_spring-summer_blog_evergreen_foot-cramps_cover-image_desktop_416-x-246_1.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_bqBRW6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Montage_Image_10_2.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        },
+        "image_UX4fPF": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/spring_2026_STS_web_HPbanner_secondary_914x1142_3.webp",
+            "link": "",
+            "desktop_width": 420,
+            "desktop_height": 520,
+            "mobile_width": 220,
+            "mobile_height": 280,
+            "radius": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_jmPGeU",
+        "image_9TrQYQ",
+        "image_Xz6WY9",
+        "image_Rnrddj",
+        "image_gPgMbn",
+        "image_AkAkxQ",
+        "image_bqBRW6",
+        "image_UX4fPF"
+      ],
+      "name": "Motion gallery",
+      "settings": {
+        "color_scheme": "",
+        "speed": 40,
+        "gap": 24,
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     }
   },
   "order": [
     "hero_jVaWmY",
     "product_tab_qdLaWA",
-    "product_list_fa6P9H"
+    "section_XM3zep",
+    "benifits_adaXym",
+    "showcase_GgxdKq",
+    "activity_showcase_WmM996",
+    "hero_aWqLTx",
+    "section_bkDwfN",
+    "latest_storis_c8BF3M",
+    "free_you_feet_VaHArj",
+    "latest_slideshow_EqdkwE"
   ]
 }

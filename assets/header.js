@@ -19,7 +19,7 @@ import { onDocumentLoaded, changeMetaThemeColor, setHeaderMenuStyle } from '@the
  */
 
 class HeaderComponent extends Component {
-  requiredRefs = ['headerDrawerContainer', 'headerMenu', 'headerRowTop'];
+  requiredRefs = ['headerMenu', 'headerRowTop'];
 
   /**
    * Width of window when header drawer was hidden

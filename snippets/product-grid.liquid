@@ -159,10 +159,40 @@
 
         {{ children }}
       </ul>
+      {% if section.settings.enable_infinite_scroll == false and paginate.next %}
+        <div class="load-more-container">
+          <button
+            class="load-more-btn button"
+            data-next-url="{{ paginate.next.url }}"
+            data-section-id="{{ section.id }}"
+            data-batch-size="{{ section.settings.load_more_threshold }}"
+            aria-label="Load more products"
+            type="button"
+          >
+            <span class="load-more-spinner" aria-hidden="true"></span>
+            <span class="load-more-text">Load More Items</span>
+          </button>
+          <p
+            class="load-more-end-msg"
+            data-section-id="{{ section.id }}"
+            aria-live="polite"
+          >
+            You've seen all the products on this page.
+          </p>
+        </div>
+      {% elsif section.settings.enable_infinite_scroll == false and paginate.next == nil and collection.products_count > section.settings.load_more_threshold %}
+        <div class="load-more-container">
+          <p
+            class="load-more-end-msg is-visible"
+            data-section-id="{{ section.id }}"
+            aria-live="polite"
+          >
+            You've seen all the products on this page.
+          </p>
+        </div>
+{% endif %}
       {% if enable_infinite_scroll != false %}
         <span ref="viewMoreNext"></span>
-      {% else %}
-        {% render 'pagination-controls', paginate: paginate %}
       {% endif %}
     {% endif %}
   </div>
@@ -220,4 +250,21 @@
   .main-collection-grid__empty-title {
     margin: 0;
   }
+@media screen and (min-width: 992px) {
+  .collection-wrapper .main-collection-grid {
+    transition: width 0.5s;
+    width: 100%;
+    float: right;
+  }
+  .collection-wrapper .main-collection-grid.filter-active {
+    width: 75%;
+  }
+  .collection-wrapper .main-collection-grid .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .collection-wrapper .main-collection-grid.filter-active .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}}
 {% endstylesheet %}

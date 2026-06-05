@@ -24,7 +24,6 @@ body {
   --submenu-animation-speed: 360ms;
   --submenu-animation-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
-
 html {
   /* Firefox */
   scrollbar-width: thin;
@@ -103,6 +102,16 @@ select {
   }
 }
 
+  .cstm-layout-home-banner h2,
+  .cstm-layout-home-banner h1 {
+      text-shadow: 0 0 60px rgba(0, 0, 0, .75);
+   }
+   
+  .hero-banner-layout h3,
+  .button-wrapper a {
+        text-shadow: 0 0 18px rgba(0, 0, 0, .65);
+  } 
+  
 .collection-card__inner,
 .featured-blog-posts-card__inner {
   width: 100%;
@@ -293,13 +302,6 @@ p:empty {
     animation: var(--view-transition-new-main-content);
   }
 }
-
-/* Focus */
-*:focus-visible {
-  outline: var(--focus-outline-width) solid currentcolor;
-  outline-offset: var(--focus-outline-offset);
-}
-
 @supports not selector(:focus-visible) {
   *:focus {
     outline: var(--focus-outline-width) solid currentcolor;
@@ -330,20 +332,22 @@ p:empty {
   --page-margin: 16px;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 992px) {
   .page-width-wide,
   .page-width-normal,
   .page-width-narrow,
   .page-width-content {
     --page-margin: 40px;
   }
-  .page-width {
+  .page-width,
+  .section--page-width {
     padding-inline: 32px;
   }
 }
-@media screen and (max-width: 750px) {
-  .page-width {
-    padding-inline: 16px;
+@media screen and (max-width: 992px) {
+  .page-width,
+  .section--page-width {
+    padding-inline: 18px;
   }
 }
 
@@ -379,8 +383,7 @@ p:empty {
     calc(100% - var(--page-margin) * 2)
   );
   --full-page-grid-margin: minmax(var(--page-margin), 1fr);
-  --full-page-grid-with-margins: var(--full-page-grid-margin) var(--full-page-grid-central-column-width)
-    var(--full-page-grid-margin);
+  --full-page-grid-with-margins: 0 100% 0;
 
   /* Utility variable gives the grid's first column width. Provides an offset width for components like carousels */
   --util-page-margin-offset: max(
@@ -490,7 +493,7 @@ p:empty {
   display: none !important;
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 992px) {
   .hidden--mobile,
   .mobile\:hidden {
     /* stylelint-disable-next-line declaration-no-important */
@@ -720,7 +723,7 @@ body,
 .paragraph:not(.button),
 .paragraph > *,
 .text-block.paragraph :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-paragraph--family);
+  font-family: var(--body-font);
   font-style: var(--font-paragraph--style);
   font-weight: var(--font-paragraph--weight);
   font-size: var(--font-paragraph--size);
@@ -750,7 +753,7 @@ h1,
 .h1.h1,
 .text-block.h1 > *,
 .text-block.h1 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h1--family);
+  font-family: var(--heading-font);
   font-style: var(--font-h1--style);
   font-weight: var(--font-h1--weight);
   font-size: var(--font-h1--size);
@@ -772,7 +775,7 @@ h2,
 .h2.h2,
 .text-block.h2 > *,
 .text-block.h2 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h2--family);
+  font-family: var(--heading-font);
   font-style: var(--font-h2--style);
   font-weight: var(--font-h2--weight);
   font-size: var(--font-h2--size);
@@ -795,7 +798,7 @@ h3,
 .h3.h3,
 .text-block.h3 > *,
 .text-block.h3 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h3--family);
+  font-family: var(--heading-font);
   font-style: var(--font-h3--style);
   font-weight: var(--font-h3--weight);
   font-size: var(--font-h3--size);
@@ -817,7 +820,7 @@ h4,
 .h4.h4,
 .text-block.h4 > *,
 .text-block.h4 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h4--family);
+  font-family: var(--heading-font);
   font-style: var(--font-h4--style);
   font-weight: var(--font-h4--weight);
   font-size: var(--font-h4--size);
@@ -839,7 +842,7 @@ h5,
 .h5.h5,
 .text-block.h5 > *,
 .text-block.h5 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h5--family);
+  font-family: var(--heading-font);
   font-style: var(--font-h5--style);
   font-weight: var(--font-h5--weight);
   font-size: var(--font-h5--size);
@@ -861,7 +864,7 @@ h6,
 .h6.h6,
 .text-block.h6 > *,
 .text-block.h6 :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-h6--family);
+  font-family: var(--heading-font);
   font-style: var(--font-h6--style);
   font-weight: var(--font-h6--weight);
   font-size: var(--font-h6--size);
@@ -1240,15 +1243,6 @@ results-list[initialized] {
 }
 
 /* stylelint-disable value-keyword-case */
-.dialog-drawer {
-  --dialog-drawer-opening-animation: move-and-fade;
-  --dialog-drawer-closing-animation: move-and-fade;
-}
-
-.dialog-drawer--right {
-  --dialog-drawer-opening-animation: move-and-fade;
-  --dialog-drawer-closing-animation: move-and-fade;
-}
 /* stylelint-enable value-keyword-case */
 
 .dialog-drawer[open] {
@@ -1256,7 +1250,7 @@ results-list[initialized] {
   --end-x: var(--custom-transform-to, 0px);
   --start-opacity: 1;
 
-  animation: var(--dialog-drawer-opening-animation) var(--animation-speed) var(--animation-easing) forwards;
+  animation: var(--animation-speed) var(--animation-easing) forwards;
 }
 
 .dialog-drawer[open].dialog-closing {
@@ -1265,7 +1259,7 @@ results-list[initialized] {
   --start-opacity: 1;
   --end-opacity: 1;
 
-  animation: var(--dialog-drawer-closing-animation) var(--animation-speed) var(--animation-easing);
+  animation: var(--animation-speed) var(--animation-easing);
 }
 
 .dialog-drawer--right[open] {
@@ -1279,7 +1273,7 @@ results-list[initialized] {
   --start-opacity: 1;
   --end-opacity: 1;
 
-  animation: var(--dialog-drawer-closing-animation) var(--animation-speed) var(--animation-easing);
+  animation: var(--animation-speed) var(--animation-easing);
 }
 
 /* Buttons */
@@ -1296,9 +1290,9 @@ button.shopify-payment-button__button--unbranded {
   appearance: none;
   background-color: var(--button-background-color);
   border: none;
-  font-family: var(--font-paragraph--family);
+  font-family: var(--button-font);
   font-style: var(--font-paragraph--style);
-  font-weight: var(--font-paragraph--weight);
+  font-weight: var(--font-subheading--weight);
   font-size: var(--font-paragraph--size);
   line-height: var(--font-paragraph--line-height);
   margin-block: 0;
@@ -1314,7 +1308,7 @@ button.shopify-payment-button__button--unbranded {
 }
 
 .button {
-  font-family: var(--button-font-family-primary);
+  font-family: var(--button-font);
   text-transform: var(--button-text-case-primary);
   border-radius: var(--style-border-radius-buttons-primary);
 }
@@ -2443,13 +2437,11 @@ form.payment-terms {
 .drawer {
   background-color: var(--color-background);
   position: fixed;
-  top: 0;
   left: 0;
-  bottom: 0;
-  width: var(--sidebar-width);
+  width: 100%;
   z-index: var(--layer-raised);
-  transform: translateX(-120%);
-  transition: transform var(--animation-speed) var(--animation-easing);
+  top: 2000px;
+  transition: .5s top;
 }
 
 .drawer[data-open='true'] {
@@ -2617,7 +2609,7 @@ form.payment-terms {
   justify-content: var(--vertical-alignment);
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 992px) {
   .mobile-column {
     flex-flow: column nowrap;
     align-items: var(--horizontal-alignment);
@@ -2650,7 +2642,7 @@ form.payment-terms {
   }
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 992px) {
   .layout-panel-flex {
     flex-direction: var(--flex-direction);
   }
@@ -3841,11 +3833,6 @@ fly-to-cart.fly-to-cart--sticky {
 .layout-panel-flex--row > .group-block--width-fill {
   flex: 1;
 }
-
-.layout-panel-flex--row > .group-block--width-custom {
-  flex-basis: var(--size-style-width);
-}
-
 /* Dimension utilities - Height */
 .group-block--height-fit {
   height: auto;
@@ -4229,4 +4216,22 @@ product-recommendations:has([data-has-recommendations='false']) {
     opacity: var(--atc-opacity, 1);
     translate: 0px var(--atc-destination, 0px);
   }
+}
+@media screen and (max-width: 990px) {
+  footer .footer__newsletter .section-content-wrapper {
+    align-items: center;
+  }
+  footer .footer__newsletter .section-content-wrapper .footer__newsletter_text,
+  footer .footer__newsletter .section-content-wrapper .email-signup-block {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  footer .section--page-width {
+    max-width: 1440px;
+    padding-inline: 35px;
+    margin: auto;
+  }
+
 }

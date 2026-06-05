@@ -6,27 +6,27 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "section": {
       "type": "section",
       "blocks": {
-        "text_tqQTNE": {
-          "type": "text",
-          "name": "Title",
+        "collection_title_ctgD9W": {
+          "type": "collection-title",
+          "name": "t:names.collection_title",
           "settings": {
-            "text": "<h1>{{ closest.collection.title }}</h1>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "color": "",
+            "color": "var(--color-foreground-heading)",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -45,9 +45,9 @@
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
+            "type_preset": "custom",
+            "font": "var(--button-font)",
+            "font_size": "1.125rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
@@ -65,7 +65,7 @@
         }
       },
       "block_order": [
-        "text_tqQTNE",
+        "collection_title_ctgD9W",
         "text_twGGkJ"
       ],
       "name": "Collection heading",
@@ -81,7 +81,8 @@
         "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-1",
+        "style_class": "",
+        "color_scheme": "scheme-70749f77-521f-4ddb-8636-f41eed917881",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -93,7 +94,7 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
+        "padding-block-start": 45,
         "padding-block-end": 48
       }
     },
@@ -105,13 +106,13 @@
           "static": true,
           "settings": {
             "enable_filtering": true,
-            "filter_style": "horizontal",
+            "filter_style": "vertical",
             "filter_width": "centered",
             "text_label_case": "default",
-            "show_swatch_label": false,
-            "show_filter_label": false,
+            "show_swatch_label": true,
+            "show_filter_label": true,
             "enable_sorting": true,
-            "enable_grid_density": true,
+            "enable_grid_density": false,
             "inherit_color_scheme": true,
             "color_scheme": "",
             "padding-block-start": 8,
@@ -214,13 +215,15 @@
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
+        "enable_infinite_scroll": false,
+        "load_more_threshold": 10,
         "product_grid_width": "centered",
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 16,
         "columns_gap_vertical": 24,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-8f2ad5ad-59de-4523-8709-5b2f26a152d5",
         "padding-block-start": 0,
         "padding-block-end": 32
       }

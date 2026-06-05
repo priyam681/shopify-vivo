@@ -35,14 +35,12 @@ var(--font-
 {% case settings.menu_font_style %}
   {% when 'regular' %}
     --menu-child-font-size: var(--menu-font-sm--size); --menu-child-font-line-height: var(--menu-font-sm--line-height);
-    --menu-child-font-color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+    --menu-child-font-color: rgb(var(--color-foreground-rgb));
     --menu-child-active-font-color: var(--color-foreground);
   {% when 'inverse' %}
     --menu-child-font-size: var(--menu-font-md--size); --menu-child-font-line-height: var(--menu-font-md--line-height);
-    --menu-child-font-color: var(--color-foreground); --menu-child-active-font-color: rgb(var(--color-foreground-rgb) /
-    var(--opacity-subdued-text));
+    --menu-child-font-color: var(--color-foreground); --menu-child-active-font-color: rgb(var(--color-foreground-rgb));
   {% when 'inverse_large' %}
     --menu-child-font-size: var(--menu-font-xl--size); --menu-child-font-line-height: var(--menu-font-xl--line-height);
-    --menu-child-font-color: var(--color-foreground); --menu-child-active-font-color: rgb(var(--color-foreground-rgb) /
-    var(--opacity-subdued-text));
+    --menu-child-font-color: var(--color-foreground); --menu-child-active-font-color: rgb(var(--color-foreground-rgb));
 {% endcase %}

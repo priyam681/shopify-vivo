@@ -8,11 +8,16 @@ import { requestIdleCallback } from '@theme/utilities';
 export class DeclarativeShadowElement extends HTMLElement {
   connectedCallback() {
     if (!this.shadowRoot) {
-      const template = this.querySelector(':scope > template[shadowrootmode="open"]');
+      const template = this.querySelector(
+        ':scope > template[shadowrootmode="open"]'
+      );
 
       if (!(template instanceof HTMLTemplateElement)) return;
 
-      const shadow = this.attachShadow({ mode: 'open' });
+      const shadow = this.attachShadow({
+        mode: 'open',
+      });
+
       shadow.append(template.content.cloneNode(true));
     }
   }
@@ -38,8 +43,6 @@ export class DeclarativeShadowElement extends HTMLElement {
  */
 export class Component extends DeclarativeShadowElement {
   /**
-   * An object holding references to child elements with `ref` attributes.
-   *
    * @type {RefsType<T>}
    */
   refs = /** @type {RefsType<T>} */ ({});
@@ -52,12 +55,12 @@ export class Component extends DeclarativeShadowElement {
   requiredRefs;
 
   /**
-   * Gets the root node of the component, which is either its shadow root or the component itself.
-   *
-   * @returns {(ShadowRoot | Component<T>)[]} The root nodes.
+   * Get roots
    */
   get roots() {
-    return this.shadowRoot ? [this, this.shadowRoot] : [this];
+    return this.shadowRoot
+      ? [this, this.shadowRoot]
+      : [this];
   }
 
   /**
@@ -67,9 +70,10 @@ export class Component extends DeclarativeShadowElement {
    */
   connectedCallback() {
     super.connectedCallback();
+
     registerEventListeners();
 
-    this.#updateRefs();
+    this.#safeUpdateRefs();
 
     requestIdleCallback(() => {
       for (const root of this.roots) {
@@ -89,53 +93,82 @@ export class Component extends DeclarativeShadowElement {
    */
   updatedCallback() {
     this.#mutationObserver.takeRecords();
-    this.#updateRefs();
+
+    this.#safeUpdateRefs();
   }
 
   /**
-   * Called when the element is disconnected from the document's DOM.
-   *
-   * Disconnects the mutation observer.
+   * Disconnected
    */
   disconnectedCallback() {
     this.#mutationObserver.disconnect();
   }
 
   /**
-   * Updates the `refs` object by querying all descendant elements with `ref` attributes and storing references to them.
-   *
-   * This method is called to keep the `refs` object in sync with the DOM.
+   * SAFE refs updater
+   * Prevent app crash if ref missing
+   */
+  #safeUpdateRefs() {
+    try {
+      this.#updateRefs();
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
+  /**
+   * Update refs
    */
   #updateRefs() {
     const refs = /** @type any */ ({});
-    const elements = this.roots.reduce((acc, root) => {
-      for (const element of root.querySelectorAll('[ref]')) {
-        if (!this.#isDescendant(element)) continue;
-        acc.add(element);
-      }
 
-      return acc;
-    }, /** @type {Set<Element>} */ (new Set()));
+    const elements = this.roots.reduce(
+      (acc, root) => {
+        for (const element of root.querySelectorAll('[ref]')) {
+          if (!this.#isDescendant(element)) continue;
+
+          acc.add(element);
+        }
+
+        return acc;
+      },
+      /** @type {Set<Element>} */ (new Set())
+    );
 
     for (const ref of elements) {
       const refName = ref.getAttribute('ref') ?? '';
+
       const isArray = refName.endsWith('[]');
-      const path = isArray ? refName.slice(0, -2) : refName;
+
+      const path = isArray
+        ? refName.slice(0, -2)
+        : refName;
 
       if (isArray) {
-        const array = Array.isArray(refs[path]) ? refs[path] : [];
+        const array = Array.isArray(refs[path])
+          ? refs[path]
+          : [];
 
         array.push(ref);
+
         refs[path] = array;
       } else {
         refs[path] = ref;
       }
     }
 
+    /*
+     * IMPORTANT FIX
+     * Missing required ref should NOT crash app
+     */
     if (this.requiredRefs?.length) {
       for (const ref of this.requiredRefs) {
         if (!(ref in refs)) {
-          throw new MissingRefError(ref, this);
+          console.warn(
+            `Missing ref "${ref}" in component ${this.tagName.toLowerCase()}`
+          );
+
+          refs[ref] = null;
         }
       }
     }
@@ -144,80 +177,106 @@ export class Component extends DeclarativeShadowElement {
   }
 
   /**
-   * MutationObserver instance to observe changes in the component's DOM subtree and update refs accordingly.
-   *
-   * @type {MutationObserver}
+   * Mutation observer
    */
-  #mutationObserver = new MutationObserver((mutations) => {
-    if (
-      mutations.some(
-        (m) =>
-          (m.type === 'attributes' && this.#isDescendant(m.target)) ||
-          (m.type === 'childList' && [...m.addedNodes, ...m.removedNodes].some(this.#isDescendant))
-      )
-    ) {
-      this.#updateRefs();
+  #mutationObserver = new MutationObserver(
+    (mutations) => {
+      if (
+        mutations.some(
+          (m) =>
+            (m.type === 'attributes' &&
+              this.#isDescendant(m.target)) ||
+            (m.type === 'childList' &&
+              [...m.addedNodes, ...m.removedNodes].some(
+                this.#isDescendant
+              ))
+        )
+      ) {
+        this.#safeUpdateRefs();
+      }
     }
-  });
+  );
 
   /**
-   * Checks if a given node is a descendant of this component.
-   *
-   * @param {Node} node - The node to check.
-   * @returns {boolean} True if the node is a descendant of this component.
+   * Is descendant
    */
-  #isDescendant = (node) => getClosestComponent(getAncestor(node)) === this;
+  #isDescendant = (node) =>
+    getClosestComponent(getAncestor(node)) === this;
 }
 
 /**
- * Get the ancestor of a given node.
- *
- * @param {Node} node - The node to get the ancestor of.
- * @returns {Node | null} The ancestor of the node or null if none is found.
+ * Get ancestor
  */
 function getAncestor(node) {
   if (node.parentNode) return node.parentNode;
 
   const root = node.getRootNode();
-  if (root instanceof ShadowRoot) return root.host;
+
+  if (root instanceof ShadowRoot) {
+    return root.host;
+  }
 
   return null;
 }
 
 /**
- * Recursively finds the closest ancestor that is an instance of `Component`.
- *
- * @param {Node | null} node - The starting node to search from.
- * @returns {HTMLElement | null} The closest ancestor `Component` instance or null if none is found.
+ * Get closest component
  */
 function getClosestComponent(node) {
   if (!node) return null;
+
   if (node instanceof Component) return node;
-  if (node instanceof HTMLElement && node.tagName.toLowerCase().endsWith('-component')) return node;
+
+  if (
+    node instanceof HTMLElement &&
+    node.tagName.toLowerCase().endsWith('-component')
+  ) {
+    return node;
+  }
 
   const ancestor = getAncestor(node);
-  if (ancestor) return getClosestComponent(ancestor);
+
+  if (ancestor) {
+    return getClosestComponent(ancestor);
+  }
 
   return null;
 }
 
 /**
- * Initializes the event listeners for custom event handling.
- *
- * Sets up event listeners for specified events and delegates the handling of those events
- * to methods defined on the closest `Component` instance, based on custom attributes.
+ * Register event listeners
  */
 let initialized = false;
 
 function registerEventListeners() {
   if (initialized) return;
+
   initialized = true;
 
-  const events = ['click', 'change', 'select', 'focus', 'blur', 'submit', 'input', 'keydown', 'keyup', 'toggle'];
-  const shouldBubble = ['focus', 'blur'];
-  const expensiveEvents = ['pointerenter', 'pointerleave'];
+  const events = [
+    'click',
+    'change',
+    'select',
+    'focus',
+    'blur',
+    'submit',
+    'input',
+    'keydown',
+    'keyup',
+    'toggle',
+  ];
 
-  for (const eventName of [...events, ...expensiveEvents]) {
+  const shouldBubble = ['focus', 'blur'];
+
+  const expensiveEvents = [
+    'pointerenter',
+    'pointerleave',
+  ];
+
+  for (const eventName of [
+    ...events,
+    ...expensiveEvents,
+  ]) {
     const attribute = `on:${eventName}`;
 
     document.addEventListener(
@@ -231,9 +290,14 @@ function registerEventListeners() {
           event.target !== element
             ? new Proxy(event, {
                 get(target, property) {
-                  if (property === 'target') return element;
+                  if (property === 'target') {
+                    return element;
+                  }
 
-                  const value = Reflect.get(target, property);
+                  const value = Reflect.get(
+                    target,
+                    property
+                  );
 
                   if (typeof value === 'function') {
                     return value.bind(target);
@@ -244,30 +308,42 @@ function registerEventListeners() {
               })
             : event;
 
-        const value = element.getAttribute(attribute) ?? '';
+        const value =
+          element.getAttribute(attribute) ?? '';
+
         let [selector, method] = value.split('/');
-        // Extract the last segment of the attribute value delimited by `?` or `/`
-        // Do not use lookback for Safari 16.0 compatibility
-        const matches = value.match(/([\/\?][^\/\?]+)([\/\?][^\/\?]+)$/);
+
+        const matches = value.match(
+          /([\/\?][^\/\?]+)([\/\?][^\/\?]+)$/
+        );
+
         const data = matches ? matches[2] : null;
+
         const instance = selector
           ? selector.startsWith('#')
             ? document.querySelector(selector)
             : element.closest(selector)
           : getClosestComponent(element);
 
-        if (!(instance instanceof Component) || !method) return;
+        if (
+          !(instance instanceof Component) ||
+          !method
+        ) {
+          return;
+        }
 
         method = method.replace(/\?.*/, '');
 
-        const callback = /** @type {any} */ (instance)[method];
+        const callback =
+          /** @type {any} */ (instance)[method];
 
         if (typeof callback === 'function') {
           try {
-            /** @type {(Event | Data)[]} */
             const args = [proxiedEvent];
 
-            if (data) args.unshift(parseData(data));
+            if (data) {
+              args.unshift(parseData(data));
+            }
 
             callback.call(instance, ...args);
           } catch (error) {
@@ -279,13 +355,18 @@ function registerEventListeners() {
     );
   }
 
-  /** @param {Event} event */
+  /**
+   * Get element
+   */
   function getElement(event) {
-    const target = event.composedPath?.()[0] ?? event.target;
+    const target =
+      event.composedPath?.()[0] ?? event.target;
 
     if (!(target instanceof Element)) return;
 
-    if (target.hasAttribute(`on:${event.type}`)) {
+    if (
+      target.hasAttribute(`on:${event.type}`)
+    ) {
       return target;
     }
 
@@ -293,56 +374,60 @@ function registerEventListeners() {
       return null;
     }
 
-    return event.bubbles || shouldBubble.includes(event.type) ? target.closest(`[on\\:${event.type}]`) : null;
+    return event.bubbles ||
+      shouldBubble.includes(event.type)
+      ? target.closest(`[on\\:${event.type}]`)
+      : null;
   }
 }
 
 /**
- * Parses a string to extract data based on a delimiter.
- *
- * @param {string} str - The string to parse.
- * @returns {Object|Array<string|number>|string} The parsed data.
+ * Parse data
  */
 function parseData(str) {
   const delimiter = str[0];
+
   const data = str.slice(1);
 
   return delimiter === '?'
     ? Object.fromEntries(
-        Array.from(new URLSearchParams(data).entries()).map(([key, value]) => [key, parseValue(value)])
+        Array.from(
+          new URLSearchParams(data).entries()
+        ).map(([key, value]) => [
+          key,
+          parseValue(value),
+        ])
       )
     : parseValue(data);
 }
 
 /**
- * @typedef {Object|Array<string|number>|string} Data
- */
-
-/**
- * Parses a string value to its appropriate type.
- *
- * @param {string} str - The string to parse.
- * @returns {Data} The parsed value.
+ * Parse value
  */
 function parseValue(str) {
   if (str === 'true') return true;
+
   if (str === 'false') return false;
 
   const maybeNumber = Number(str);
-  if (!isNaN(maybeNumber) && str.trim() !== '') return maybeNumber;
+
+  if (
+    !isNaN(maybeNumber) &&
+    str.trim() !== ''
+  ) {
+    return maybeNumber;
+  }
 
   return str;
 }
 
 /**
- * Throws a formatted error when a required ref is not found in the component.
+ * Missing Ref Error
  */
 class MissingRefError extends Error {
-  /**
-   * @param {string} ref
-   * @param {Component} component
-   */
   constructor(ref, component) {
-    super(`Required ref "${ref}" not found in component ${component.tagName.toLowerCase()}`);
+    super(
+      `Required ref "${ref}" not found in component ${component.tagName.toLowerCase()}`
+    );
   }
 }
