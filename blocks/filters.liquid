@@ -75,9 +75,15 @@
   {% if block_settings.filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
     <div
-      class="facets facets--horizontal facets-controls-wrapper spacing-style"
+      class="facets-render-new-wrapepr facets facets--horizontal facets-controls-wrapper spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
+      {% if block.settings.enable_category_tabs %}
+        {% render 'category-tabs',
+          menu_handle: block.settings.tabs_menu
+        %}
+      {% endif %}
+      <div class="add-filter-layout-new">
     
       {% if block_settings.enable_filtering %}
       <button class="filter-trigger" type="button">
@@ -99,6 +105,8 @@
       {% if block_settings.enable_grid_density %}
         {% render 'grid-density-controls', viewport: 'desktop' %}
       {% endif %}
+      </div>
+      
     </div>
   {% endif %}
   <div
@@ -200,7 +208,7 @@
                 {%- endfor -%}
               {% endcapture %}
 
-              <div class="facets__filters-wrapper">
+              <div class="facets__filters-wrapper custom-wrapper-filter">
                 {% if block_settings.filter_style == 'horizontal' %}
                   {% liquid
                     assign more_attributes = 'on:click="#filters-drawer/showDialog"'
@@ -1191,6 +1199,37 @@
     }
   }
 
+  .facets-render-new-wrapepr {
+    justify-content: space-between;
+  }
+  .add-filter-layout-new {
+     display: flex;
+     align_items: center;
+     gap: 30px;     
+  }
+  .facets-render-new-wrapepr .sorting-filter-component.sorting-filter {
+      margin: 0;
+      padding-left: 32px;
+      width: fit-content;
+      padding-right: 20px;
+   } 
+   .add-filter-layout-new accordion-custom details summary span.facets__label {
+        font-size: 18px;
+        line-height: 18px;
+        letter-spacing: -.2px;
+        font-family: 'knockout50-welter';
+        text-transform: uppercase;
+        font-weight: 400;
+        color: #212121;
+        margin-right: 4px;
+        padding: 0;
+        position: static;
+        transform: none;
+        width: auto;
+    }
+    .add-filter-layout-new accordion-custom svg {
+      color: #000 !important;
+    }
   /* Facets - Actions */
   .facets__drawer-actions {
     --to-top-gradient-background: linear-gradient(
@@ -1447,6 +1486,17 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       "type": "header",
       "content": "t:content.padding"
+    },
+    {
+      "type": "link_list",
+      "id": "tabs_menu",
+      "label": "Category Tabs Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_category_tabs",
+      "label": "Enable Category Tabs",
+      "default": true
     },
     {
       "type": "range",

@@ -57,6 +57,34 @@
     ]
   },
   {
+    "name": "Compare Button",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_compare",
+        "label": "Enable Compare Button",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_compare_icon",
+        "label": "Show Compare Icon",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "compare_icon",
+        "label": "Compare Icon"
+      },
+      {
+        "type": "text",
+        "id": "compare_text",
+        "label": "Compare Text",
+        "default": "Compare"
+      }
+    ]
+  },
+  {
     "name": "t:names.colors",
     "settings": [
       {

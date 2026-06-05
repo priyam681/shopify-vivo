@@ -37,7 +37,7 @@
 {% capture accordion_children %}
   <details
     id="Facet-Details-{{ sectionId }}-{{ filter.param_name | escape | replace: '.', '-' }}"
-    class="facets__panel"
+    class="facets__panel "
     {% if filter_style == 'horizontal' %}
       data-auto-close-details="desktop"
     {% endif %}
@@ -518,7 +518,27 @@
     display: flex;
     align-items: center;
   }
+  .custom-wrapper-filter .svg-wrapper  {
+    height: 20px;
+    width: 20px;
+  }
 
+  .custom-wrapper-filter .svg-wrapper svg {
+    width: 20px;
+    height: 20px;
+  }
+  .custom-wrapper-filter accordion-custom summary {
+    border-top: 1px solid #d9d9d9;
+    color: #212121;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -.2px;
+    line-height: 18px;
+    padding: 25px 0 15px;
+    position: relative;
+    text-transform: uppercase;
+  }
   .facets--drawer .facets__status-wrapper {
     @media screen and (max-width: 749px) {
       gap: var(--gap-3xs);

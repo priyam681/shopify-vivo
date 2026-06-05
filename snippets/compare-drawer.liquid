@@ -1,0 +1,169 @@
+{% if settings.enable_compare %}
+<div id="compare-drawer" class="compare-drawer hidden">
+  <div class="compare-drawer__items"></div>
+</div>
+{% endif %}
+
+
+<script>
+  async function renderCompareDrawer() {
+
+    const currentProduct =
+        sessionStorage.getItem('current_compare_product');
+
+    const comparedProducts =
+        JSON.parse(
+            sessionStorage.getItem('compared_products')
+        ) || [];
+
+    const drawer =
+        document.getElementById('compare-drawer');
+
+    const container =
+        document.querySelector('.compare-drawer__items');
+
+    if (!drawer || !container) return;
+
+    container.innerHTML = '';
+
+    // Remove old active borders
+    document
+        .querySelectorAll('.product-card')
+        .forEach(card => {
+            card.classList.remove('compare-active');
+        });
+
+    // Add active borders
+    comparedProducts.forEach(handle => {
+
+        const btn = document.querySelector(
+            `.compare-btn[data-product-handle="${handle}"]`
+        );
+
+        if (btn) {
+
+            const card = btn.closest('.product-card');
+
+            if (card) {
+                card.classList.add('compare-active');
+            }
+        }
+    });
+
+    // Hide drawer if no products
+    if (!currentProduct || comparedProducts.length === 0) {
+
+        drawer.classList.add('hidden');
+        return;
+    }
+
+    drawer.classList.remove('hidden');
+
+    try {
+
+        const response =
+            await fetch(`/products/${currentProduct}.js`);
+
+        const product =
+            await response.json();
+
+        container.innerHTML = `
+            <div class="compare-item">
+
+                <img
+                    src="${product.featured_image}"
+                    alt="${product.title}"
+                    width="80"
+                >
+
+                <div class="compare-item__content">
+                    <h4>${product.title}</h4>
+                    <p>Select one more product to compare</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="compare-remove"
+                    data-handle="${product.handle}"
+                >
+                    ✕
+                </button>
+
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+    }
+}
+
+
+document.addEventListener('click', function (e) {
+
+    // Compare Button
+    const compareBtn =
+        e.target.closest('.compare-btn');
+
+    if (compareBtn) {
+
+        const handle =
+            compareBtn.dataset.productHandle;
+
+        let comparedProducts =
+            JSON.parse(
+                sessionStorage.getItem('compared_products')
+            ) || [];
+
+        // Already selected
+        if (comparedProducts.includes(handle)) {
+            return;
+        }
+
+        // 3rd click => redirect to compare page
+        if (comparedProducts.length >= 2) {
+
+            window.location.href =
+                `/pages/compare?products=${comparedProducts.join(',')}`;
+
+            return;
+        }
+
+        comparedProducts.push(handle);
+
+        sessionStorage.setItem(
+            'compared_products',
+            JSON.stringify(comparedProducts)
+        );
+
+        sessionStorage.setItem(
+            'current_compare_product',
+            handle
+        );
+
+        renderCompareDrawer();
+
+        return;
+    }
+
+
+    // Remove Button
+      const removeBtn = e.target.closest('.compare-remove');
+
+      if (removeBtn) {
+
+          sessionStorage.clear();
+
+          renderCompareDrawer();
+      }
+});
+
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+        renderCompareDrawer();
+    }
+);
+</script>
