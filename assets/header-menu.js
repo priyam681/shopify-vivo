@@ -104,8 +104,6 @@ class HeaderMenu extends Component {
   #openFirstSubmenuMobile(force = false) {
     if (window.innerWidth >= 992) return;
 
-    // Sirf tab rok jab user ne manually koi item select kiya ho
-    // force=true hoga page load aur hamburger click pe
     if (!force && this.#state.activeItem) return;
 
     const firstListItem = this.querySelector('.menu-list__list-item');
@@ -189,17 +187,18 @@ class HeaderMenu extends Component {
   activate = (event) => {
     if (window.innerWidth < 992) return;
 
-    this.dispatchEvent(
-      new MegaMenuHoverEvent()
-    );
+    this.dispatchEvent(new MegaMenuHoverEvent());
 
     if (!(event.target instanceof Element)) return;
 
-    const item = findMenuItem(event.target);
+    const item =
+      event.target.closest('[ref="menuitem"]') ??
+      event.target.closest('.menu-list__list-item')?.querySelector('[ref="menuitem"]');
 
     if (!item) return;
 
-    const submenu = findSubmenu(item);
+    const listItem = item.closest('.menu-list__list-item');
+    const submenu = listItem?.querySelector('.menu-list__submenu') ?? null;
 
     this.querySelectorAll('.menu-list__submenu').forEach((menu) => {
       menu.style.display = 'none';
@@ -213,14 +212,6 @@ class HeaderMenu extends Component {
 
     if (submenu) {
       submenu.style.display = 'block';
-
-      const finalHeight = submenu.scrollHeight || 0;
-
-      this.headerComponent?.style.setProperty(
-        '--submenu-height',
-        `${finalHeight}px`
-      );
-
       this.style.setProperty('--submenu-opacity', '1');
     }
 
