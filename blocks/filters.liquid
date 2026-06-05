@@ -71,7 +71,6 @@
     assign should_use_select_on_mobile = false
   endif
 -%}
-
 {% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
   {% if block_settings.filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
@@ -79,6 +78,7 @@
       class="facets facets--horizontal facets-controls-wrapper spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
+    
       {% if block_settings.enable_filtering %}
       <button class="filter-trigger" type="button">
         {{ 'content.filters' | t }}
@@ -781,7 +781,7 @@
       --variant-picker-swatch-height: 26px;
     }
 
-    font-size: var(--font-h5--size);
+    font-size: 18px;
     display: flex;
     justify-content: space-between;
 
@@ -789,12 +789,6 @@
       --icon-opacity: 1;
     }
   }
-
-  .facets__filters-wrapper:hover .facets__summary,
-  .facets__filters-wrapper:has(.facets__panel[open]) .facets__summary {
-    opacity: var(--facets-hover-opacity);
-  }
-
   .facets__filters-wrapper .facets__summary:hover,
   .facets__filters-wrapper .facets__panel[open] .facets__summary {
     opacity: 1;
@@ -878,18 +872,6 @@
       margin-inline: calc(var(--padding-sm) * -1);
     }
   }
-
-  .facets__inputs-wrapper:not(:has(.facets__inputs-list)),
-  .facets__inputs-wrapper .facets__inputs-list {
-    display: flex;
-    gap: var(--facets-mobile-gap);
-    flex-direction: column;
-
-    @media screen and (min-width: 750px) {
-      gap: var(--gap-sm);
-    }
-  }
-
   @media screen and (min-width: 750px) {
     .facets--vertical .facets__inputs-wrapper .facets__inputs-list--swatches {
       gap: var(--gap-sm);
@@ -1279,36 +1261,85 @@
   }
 {% endstylesheet %}
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
+
   const filterBtn = document.querySelector('.filter-trigger');
-  const sidebar = document.querySelector('.product-grid-container .facets-block-wrapper--vertical');
-  const grid = document.querySelector('.product-grid-container .main-collection-grid');
 
-  if (sidebar && grid) {
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('collection-content-wrapper');
-    sidebar.parentNode.insertBefore(wrapper, sidebar);
-    wrapper.appendChild(grid);
-    wrapper.appendChild(sidebar);
-  }
+  function setupFilters() {
+    const sidebar = document.querySelector('.facets-block-wrapper--vertical');
+    const grid = document.querySelector('.main-collection-grid');
 
-  filterBtn?.addEventListener('click', function () {
-  const isDesktop = window.innerWidth >= 992;
+    if (!sidebar) return;
 
-  if (isDesktop) {
-    sidebar?.classList.toggle('filter-active');
-    grid?.classList.toggle('filter-active');
+    // Restore open state after AJAX/page reload
+    if (
+      sessionStorage.getItem('filterOpen') === 'true' &&
+      window.innerWidth >= 992
+    ) {
+      sidebar.classList.add('filter-active');
+      grid?.classList.add('filter-active');
 
-    const isActive = sidebar?.classList.contains('filter-active');
-    this.textContent = isActive ? 'Hide Filters' : 'Show Filters';
-  } else {
-    const drawer = document.getElementById('filters-drawer');
-    const dialog = drawer?.querySelector('dialog');
-    if (dialog) {
-      dialog.showModal();
+      if (filterBtn) {
+        filterBtn.textContent = 'Hide Filters';
+      }
     }
+
+    // Save state when filter selected
+    document.querySelectorAll(
+      '.facets__form input, .facets__form a, .facets__form label'
+    ).forEach((el) => {
+
+      if (!el.dataset.filterBound) {
+        el.dataset.filterBound = 'true';
+
+        el.addEventListener('click', function () {
+          sessionStorage.setItem('filterOpen', 'true');
+        });
+      }
+    });
   }
-});
+
+  // Filter button click
+  if (filterBtn && !filterBtn.dataset.initialized) {
+
+    filterBtn.dataset.initialized = 'true';
+
+    filterBtn.addEventListener('click', function () {
+
+      const sidebar = document.querySelector('.facets-block-wrapper--vertical');
+      const grid = document.querySelector('.main-collection-grid');
+
+      if (!sidebar) return;
+
+      if (window.innerWidth < 992) {
+        const dialog = document.querySelector('#filters-drawer dialog');
+
+        if (dialog && !dialog.open) {
+          dialog.showModal();
+        }
+        return;
+      }
+
+      sidebar.classList.toggle('filter-active');
+      grid?.classList.toggle('filter-active');
+
+      const isOpen = sidebar.classList.contains('filter-active');
+
+      sessionStorage.setItem('filterOpen', isOpen);
+
+      filterBtn.textContent = isOpen
+        ? 'Hide Filters'
+        : 'Filters';
+    });
+  }
+
+  setupFilters();
+
+  // Shopify AJAX refresh
+  document.addEventListener('shopify:section:load', function () {
+    setupFilters();
+  });
+
 });
 </script>
 {% schema %}

@@ -174,7 +174,7 @@
                           {% endfor %}
 
                          </div>
-
+                    <div class="inner-wraper-detail">
                       <h3 class="product-name">
                         {{ product.title }}
                       </h3>
@@ -182,7 +182,7 @@
                       <div class="product-price">
                         {{ product.price | money }}
                       </div>
-
+                    </div>
                       <div class="product-meta">
                         {% if product.tags.size > 0 %}
                           {{ product.tags | join: ' / ' }}

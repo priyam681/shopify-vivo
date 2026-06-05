@@ -3,6 +3,7 @@ import { Component } from '@theme/component';
 import { FilterUpdateEvent, ThemeEvents } from '@theme/events';
 import { debounce, startViewTransition } from '@theme/utilities';
 import { convertMoneyToMinorUnits, formatMoney } from '@theme/money-formatting';
+
 /**
  * Search query parameter.
  * @type {string}
@@ -74,6 +75,12 @@ class FacetsFormComponent extends Component {
    * Updates filters and renders the section
    */
   updateFilters = () => {
+    const sidebar = document.querySelector('.facets-block-wrapper--vertical');
+
+    if (sidebar?.classList.contains('filter-active')) {
+      sessionStorage.setItem('filterOpen', 'true');
+    }
+
     this.#updateURLHash();
     this.dispatchEvent(new FilterUpdateEvent(this.createURLParameters()));
     this.#updateSection();
@@ -85,10 +92,15 @@ class FacetsFormComponent extends Component {
   #updateSection() {
     const viewTransition = !this.closest('dialog');
 
+    const afterRender = () => restoreFilterSidebarState();
+
     if (viewTransition) {
-      startViewTransition(() => sectionRenderer.renderSection(this.sectionId), ['product-grid']);
+      startViewTransition(
+        () => sectionRenderer.renderSection(this.sectionId).then(afterRender),
+        ['product-grid']
+      );
     } else {
-      sectionRenderer.renderSection(this.sectionId);
+      sectionRenderer.renderSection(this.sectionId).then(afterRender);
     }
   }
 
@@ -124,16 +136,22 @@ class FacetInputsComponent extends Component {
   }
 
   /**
-   * Updates filters and the selected facet summary
+   * FIX: Delegate updateFilters to the parent FacetsFormComponent
+   * instead of calling missing methods directly on this component.
    */
-  updateFilters() {
-    const facetsForm = this.closest('facets-form-component');
+  updateFilters = () => {
+    const sidebar = document.querySelector('.facets-block-wrapper--vertical');
 
+    if (sidebar?.classList.contains('filter-active')) {
+      sessionStorage.setItem('filterOpen', 'true');
+    }
+
+    const facetsForm = this.closest('facets-form-component');
     if (!(facetsForm instanceof FacetsFormComponent)) return;
 
     facetsForm.updateFilters();
     this.#updateSelectedFacetSummary();
-  }
+  };
 
   /**
    * Handles keydown events for the facets form
@@ -273,10 +291,9 @@ class PriceFacetComponent extends Component {
 
   /**
    * Parses a formatted money value into minor units
-   * displayValue can come from user input or API response
-   * @param {string} displayValue - The display value (e.g., "10.50" for USD, "9,50" for EUR, "1000" for JPY)
-   * @param {string} currency - The currency code
-   * @returns {number} The value in minor units
+   * @param {string} displayValue
+   * @param {string} currency
+   * @returns {number}
    */
   #parseDisplayValue(displayValue, currency) {
     return convertMoneyToMinorUnits(displayValue, currency) ?? 0;
@@ -284,16 +301,14 @@ class PriceFacetComponent extends Component {
 
   /**
    * Adjusts input values to be within valid range
-   * @param {HTMLInputElement} input - The input element to adjust
+   * @param {HTMLInputElement} input
    */
   #adjustToValidValues(input) {
     if (input.value.trim() === '') return;
 
     const { currency, moneyFormat } = this;
-    // Parse the user's input value using currency-aware parsing
     const value = this.#parseDisplayValue(input.value, currency);
 
-    // data-min and data-max now contain raw minor unit values (not formatted)
     const min = this.#parseDisplayValue(input.getAttribute('data-min') ?? '0', currency);
     const max = this.#parseDisplayValue(input.getAttribute('data-max') ?? '0', currency);
 
@@ -354,7 +369,7 @@ class FacetClearComponent extends Component {
 
   /**
    * Clears the filter
-   * @param {Event} event - The click event
+   * @param {Event} event
    */
   clearFilter(event) {
     if (!(event.target instanceof HTMLElement)) return;
@@ -388,8 +403,7 @@ class FacetClearComponent extends Component {
   }
 
   /**
-   * Handles keyup events
-   * @param {KeyboardEvent} event - The keyup event
+   * @param {KeyboardEvent} event
    */
   #handleKeyUp = (event) => {
     if (event.metaKey) return;
@@ -397,9 +411,6 @@ class FacetClearComponent extends Component {
   };
 
   /**
-   * Toggle clear button visibility when filters are applied. Happens before the
-   * Section Rendering Request resolves.
-   *
    * @param {FilterUpdateEvent} event
    */
   #handleFilterUpdate = (event) => {
@@ -416,7 +427,7 @@ if (!customElements.get('facet-clear-component')) {
 
 /**
  * @typedef {Object} FacetRemoveComponentRefs
- * @property {HTMLInputElement | undefined} clearButton - The button to clear filters
+ * @property {HTMLInputElement | undefined} clearButton
  */
 
 /**
@@ -435,10 +446,9 @@ class FacetRemoveComponent extends Component {
   }
 
   /**
-   * Removes the filter
-   * @param {Object} data - The data object
-   * @param {string} data.form - The form to remove the filter from
-   * @param {Event} event - The click event
+   * @param {Object} data
+   * @param {string} data.form
+   * @param {Event} event
    */
   removeFilter({ form }, event) {
     if (event instanceof KeyboardEvent) {
@@ -459,9 +469,6 @@ class FacetRemoveComponent extends Component {
   }
 
   /**
-   * Toggle clear button visibility when filters are applied. Happens before the
-   * Section Rendering Request resolves.
-   *
    * @param {FilterUpdateEvent} event
    */
   #handleFilterUpdate = (event) => {
@@ -478,22 +485,16 @@ if (!customElements.get('facet-remove-component')) {
 }
 
 /**
- * Handles sorting filter functionality
- *
  * @typedef {Object} SortingFilterRefs
- * @property {HTMLDetailsElement} details - The details element
- * @property {HTMLElement} summary - The summary element
- * @property {HTMLElement} listbox - The listbox element
+ * @property {HTMLDetailsElement} details
+ * @property {HTMLElement} summary
+ * @property {HTMLElement} listbox
  *
  * @extends {Component}
  */
 class SortingFilterComponent extends Component {
   requiredRefs = ['details', 'summary', 'listbox'];
 
-  /**
-   * Handles keyboard navigation in the sorting dropdown
-   * @param {KeyboardEvent} event - The keyboard event
-   */
   handleKeyDown = (event) => {
     const { listbox } = this.refs;
     if (!(listbox instanceof Element)) return;
@@ -533,9 +534,6 @@ class SortingFilterComponent extends Component {
     }
   };
 
-  /**
-   * Handles details toggle event
-   */
   handleToggle = () => {
     const { details, summary, listbox } = this.refs;
     if (!(details instanceof HTMLDetailsElement) || !(summary instanceof HTMLElement)) return;
@@ -544,7 +542,6 @@ class SortingFilterComponent extends Component {
     summary.setAttribute('aria-expanded', isOpen.toString());
 
     if (isOpen && listbox instanceof Element) {
-      // Move focus to selected option when dropdown opens
       const selectedOption = listbox.querySelector('[aria-selected="true"]');
       if (selectedOption instanceof HTMLElement) {
         selectedOption.focus();
@@ -552,20 +549,11 @@ class SortingFilterComponent extends Component {
     }
   };
 
-  /**
-   * Moves focus between options
-   * @param {Element[]} options - The option elements
-   * @param {number} newIndex - The index of the option to focus
-   */
   #moveFocus(options, newIndex) {
-    // Remove tabindex from all options
     options.forEach((option) => {
-      if (option instanceof HTMLElement) {
-        option.tabIndex = -1;
-      }
+      if (option instanceof HTMLElement) option.tabIndex = -1;
     });
 
-    // Set tabindex and focus on new option
     const targetOption = options[newIndex];
     if (targetOption instanceof HTMLElement) {
       targetOption.tabIndex = 0;
@@ -573,41 +561,26 @@ class SortingFilterComponent extends Component {
     }
   }
 
-  /**
-   * Selects an option and triggers form submission
-   * @param {Element} option - The option element to select
-   */
   #selectOption(option) {
     const input = option.querySelector('input[type="radio"]');
     if (input instanceof HTMLInputElement && option instanceof HTMLElement) {
-      // Update aria-selected states
       this.querySelectorAll('[role="option"]').forEach((opt) => {
         opt.setAttribute('aria-selected', 'false');
       });
       option.setAttribute('aria-selected', 'true');
-
-      // Trigger click on the input to ensure normal form behavior
       input.click();
-
-      // Close dropdown and return focus (handles tabIndex reset)
       this.#closeDropdown();
     }
   }
 
-  /**
-   * Closes the dropdown and returns focus to summary
-   */
   #closeDropdown() {
     const { details, summary } = this.refs;
     if (details instanceof HTMLDetailsElement) {
-      // Reset focus to match the actual selected option
       const options = this.querySelectorAll('[role="option"]');
       const selectedOption = this.querySelector('[aria-selected="true"]');
 
       options.forEach((opt) => {
-        if (opt instanceof HTMLElement) {
-          opt.tabIndex = -1;
-        }
+        if (opt instanceof HTMLElement) opt.tabIndex = -1;
       });
 
       if (selectedOption instanceof HTMLElement) {
@@ -615,69 +588,49 @@ class SortingFilterComponent extends Component {
       }
 
       details.open = false;
-      if (summary instanceof HTMLElement) {
-        summary.focus();
-      }
+      if (summary instanceof HTMLElement) summary.focus();
     }
   }
 
-  /**
-   * Updates filter and sorting
-   * @param {Event} event - The change event
-   */
   updateFilterAndSorting(event) {
     const facetsForm =
-      this.closest('facets-form-component') || this.closest('.shopify-section')?.querySelector('facets-form-component');
+      this.closest('facets-form-component') ||
+      this.closest('.shopify-section')?.querySelector('facets-form-component');
 
     if (!(facetsForm instanceof FacetsFormComponent)) return;
-    const isMobile = window.innerWidth < 750;
 
+    const isMobile = window.innerWidth < 750;
     const shouldDisable = this.dataset.shouldUseSelectOnMobile === 'true';
 
-    // Because we have a select element on mobile and a bunch of radio buttons on desktop,
-    // we need to disable the input during "form-submission" to prevent duplicate entries.
     if (shouldDisable) {
       if (isMobile) {
-        const inputs = this.querySelectorAll('input[name="sort_by"]');
-        inputs.forEach((input) => {
-          if (!(input instanceof HTMLInputElement)) return;
-          input.disabled = true;
+        this.querySelectorAll('input[name="sort_by"]').forEach((input) => {
+          if (input instanceof HTMLInputElement) input.disabled = true;
         });
       } else {
         const selectElement = this.querySelector('select[name="sort_by"]');
-        if (!(selectElement instanceof HTMLSelectElement)) return;
-        selectElement.disabled = true;
+        if (selectElement instanceof HTMLSelectElement) selectElement.disabled = true;
       }
     }
 
     facetsForm.updateFilters();
     this.updateFacetStatus(event);
 
-    // Re-enable the input after the form-submission
     if (shouldDisable) {
       if (isMobile) {
-        const inputs = this.querySelectorAll('input[name="sort_by"]');
-        inputs.forEach((input) => {
-          if (!(input instanceof HTMLInputElement)) return;
-          input.disabled = false;
+        this.querySelectorAll('input[name="sort_by"]').forEach((input) => {
+          if (input instanceof HTMLInputElement) input.disabled = false;
         });
       } else {
         const selectElement = this.querySelector('select[name="sort_by"]');
-        if (!(selectElement instanceof HTMLSelectElement)) return;
-        selectElement.disabled = false;
+        if (selectElement instanceof HTMLSelectElement) selectElement.disabled = false;
       }
     }
 
-    // Close the details element when a value is selected
     const { details } = this.refs;
-    if (!(details instanceof HTMLDetailsElement)) return;
-    details.open = false;
+    if (details instanceof HTMLDetailsElement) details.open = false;
   }
 
-  /**
-   * Updates the facet status
-   * @param {Event} event - The change event
-   */
   updateFacetStatus(event) {
     if (!(event.target instanceof HTMLSelectElement)) return;
 
@@ -698,7 +651,7 @@ if (!customElements.get('sorting-filter-component')) {
 
 /**
  * @typedef {Object} FacetStatusRefs
- * @property {HTMLElement} facetStatus - The facet status element
+ * @property {HTMLElement} facetStatus
  */
 
 /**
@@ -706,10 +659,6 @@ if (!customElements.get('sorting-filter-component')) {
  * @extends {Component<FacetStatusRefs>}
  */
 class FacetStatusComponent extends Component {
-  /**
-   * Updates the list summary
-   * @param {HTMLInputElement[]} checkedInputElements - The checked input elements
-   */
   updateListSummary(checkedInputElements) {
     const checkedInputElementsCount = checkedInputElements.length;
 
@@ -718,11 +667,6 @@ class FacetStatusComponent extends Component {
       : this.#updateBubbleSummary(checkedInputElements, checkedInputElementsCount);
   }
 
-  /**
-   * Updates the swatch summary
-   * @param {HTMLInputElement[]} checkedInputElements - The checked input elements
-   * @param {number} checkedInputElementsCount - The number of checked inputs
-   */
   #updateSwatchSummary(checkedInputElements, checkedInputElementsCount) {
     const { facetStatus } = this.refs;
     facetStatus.classList.remove('bubble', 'facets__bubble');
@@ -749,11 +693,6 @@ class FacetStatusComponent extends Component {
       .join('');
   }
 
-  /**
-   * Updates the bubble summary
-   * @param {HTMLInputElement[]} checkedInputElements - The checked input elements
-   * @param {number} checkedInputElementsCount - The number of checked inputs
-   */
   #updateBubbleSummary(checkedInputElements, checkedInputElementsCount) {
     const { facetStatus } = this.refs;
     const filterStyle = this.dataset.filterStyle;
@@ -774,11 +713,6 @@ class FacetStatusComponent extends Component {
     facetStatus.classList.add('bubble', 'facets__bubble');
   }
 
-  /**
-   * Updates the price summary
-   * @param {HTMLInputElement} minInput - The minimum price input
-   * @param {HTMLInputElement} maxInput - The maximum price input
-   */
   updatePriceSummary(minInput, maxInput) {
     const minInputValue = minInput.value;
     const maxInputValue = maxInput.value;
@@ -795,32 +729,17 @@ class FacetStatusComponent extends Component {
     facetStatus.innerHTML = `${this.#formatMoney(minInputNum)}–${this.#formatMoney(maxInputNum)}`;
   }
 
-  /**
-   * Parses a decimal number as minor units (cents for most currencies, but adjusted for zero-decimal currencies)
-   * @param {string} value - The stringified decimal number to parse
-   * @param {string} fallback - The fallback value in case `value` is invalid (formatted string like "11,400")
-   * @param {string} currency - The currency code (e.g., 'USD', 'JPY', 'KRW')
-   * @returns {number} The money value in minor units
-   */
   #parseCents(value, fallback = '0', currency = '') {
-    // Try to parse the value
     const result = convertMoneyToMinorUnits(value, currency);
     if (result !== null) return result;
 
-    // Fall back to parsing the fallback string (which may have formatting like "11,400")
     const fallbackResult = convertMoneyToMinorUnits(fallback, currency);
     if (fallbackResult !== null) return fallbackResult;
 
-    // Last resort: clean and parse as integer
     const cleanFallback = fallback.replace(/[^\d]/g, '');
     return parseInt(cleanFallback, 10) || 0;
   }
 
-  /**
-   * Formats money, replicated the implementation of the `money` liquid filters
-   * @param {number} moneyValue - The money value
-   * @returns {string} The formatted money value
-   */
   #formatMoney(moneyValue) {
     if (!(this.refs.moneyFormat instanceof HTMLTemplateElement)) return '';
 
@@ -830,14 +749,39 @@ class FacetStatusComponent extends Component {
     return formatMoney(moneyValue, format, currency);
   }
 
-  /**
-   * Clears the summary
-   */
   clearSummary() {
     this.refs.facetStatus.innerHTML = '';
   }
 }
-
 if (!customElements.get('facet-status-component')) {
   customElements.define('facet-status-component', FacetStatusComponent);
 }
+
+/**
+ * Restores the filter sidebar open state after every AJAX section re-render.
+ * Called explicitly from #updateSection so we don't need a MutationObserver at all.
+ */
+function restoreFilterSidebarState() {
+  if (sessionStorage.getItem('filterOpen') !== 'true') return;
+
+  const sidebar = document.querySelector('.facets-block-wrapper--vertical');
+  const grid = document.querySelector('.main-collection-grid');
+  const btn = document.querySelector('.filter-trigger');
+
+  if (sidebar) {
+    sidebar.classList.add('filter-active');
+    grid?.classList.add('filter-active');
+    if (btn) btn.textContent = 'Hide Filters';
+  }
+}
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.filter-trigger');
+  if (btn) {
+    const sidebar = document.querySelector('.facets-block-wrapper--vertical');
+    if (sidebar?.classList.contains('filter-active')) {
+      sessionStorage.removeItem('filterOpen');
+    } else {
+      sessionStorage.setItem('filterOpen', 'true');
+    }
+  }
+});
